@@ -1,0 +1,12 @@
+/* bundle.css - Specific layout for Bundle Page */
+
+.bundle-summary {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.selected {
+    border: 2px solid var(--accent-cyan) !important;
+    box-shadow: var(--glow-cyan);
+    transform: translateY(-5px);
+}

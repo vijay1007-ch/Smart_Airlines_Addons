@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - Airline+</title>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../CSS/style.css">
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="../CSS/history.css">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">Airline+</div>
+        <div class="nav-links">
+            <a href="catalogue.html">Catalogue</a>
+            <a href="cart.html">Cart</a>
+            <a href="bundle.html">Bundle Builder</a>
+            <a href="change-flight.html">Change Flight</a>
+            <a href="seat-upgrade.html">Seat Upgrade</a>
+            <a href="history.html">Order History</a>
+            <a href="login.html" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <div class="page">
+        <div class="container">
+            <h1 class="title">Your Orders</h1>
+
+            <div id="history-list"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../JS/auth.js"></script>
+    <script src="../JS/history.js"></script>
+
+</body>
+
+</html>

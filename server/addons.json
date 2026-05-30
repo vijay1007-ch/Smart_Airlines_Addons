@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "name": "extra baggage / KG",
+    "price": 330
+  },
+  {
+    "id": 2,
+    "name": " priority boarding",
+    "price": 440
+  },
+  {
+    "id": 3,
+    "name": " lounge access",
+    "price": 660
+  },
+  {
+    "id": 4,
+    "name": "food (veg)",
+    "price": 110
+  },
+  {
+    "id": 5,
+    "name": "Food (Non- veg)",
+    "price": 220
+  },
+  {
+    "id": 6,
+    "name": "WIFI",
+    "price": 550
+  },
+  {
+    "id": 7,
+    "name": "wine",
+    "price": 500
+  },
+  {
+    "id": 8,
+    "name": "Shuu Pass",
+    "price": 4400,
+    "description": "Annual Membership: 22% off domestic, 44% off international!"
+  }
+]

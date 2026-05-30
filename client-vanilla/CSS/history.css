@@ -1,0 +1,26 @@
+/* history.css - Specific layout for History Page */
+
+.order-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-card);
+}
+
+.order-card h3 {
+    color: var(--primary-blue);
+    margin-bottom: 10px;
+}
+
+.order-card ul {
+    margin-top: 15px;
+    list-style-position: inside;
+}
+
+.order-card li {
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}

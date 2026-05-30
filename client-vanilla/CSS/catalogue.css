@@ -1,0 +1,31 @@
+
+/* Layout */
+.container {
+    padding: 40px;
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.card-container {
+    display: flex;
+    gap: 30px;
+}
+
+/* Cards */
+.card {
+    width: 250px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    box-shadow: 0 20px 50px rgba(0, 140, 255, 0.5);
+}
+

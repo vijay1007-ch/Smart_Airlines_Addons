@@ -1,0 +1,32 @@
+[
+  {
+    "id": "UPG-2289",
+    "email": "chandar0507@gmail.com",
+    "customerName": "vijay",
+    "currentSeat": "12A (Economy)",
+    "requestedClass": "Business/First Class",
+    "status": "Rejected",
+    "date": "2026-05-29T08:00:35.284Z"
+  },
+  {
+    "id": "UPG-4238",
+    "email": "chandar0507@gmail.com",
+    "customerName": "vijay",
+    "currentSeat": "12A (Economy)",
+    "requestedClass": "Business/First Class",
+    "status": "Approved",
+    "date": "2026-05-29T08:07:13.268Z",
+    "newSeat": "2A (First Class)"
+  },
+  {
+    "id": "UPG-8099",
+    "email": "vijaaaayyyyy0@gmail.com",
+    "customerName": "ganesh",
+    "currentSeat": "12A (Economy)",
+    "requestedClass": "First Class",
+    "status": "Approved",
+    "date": "2026-05-29T13:51:44.289Z",
+    "newSeat": "first class",
+    "price": 5000
+  }
+]

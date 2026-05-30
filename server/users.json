@@ -1,0 +1,30 @@
+[
+  {
+    "email": "bikkinavijay0@gmail.com",
+    "password": "$2b$10$xdvsUKc8WpAzL6G2YGtn4e7vs60foiBu1.SAXyGy7PRm2OQcIvJwO",
+    "role": "admin",
+    "name": "Admin 1"
+  },
+  {
+    "email": "admin2@gmail.com",
+    "password": "$2b$10$mBtbxLnwzEZcqns5g55i/ugtXWiZjxLK4XdT.sZJrkqUGkS/avHom",
+    "role": "admin",
+    "name": "Admin 2"
+  },
+  {
+    "email": "chandar0507@gmail.com",
+    "password": "$2b$10$iQDQ2trH3Uiy7M4SJKk40.XHx0fOtiS8fP1d6qjNDjTtJkVqxVn76",
+    "name": "vijay",
+    "role": "user",
+    "phone": "",
+    "age": "",
+    "dob": "",
+    "passport": ""
+  },
+  {
+    "email": "vijaaaayyyyy0@gmail.com",
+    "password": "$2b$10$5AhiIIsrNXBjuOa6SKRh0uiv75yIAbFbgyylWFMKunHZAF7rPK4FW",
+    "name": "ganesh",
+    "role": "user"
+  }
+]

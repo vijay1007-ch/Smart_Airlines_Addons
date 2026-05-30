@@ -1,0 +1,36 @@
+/* admin.css - Specific layout for Admin Page */
+
+.form-box {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.form-box input {
+    margin-bottom: 0;
+    width: auto;
+    flex: 1;
+    min-width: 200px;
+}
+
+.delete-btn {
+    margin-top: 15px;
+    background: rgba(220, 38, 38, 0.2);
+    border: 1px solid rgba(220, 38, 38, 0.4);
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: #fca5a5;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: rgba(220, 38, 38, 0.8);
+    color: white;
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+    transform: translateY(-2px);
+}

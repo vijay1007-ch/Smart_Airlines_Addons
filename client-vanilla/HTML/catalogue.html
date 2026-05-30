@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue - Airline+</title>
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../CSS/style.css">
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="../CSS/catalogue.css">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">Airline+</div>
+        <div class="nav-links">
+            <a href="catalogue.html">Catalogue</a>
+            <a href="cart.html">Cart</a>
+            <a href="bundle.html">Bundle Builder</a>
+            <a href="change-flight.html">Change Flight</a>
+            <a href="seat-upgrade.html">Seat Upgrade</a>
+            <a href="history.html">Order History</a>
+            <a href="login.html" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <div class="page">
+        <div class="container">
+            <h1 class="title">Add-on Services</h1>
+
+            <div class="card-container" id="catalogue-list"></div>
+
+            <div class="card-container" style="margin-top: 2rem;">
+                <div class="card magnetic">
+                    <h3>Extra Baggage</h3>
+                    <p>Carry more weight easily</p>
+                    <button onclick="addToCart('Extra Baggage',1500)">Add ₹1500</button>
+                </div>
+
+                <div class="card magnetic">
+                    <h3>Seat Upgrade</h3>
+                    <p>Upgrade your comfort</p>
+                    <button onclick="addToCart('Seat Upgrade',2500)">Add ₹2500</button>
+                </div>
+
+                <div class="card magnetic">
+                    <h3>Priority Boarding</h3>
+                    <p>Skip queues and board early</p>
+                    <button onclick="addToCart('Priority Boarding',1000)">Add ₹1000</button>
+                </div>
+
+                <div class="card magnetic">
+                    <h3>WiFi</h3>
+                    <p>Get fast WiFi on board</p>
+                    <button onclick="addToCart('WiFi',500)">Add ₹500</button>
+                </div>
+
+                <div class="card magnetic">
+                    <h3>Meal</h3>
+                    <p>Enjoy a delicious meal</p>
+                    <button onclick="addToCart('Meal',1500)">Add ₹1500</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../JS/auth.js"></script>
+    <script src="../JS/animation.js"></script>
+    <script src="../JS/cart.js"></script>
+    <script src="../JS/catalogue.js"></script>
+
+</body>
+
+</html>

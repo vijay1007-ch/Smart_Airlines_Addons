@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "name": "XTRA PACK",
+    "price": 700,
+    "iconBg": "#f59e0b",
+    "shuuPassPrice": 600,
+    "description": "(Domestic & International)",
+    "features": [
+      {
+        "text": "Any standard seat of your choice"
+      },
+      {
+        "text": "A choice of 'Gourmair' Hot Meals from our delectable dining menu or a Lite Bite (herb roast vegetable roll or chicken junglee sandwich)"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "XPERIENCE PACK",
+    "price": 1000,
+    "iconBg": "#f87171",
+    "shuuPassPrice": 900,
+    "description": "(Domestic)",
+    "internationalPrice": 1200,
+    "internationalShuuPassPrice": 1000,
+    "features": [
+      {
+        "text": "50% off Prime seats or any standard seat of your choice"
+      },
+      {
+        "text": "A choice of 'Gourmair' Hot Meals from our delectable dining menu or a Lite Bite (herb roast vegetable roll or chicken junglee sandwich)"
+      },
+      {
+        "text": "Xpress Ahead priority check-in, boarding and baggage delivery"
+      }
+    ]
+  }
+]
