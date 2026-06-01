@@ -32,5 +32,12 @@
     "password": "$2b$10$Yk5L92Qs8iBGU4batfRvS.WTBxa.3hOHfV39D7G1QsmrKCUJDW26u",
     "name": "bhargav",
     "role": "user"
+  },
+  {
+    "email": "vijayganeshkoushik@klh.edu.in",
+    "password": "$2b$10$Z30A5jebYklY6k31v8K18.kApkZi6KggBAgvBa7IELaUkDtKwNtWe",
+    "name": "2520040054",
+    "role": "user",
+    "phone": "9866606967"
   }
 ]
