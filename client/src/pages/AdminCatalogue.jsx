@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Edit2, Trash2, Plus, Save, X } from 'lucide-react';
@@ -33,7 +34,7 @@ const AdminCatalogue = () => {
 
     const fetchAddons = async () => {
         try {
-            const res = await fetch("http://localhost:5000/addons");
+            const res = await fetch(`${getApiUrl()}/addons`);
             const data = await res.json();
             setAddons(data);
         } catch (error) {
@@ -46,7 +47,7 @@ const AdminCatalogue = () => {
     const handleAdd = async () => {
         if (!addForm.name || !addForm.price) return alert("Please fill all fields");
         try {
-            const res = await fetch("http://localhost:5000/addons", {
+            const res = await fetch(`${getApiUrl()}/addons`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +68,7 @@ const AdminCatalogue = () => {
     const handleUpdate = async (id) => {
         if (!editForm.name || !editForm.price) return alert("Please fill all fields");
         try {
-            const res = await fetch(`http://localhost:5000/addons/${id}`, {
+            const res = await fetch(`${getApiUrl()}/addons/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -87,7 +88,7 @@ const AdminCatalogue = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this item?")) return;
         try {
-            const res = await fetch(`http://localhost:5000/addons/${id}`, {
+            const res = await fetch(`${getApiUrl()}/addons/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": localStorage.getItem("token")

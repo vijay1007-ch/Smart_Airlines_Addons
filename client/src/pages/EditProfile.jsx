@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,7 +45,7 @@ const EditProfile = () => {
         setMessage('');
 
         try {
-            const response = await fetch("http://localhost:5000/auth/profile", {
+            const response = await fetch(`${getApiUrl()}/auth/profile`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 

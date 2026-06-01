@@ -26,5 +26,11 @@
     "password": "$2b$10$5AhiIIsrNXBjuOa6SKRh0uiv75yIAbFbgyylWFMKunHZAF7rPK4FW",
     "name": "ganesh",
     "role": "user"
+  },
+  {
+    "email": "adityalap007@gmail.com",
+    "password": "$2b$10$Yk5L92Qs8iBGU4batfRvS.WTBxa.3hOHfV39D7G1QsmrKCUJDW26u",
+    "name": "bhargav",
+    "role": "user"
   }
 ]

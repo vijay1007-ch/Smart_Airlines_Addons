@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { Mail, Lock, User, ArrowRight, PlaneTakeoff } from 'lucide-react';
+import { Mail, Lock, User, Phone, ArrowRight, PlaneTakeoff } from 'lucide-react';
+import { getApiUrl } from '../services/apiService';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     
     const navigate = useNavigate();
@@ -16,10 +18,10 @@ const Signup = () => {
         setIsLoading(true);
         
         try {
-            const response = await fetch("http://localhost:5000/auth/register", {
+            const response = await fetch(`${getApiUrl()}/auth/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password, name })
+                body: JSON.stringify({ email, password, name, phone })
             });
 
             const data = await response.json();
@@ -112,6 +114,18 @@ const Signup = () => {
                                 placeholder="Email Address" 
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required 
+                                style={{ paddingLeft: '48px', marginBottom: 0 }}
+                            />
+                        </div>
+
+                        <div style={{ position: 'relative' }}>
+                            <Phone size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
+                            <input 
+                                type="tel" 
+                                placeholder="Mobile Number" 
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
                                 required 
                                 style={{ paddingLeft: '48px', marginBottom: 0 }}
                             />

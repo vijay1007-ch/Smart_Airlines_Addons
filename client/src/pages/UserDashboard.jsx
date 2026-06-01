@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { Plane, Calendar, Clock, ArrowRight, ShoppingBag, ArrowUpCircle, CheckCircle, XCircle } from 'lucide-react';
+import { getApiUrl } from '../services/apiService';
 
 const UserDashboard = () => {
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ const UserDashboard = () => {
 
     useEffect(() => {
         if (userEmail) {
-            fetch(`http://localhost:5000/upgrades/user/${userEmail}`)
+            fetch(`${getApiUrl()}/upgrades/user/${userEmail}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data && data.length > 0) {
@@ -50,7 +51,7 @@ const UserDashboard = () => {
 
         setIsRequesting(true);
         try {
-            const res = await fetch("http://localhost:5000/upgrades", {
+            const res = await fetch(`${getApiUrl()}/upgrades`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

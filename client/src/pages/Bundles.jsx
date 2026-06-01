@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { Star, Diamond, CheckCircle } from 'lucide-react';
@@ -15,7 +16,7 @@ const Bundles = () => {
     });
 
     useEffect(() => {
-        fetch("http://localhost:5000/bundles")
+        fetch(`${getApiUrl()}/bundles`)
             .then(res => res.json())
             .then(data => {
                 setBundles(data);

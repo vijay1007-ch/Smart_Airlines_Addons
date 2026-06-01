@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, ArrowRight, PlaneTakeoff, CheckCircle2 } from 'lucide-react';
@@ -15,7 +16,7 @@ const ForgotPassword = () => {
         setIsLoading(true);
         
         try {
-            const response = await fetch("http://localhost:5000/auth/forgot-password", {
+            const response = await fetch(`${getApiUrl()}/auth/forgot-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email })

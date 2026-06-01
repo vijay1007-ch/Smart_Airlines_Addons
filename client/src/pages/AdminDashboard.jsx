@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { TrendingUp, DollarSign, Users, Plane, CheckCircle2, XCircle, Clock } from 'lucide-react';
@@ -33,7 +34,7 @@ const AdminDashboard = () => {
         // Poll for pending payments from backend API
         const paymentInterval = setInterval(async () => {
             try {
-                const res = await fetch("http://localhost:5000/orders/pending");
+                const res = await fetch(`${getApiUrl()}/orders/pending`);
                 if (res.ok) {
                     const data = await res.json();
                     setPendingPayments(data.filter(p => p.status === 'pending'));
@@ -49,12 +50,12 @@ const AdminDashboard = () => {
     const fetchDashboardData = async () => {
         try {
             // Fetch stats
-            const statsRes = await fetch("http://localhost:5000/orders/stats");
+            const statsRes = await fetch(`${getApiUrl()}/orders/stats`);
             const statsData = await statsRes.json();
             setAnalytics(statsData);
 
             // Fetch orders
-            const ordersRes = await fetch("http://localhost:5000/orders");
+            const ordersRes = await fetch(`${getApiUrl()}/orders`);
             const ordersData = await ordersRes.json();
             
             // Format orders for the table, taking the 10 most recent
@@ -84,7 +85,7 @@ const AdminDashboard = () => {
             setOrders(formattedOrders);
 
             // Fetch upgrades
-            const upgradesRes = await fetch("http://localhost:5000/upgrades");
+            const upgradesRes = await fetch(`${getApiUrl()}/upgrades`);
             const upgradesData = await upgradesRes.json();
             setUpgrades(upgradesData.reverse());
         } catch (error) {
@@ -99,7 +100,7 @@ const AdminDashboard = () => {
         if (!newSeat || !price || isNaN(price)) return;
         
         try {
-            const res = await fetch(`http://localhost:5000/upgrades/${id}/offer`, {
+            const res = await fetch(`${getApiUrl()}/upgrades/${id}/offer`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ newSeat, price: Number(price) })
@@ -116,7 +117,7 @@ const AdminDashboard = () => {
 
     const handleUpgradeReject = async (id) => {
         try {
-            const res = await fetch(`http://localhost:5000/upgrades/${id}/reject`, { method: 'PUT' });
+            const res = await fetch(`${getApiUrl()}/upgrades/${id}/reject`, { method: 'PUT' });
             if (res.ok) {
                 setUpgrades(prev => prev.map(u => u.id === id ? { ...u, status: "Rejected" } : u));
             }
@@ -128,7 +129,7 @@ const AdminDashboard = () => {
     const handlePaymentAction = async (orderId, action) => {
         // action is 'approved' or 'declined'
         try {
-            await fetch(`http://localhost:5000/orders/pending/${orderId}`, {
+            await fetch(`${getApiUrl()}/orders/pending/${orderId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: action })

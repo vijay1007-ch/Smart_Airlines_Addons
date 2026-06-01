@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ const Payment = () => {
             // Poll the backend API every 1.5 seconds to check if Admin accepted the payment
             interval = setInterval(async () => {
                 try {
-                    const res = await fetch(`http://localhost:5000/orders/pending/${orderId}/status`);
+                    const res = await fetch(`${getApiUrl()}/orders/pending/${orderId}/status`);
                     if (!res.ok) return;
                     const data = await res.json();
                     const status = data.status;
@@ -44,7 +45,7 @@ const Payment = () => {
                     // Sync with backend so Admin can see it
                     try {
                         const user = JSON.parse(localStorage.getItem('user'));
-                        fetch("http://localhost:5000/orders", {
+                        fetch(`${getApiUrl()}/orders`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
@@ -59,7 +60,7 @@ const Payment = () => {
                         // Check if any cart item is a seat upgrade, and approve it
                         const upgradeItem = cart.find(item => item.type === 'upgrade');
                         if (upgradeItem && upgradeItem.upgradeId) {
-                            fetch(`http://localhost:5000/upgrades/${upgradeItem.upgradeId}/approve`, {
+                            fetch(`${getApiUrl()}/upgrades/${upgradeItem.upgradeId}/approve`, {
                                 method: "PUT",
                                 headers: { "Content-Type": "application/json" }
                             });
@@ -68,7 +69,7 @@ const Payment = () => {
                         // Check if they bought a Shuu Pass
                         const shuuPassItem = cart.find(item => item.name === 'Shuu Pass');
                         if (shuuPassItem && user && user.email) {
-                            fetch("http://localhost:5000/auth/profile", {
+                            fetch(`${getApiUrl()}/auth/profile`, {
                                 method: "PUT",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({
@@ -90,7 +91,7 @@ const Payment = () => {
 
                         // Send Receipt Email
                         if (user && user.email) {
-                            fetch("http://localhost:5000/orders/receipt", {
+                            fetch(`${getApiUrl()}/orders/receipt`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({
@@ -110,7 +111,7 @@ const Payment = () => {
                     localStorage.removeItem('airline_cart');
                     localStorage.removeItem('airline_cart_summary');
                     try {
-                        fetch(`http://localhost:5000/orders/pending/${orderId}`, { method: 'DELETE' });
+                        fetch(`${getApiUrl()}/orders/pending/${orderId}`, { method: 'DELETE' });
                     } catch(e) {}
 
                     setTimeout(() => navigate('/history'), 3000);
@@ -122,7 +123,7 @@ const Payment = () => {
                     // Send Failed Receipt Email
                     const user = JSON.parse(localStorage.getItem('user'));
                     if (user && user.email) {
-                        fetch("http://localhost:5000/orders/receipt", {
+                        fetch(`${getApiUrl()}/orders/receipt`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
@@ -137,7 +138,7 @@ const Payment = () => {
                     }
 
                     try {
-                        fetch(`http://localhost:5000/orders/pending/${orderId}`, { method: 'DELETE' });
+                        fetch(`${getApiUrl()}/orders/pending/${orderId}`, { method: 'DELETE' });
                     } catch(e) {}
                 }
             } catch (err) {
@@ -159,7 +160,7 @@ const Payment = () => {
 
         // Send pending payment request to backend so it works across different browsers/devices
         try {
-            await fetch("http://localhost:5000/orders/pending", {
+            await fetch(`${getApiUrl()}/orders/pending`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ orderId: newOrderId, amount: totalPrice })

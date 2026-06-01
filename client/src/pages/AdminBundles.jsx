@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Edit2, Trash2, Plus, Save, X } from 'lucide-react';
@@ -33,7 +34,7 @@ const AdminBundles = () => {
 
     const fetchBundles = async () => {
         try {
-            const res = await fetch("http://localhost:5000/bundles");
+            const res = await fetch(`${getApiUrl()}/bundles`);
             const data = await res.json();
             setBundles(data);
         } catch (error) {
@@ -46,7 +47,7 @@ const AdminBundles = () => {
     const handleAdd = async () => {
         if (!addForm.name || !addForm.price) return alert("Please fill at least name and price");
         try {
-            const res = await fetch("http://localhost:5000/bundles", {
+            const res = await fetch(`${getApiUrl()}/bundles`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -74,7 +75,7 @@ const AdminBundles = () => {
     const handleUpdate = async (id) => {
         if (!editForm.name || !editForm.price) return alert("Please fill at least name and price");
         try {
-            const res = await fetch(`http://localhost:5000/bundles/${id}`, {
+            const res = await fetch(`${getApiUrl()}/bundles/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -100,7 +101,7 @@ const AdminBundles = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this bundle?")) return;
         try {
-            const res = await fetch(`http://localhost:5000/bundles/${id}`, {
+            const res = await fetch(`${getApiUrl()}/bundles/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": localStorage.getItem("token")

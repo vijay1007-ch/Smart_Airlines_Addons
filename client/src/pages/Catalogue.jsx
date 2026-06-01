@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +18,7 @@ const Catalogue = () => {
     const [dbAddons, setDbAddons] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/addons")
+        fetch(`${getApiUrl()}/addons`)
             .then(res => res.json())
             .then(data => setDbAddons(data))
             .catch(err => console.error("Error fetching addons:", err));

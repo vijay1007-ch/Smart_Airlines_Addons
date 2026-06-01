@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getApiUrl, is2FAEnabled } from '../services/apiService';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { Lock, ArrowRight, PlaneTakeoff, CheckCircle2 } from 'lucide-react';
+import { Lock, ArrowRight, PlaneTakeoff, CheckCircle2, ShieldCheck, Smartphone, X, AlertCircle, RefreshCw } from 'lucide-react';
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
@@ -9,12 +10,83 @@ const ResetPassword = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+
+    // 2FA Reset States
+    const is2faActive = is2FAEnabled();
+    const [isVerified, setIsVerified] = useState(!is2faActive); // True if 2FA is disabled, else false until verified
+    const [emailOtp, setEmailOtp] = useState('');
+    const [mobileOtp, setMobileOtp] = useState('');
+    const [maskedPhone, setMaskedPhone] = useState('');
+    const [simulatedMobileOtp, setSimulatedMobileOtp] = useState('');
+    const [showSmsNotification, setShowSmsNotification] = useState(false);
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpLoading, setOtpLoading] = useState(false);
     
     const navigate = useNavigate();
-
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const email = queryParams.get('email');
+
+    // Trigger OTP sending on component mount if 2FA is active and email exists
+    useEffect(() => {
+        if (is2faActive && email && !otpSent) {
+            sendResetOtps();
+        }
+    }, [email, is2faActive]);
+
+    const sendResetOtps = async () => {
+        setOtpLoading(true);
+        setError('');
+        try {
+            const res = await fetch(`${getApiUrl()}/auth/forgot-password/request-otp`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setOtpSent(true);
+                setMaskedPhone(data.mobileNumber);
+                setSimulatedMobileOtp(data.simulatedMobileOtp);
+                // Trigger simulated phone slide-up toast
+                setTimeout(() => {
+                    setShowSmsNotification(true);
+                }, 1000);
+            } else {
+                setError(data.message || "Failed to dispatch reset OTP codes");
+            }
+        } catch (err) {
+            console.error(err);
+            setError("Error connecting to server to send OTP codes.");
+        } finally {
+            setOtpLoading(false);
+        }
+    };
+
+    const handleVerifyOtp = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setError('');
+        try {
+            const res = await fetch(`${getApiUrl()}/auth/forgot-password/verify-otp`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, emailOtp, mobileOtp })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setIsVerified(true);
+                setShowSmsNotification(false);
+            } else {
+                setError(data.message || "Incorrect verification codes.");
+            }
+        } catch (err) {
+            console.error(err);
+            setError("Server error verifying reset OTPs.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,10 +105,14 @@ const ResetPassword = () => {
         setIsLoading(true);
         
         try {
-            const res = await fetch("http://localhost:5000/auth/reset-password", {
+            const res = await fetch(`${getApiUrl()}/auth/reset-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ 
+                    email, 
+                    password,
+                    bypass2fa: !is2faActive // Let server know if we bypassed 2FA locally
+                })
             });
             
             const data = await res.json();
@@ -74,42 +150,137 @@ const ResetPassword = () => {
                     padding: '3rem 2.5rem',
                     borderRadius: '24px',
                     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                    position: 'relative'
+                    position: 'relative',
+                    border: !isVerified ? '1px solid rgba(255, 65, 108, 0.4)' : '1px solid var(--glass-border)'
                 }}>
                     
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                         <div style={{ 
                             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                             width: '60px', height: '60px', borderRadius: '50%', 
-                            background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--glass-border)',
-                            marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
+                            background: !isVerified ? 'rgba(255, 65, 108, 0.1)' : 'rgba(0, 229, 255, 0.1)', 
+                            border: !isVerified ? '1px solid rgba(255, 65, 108, 0.3)' : '1px solid var(--glass-border)',
+                            marginBottom: '1rem', 
+                            boxShadow: !isVerified ? '0 0 20px rgba(255, 65, 108, 0.3)' : 'var(--glow-cyan)'
                         }}>
-                            <PlaneTakeoff size={32} color="var(--primary-blue)" />
+                            <PlaneTakeoff size={32} color={!isVerified ? '#ff416c' : 'var(--primary-blue)'} />
                         </div>
                         <h2 style={{ 
-                            fontSize: '2rem', fontWeight: '800', 
-                            background: 'linear-gradient(90deg, #fff, #b388ff)',
+                            fontSize: '1.8rem', fontWeight: '800', 
+                            background: !isVerified ? 'linear-gradient(90deg, #fff, #ff7b90)' : 'linear-gradient(90deg, #fff, #b388ff)',
                             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                             marginBottom: '0.5rem'
                         }}>
-                            Create New Password
+                            {!isVerified ? "2-Step Identity Check" : "Create New Password"}
                         </h2>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-                            {!isSubmitted 
-                                ? "Please enter your new password below." 
-                                : "Password reset successful!"}
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.4' }}>
+                            {isSubmitted ? "Password reset successful!" : 
+                             !isVerified ? "Verify both codes to unlock password reset form." : 
+                             "Verification successful! Please enter your new password below."}
                         </p>
                     </div>
 
-                    {!isSubmitted ? (
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                            
-                            {error && (
-                                <div style={{ color: '#ff4b2b', fontSize: '0.9rem', textAlign: 'center', background: 'rgba(255, 75, 43, 0.1)', padding: '0.5rem', borderRadius: '8px' }}>
-                                    {error}
-                                </div>
-                            )}
+                    {error && (
+                        <div style={{ 
+                            display: 'flex', alignItems: 'center', gap: '8px', 
+                            padding: '10px 15px', background: 'rgba(255, 65, 108, 0.1)', 
+                            border: '1px solid rgba(255, 65, 108, 0.3)', borderRadius: '12px', 
+                            color: '#ff416c', fontSize: '0.85rem', marginBottom: '1.25rem' 
+                        }}>
+                            <AlertCircle size={16} />
+                            <span>{error}</span>
+                        </div>
+                    )}
 
+                    {/* Step 1: 2FA Identity Verification Form */}
+                    {!isVerified && (
+                        <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 'bold' }}>
+                                    Email Verification Code
+                                </label>
+                                <input 
+                                    type="text" 
+                                    maxLength="6"
+                                    placeholder="Enter 6-digit email code" 
+                                    value={emailOtp}
+                                    onChange={(e) => setEmailOtp(e.target.value)}
+                                    required 
+                                    style={{ letterSpacing: '1px' }}
+                                />
+                                <span style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.4)', marginTop: '4px', display: 'block' }}>
+                                    Sent to {email} (Check your real mailbox!)
+                                </span>
+                            </div>
+
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 'bold' }}>
+                                    SMS Verification Code
+                                </label>
+                                <input 
+                                    type="text" 
+                                    maxLength="6"
+                                    placeholder="Enter 6-digit SMS code" 
+                                    value={mobileOtp}
+                                    onChange={(e) => setMobileOtp(e.target.value)}
+                                    required 
+                                    style={{ letterSpacing: '1px' }}
+                                />
+                                <span style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.4)', marginTop: '4px', display: 'block' }}>
+                                    Sent to {maskedPhone || 'your mobile number'} (Simulated below)
+                                </span>
+                            </div>
+
+                            <button 
+                                type="submit" 
+                                disabled={isLoading || otpLoading}
+                                style={{ 
+                                    width: '100%', 
+                                    padding: '1rem', 
+                                    marginTop: '0.5rem',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    fontSize: '1.05rem',
+                                    background: 'var(--gradient-accent)',
+                                    opacity: (isLoading || otpLoading) ? 0.7 : 1,
+                                    borderRadius: '30px'
+                                }}
+                            >
+                                {isLoading ? 'Verifying...' : 'Verify Codes & Unlock'}
+                                {!isLoading && <ArrowRight size={20} />}
+                            </button>
+
+                            <button 
+                                type="button" 
+                                onClick={sendResetOtps}
+                                disabled={otpLoading}
+                                style={{ 
+                                    width: '100%', 
+                                    background: 'transparent',
+                                    color: 'rgba(255, 255, 255, 0.6)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    padding: '0.75rem',
+                                    fontSize: '0.9rem',
+                                    borderRadius: '30px',
+                                    boxShadow: 'none',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px'
+                                }}
+                            >
+                                <RefreshCw size={14} className={otpLoading ? "spin" : ""} />
+                                {otpLoading ? 'Resending...' : 'Resend Verification Codes'}
+                            </button>
+                        </form>
+                    )}
+
+                    {/* Step 2: Set New Password Form (Unlocked only when verified) */}
+                    {isVerified && !isSubmitted && (
+                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                             <div style={{ position: 'relative' }}>
                                 <Lock size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
                                 <input 
@@ -146,6 +317,7 @@ const ResetPassword = () => {
                                     alignItems: 'center',
                                     gap: '0.5rem',
                                     fontSize: '1.05rem',
+                                    borderRadius: '30px',
                                     opacity: isLoading ? 0.7 : 1
                                 }}
                             >
@@ -153,7 +325,10 @@ const ResetPassword = () => {
                                 {!isLoading && <ArrowRight size={20} />}
                             </button>
                         </form>
-                    ) : (
+                    )}
+
+                    {/* Success Message Screen */}
+                    {isSubmitted && (
                         <div style={{ textAlign: 'center', padding: '1rem 0' }}>
                             <CheckCircle2 size={64} color="var(--primary-blue)" style={{ margin: '0 auto 1.5rem auto' }} />
                             <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: '1.5' }}>
@@ -168,7 +343,8 @@ const ResetPassword = () => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     gap: '0.5rem',
-                                    fontSize: '1.05rem'
+                                    fontSize: '1.05rem',
+                                    borderRadius: '30px'
                                 }}
                             >
                                 Go to Login <ArrowRight size={20} />
@@ -178,6 +354,65 @@ const ResetPassword = () => {
 
                 </div>
             </div>
+
+            {/* Virtual SMS Toast Overlay (Mobile Phone Simulator) */}
+            {showSmsNotification && !isVerified && (
+                <div style={{
+                    position: 'fixed',
+                    bottom: '30px',
+                    right: '30px',
+                    width: '320px',
+                    background: 'rgba(15, 23, 42, 0.95)',
+                    backdropFilter: 'blur(20px)',
+                    border: '2px solid var(--accent-orange)',
+                    boxShadow: '0 0 30px rgba(255, 144, 0, 0.3)',
+                    borderRadius: '20px',
+                    padding: '1.25rem',
+                    zIndex: 99999,
+                    animation: 'slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                    color: '#fff'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <Smartphone size={18} color="var(--accent-orange)" />
+                            <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-orange)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                SMS Simulator
+                            </span>
+                        </div>
+                        <X size={16} style={{ cursor: 'pointer', color: 'var(--text-muted)' }} onClick={() => setShowSmsNotification(false)} />
+                    </div>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '10px', fontSize: '0.85rem', lineHeight: '1.4' }}>
+                        <strong style={{ color: 'var(--accent-orange)' }}>From:</strong> Smart Airline Security<br/>
+                        Your Mobile Reset OTP is: <strong style={{ fontSize: '1.1rem', color: '#fff', letterSpacing: '1px', textShadow: '0 0 5px rgba(255,255,255,0.5)' }}>{simulatedMobileOtp}</strong>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                        <button 
+                            onClick={() => {
+                                setMobileOtp(simulatedMobileOtp);
+                                setShowSmsNotification(false);
+                            }}
+                            style={{
+                                background: 'var(--accent-orange)',
+                                color: '#000',
+                                padding: '6px 12px',
+                                borderRadius: '8px',
+                                fontSize: '0.75rem',
+                                boxShadow: 'none',
+                                fontWeight: 'bold',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Auto-Fill SMS
+                        </button>
+                    </div>
+                    <style>{`
+                        @keyframes slideUp {
+                            from { transform: translateY(100px); opacity: 0; }
+                            to { transform: translateY(0); opacity: 1; }
+                        }
+                    `}</style>
+                </div>
+            )}
         </div>
     );
 };
