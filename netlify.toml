@@ -1,13 +1,10 @@
 # Netlify configuration file for smartairlineaddons monorepo
 [build]
-  # Base directory where Netlify will run npm install and compile the app
-  base = "client"
+  # Install client dependencies and compile the app from the root
+  command = "npm install --prefix client && npm run build --prefix client"
   
-  # The command to execute to build the static React bundle
-  command = "npm run build"
-  
-  # The directory containing the final build assets (relative to 'base')
-  publish = "build"
+  # The directory containing the final build assets
+  publish = "client/build"
 
 # Fallback redirect to support client-side React Router navigation
 [[redirects]]

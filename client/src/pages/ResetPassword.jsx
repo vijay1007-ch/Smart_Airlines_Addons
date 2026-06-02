@@ -15,10 +15,6 @@ const ResetPassword = () => {
     const is2faActive = is2FAEnabled();
     const [isVerified, setIsVerified] = useState(!is2faActive); // True if 2FA is disabled, else false until verified
     const [emailOtp, setEmailOtp] = useState('');
-    const [mobileOtp, setMobileOtp] = useState('');
-    const [maskedPhone, setMaskedPhone] = useState('');
-    const [simulatedMobileOtp, setSimulatedMobileOtp] = useState('');
-    const [showSmsNotification, setShowSmsNotification] = useState(false);
     const [otpSent, setOtpSent] = useState(false);
     const [otpLoading, setOtpLoading] = useState(false);
     
@@ -46,18 +42,12 @@ const ResetPassword = () => {
             const data = await res.json();
             if (res.ok) {
                 setOtpSent(true);
-                setMaskedPhone(data.mobileNumber);
-                setSimulatedMobileOtp(data.simulatedMobileOtp);
-                // Trigger simulated phone slide-up toast
-                setTimeout(() => {
-                    setShowSmsNotification(true);
-                }, 1000);
             } else {
-                setError(data.message || "Failed to dispatch reset OTP codes");
+                setError(data.message || "Failed to dispatch reset OTP code");
             }
         } catch (err) {
             console.error(err);
-            setError("Error connecting to server to send OTP codes.");
+            setError("Error connecting to server to send OTP code.");
         } finally {
             setOtpLoading(false);
         }
@@ -71,18 +61,17 @@ const ResetPassword = () => {
             const res = await fetch(`${getApiUrl()}/auth/forgot-password/verify-otp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, emailOtp, mobileOtp })
+                body: JSON.stringify({ email, emailOtp })
             });
             const data = await res.json();
             if (res.ok) {
                 setIsVerified(true);
-                setShowSmsNotification(false);
             } else {
-                setError(data.message || "Incorrect verification codes.");
+                setError(data.message || "Incorrect verification code.");
             }
         } catch (err) {
             console.error(err);
-            setError("Server error verifying reset OTPs.");
+            setError("Server error verifying reset OTP.");
         } finally {
             setIsLoading(false);
         }
@@ -175,7 +164,7 @@ const ResetPassword = () => {
                         </h2>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.4' }}>
                             {isSubmitted ? "Password reset successful!" : 
-                             !isVerified ? "Verify both codes to unlock password reset form." : 
+                             !isVerified ? "Verify email code to unlock password reset form." : 
                              "Verification successful! Please enter your new password below."}
                         </p>
                     </div>
@@ -213,24 +202,6 @@ const ResetPassword = () => {
                                 </span>
                             </div>
 
-                            <div>
-                                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 'bold' }}>
-                                    SMS Verification Code
-                                </label>
-                                <input 
-                                    type="text" 
-                                    maxLength="6"
-                                    placeholder="Enter 6-digit SMS code" 
-                                    value={mobileOtp}
-                                    onChange={(e) => setMobileOtp(e.target.value)}
-                                    required 
-                                    style={{ letterSpacing: '1px' }}
-                                />
-                                <span style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.4)', marginTop: '4px', display: 'block' }}>
-                                    Sent to {maskedPhone || 'your mobile number'} (Simulated below)
-                                </span>
-                            </div>
-
                             <button 
                                 type="submit" 
                                 disabled={isLoading || otpLoading}
@@ -248,7 +219,7 @@ const ResetPassword = () => {
                                     borderRadius: '30px'
                                 }}
                             >
-                                {isLoading ? 'Verifying...' : 'Verify Codes & Unlock'}
+                                {isLoading ? 'Verifying...' : 'Verify Code & Unlock'}
                                 {!isLoading && <ArrowRight size={20} />}
                             </button>
 
@@ -273,7 +244,7 @@ const ResetPassword = () => {
                                 }}
                             >
                                 <RefreshCw size={14} className={otpLoading ? "spin" : ""} />
-                                {otpLoading ? 'Resending...' : 'Resend Verification Codes'}
+                                {otpLoading ? 'Resending...' : 'Resend Verification Code'}
                             </button>
                         </form>
                     )}
@@ -354,65 +325,6 @@ const ResetPassword = () => {
 
                 </div>
             </div>
-
-            {/* Virtual SMS Toast Overlay (Mobile Phone Simulator) */}
-            {showSmsNotification && !isVerified && (
-                <div style={{
-                    position: 'fixed',
-                    bottom: '30px',
-                    right: '30px',
-                    width: '320px',
-                    background: 'rgba(15, 23, 42, 0.95)',
-                    backdropFilter: 'blur(20px)',
-                    border: '2px solid var(--accent-orange)',
-                    boxShadow: '0 0 30px rgba(255, 144, 0, 0.3)',
-                    borderRadius: '20px',
-                    padding: '1.25rem',
-                    zIndex: 99999,
-                    animation: 'slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                    color: '#fff'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Smartphone size={18} color="var(--accent-orange)" />
-                            <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-orange)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                                SMS Simulator
-                            </span>
-                        </div>
-                        <X size={16} style={{ cursor: 'pointer', color: 'var(--text-muted)' }} onClick={() => setShowSmsNotification(false)} />
-                    </div>
-                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '10px', fontSize: '0.85rem', lineHeight: '1.4' }}>
-                        <strong style={{ color: 'var(--accent-orange)' }}>From:</strong> Smart Airline Security<br/>
-                        Your Mobile Reset OTP is: <strong style={{ fontSize: '1.1rem', color: '#fff', letterSpacing: '1px', textShadow: '0 0 5px rgba(255,255,255,0.5)' }}>{simulatedMobileOtp}</strong>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-                        <button 
-                            onClick={() => {
-                                setMobileOtp(simulatedMobileOtp);
-                                setShowSmsNotification(false);
-                            }}
-                            style={{
-                                background: 'var(--accent-orange)',
-                                color: '#000',
-                                padding: '6px 12px',
-                                borderRadius: '8px',
-                                fontSize: '0.75rem',
-                                boxShadow: 'none',
-                                fontWeight: 'bold',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            Auto-Fill SMS
-                        </button>
-                    </div>
-                    <style>{`
-                        @keyframes slideUp {
-                            from { transform: translateY(100px); opacity: 0; }
-                            to { transform: translateY(0); opacity: 1; }
-                        }
-                    `}</style>
-                </div>
-            )}
         </div>
     );
 };

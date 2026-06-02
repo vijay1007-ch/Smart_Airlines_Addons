@@ -16,8 +16,12 @@ const ADMIN_EMAILS = [
 ];
 
 // In-memory store for pending 2-Step Verification OTP codes
-// Structure: { email: { emailOtp, mobileOtp, expires } }
+// Structure: { email: { emailOtp, expires } }
 const pendingOtps = {};
+
+// In-memory store for pending registrations
+// Structure: { email: { email, password, name, phone, mobileOtp, expires } }
+const pendingRegistrations = {};
 
 // Helper to generate a secure random 6-digit numeric OTP code
 const generateOtp = () => {
@@ -59,14 +63,70 @@ router.post("/register", async (req, res) => {
   const existingUser = users.find(u => u.email === email);
   if (existingUser) return res.status(400).json({ message: "User already exists" });
 
-  const hashed = await bcrypt.hash(password, 10);
+  const mobileOtp = generateOtp();
   
-  // Grant admin role only if the email is in the authorized list
-  const role = ADMIN_EMAILS.includes(email) ? "admin" : "user";
+  // Cache the registration details
+  pendingRegistrations[email] = {
+    email,
+    password,
+    name,
+    phone: phone || "",
+    mobileOtp,
+    expires: Date.now() + 5 * 60 * 1000 // 5 minutes
+  };
 
-  const newUser = { email, password: hashed, name, role, phone: phone || "" };
+  console.log(`\n======================================================`);
+  console.log(`[SMS SIMULATOR] Sent Registration OTP code to mobile: ${phone || "+1 *******23"}`);
+  console.log(`YOUR REGISTRATION OTP IS: ${mobileOtp}`);
+  console.log(`======================================================\n`);
+
+  res.json({ 
+    verificationRequired: true, 
+    email, 
+    mobileNumber: phone || "+1 *******23",
+    simulatedMobileOtp: mobileOtp
+  });
+});
+
+// Verify registration OTP and complete registration
+router.post("/register/verify", async (req, res) => {
+  const { email, mobileOtp } = req.body;
+  
+  if (!email || !mobileOtp) {
+    return res.status(400).json({ message: "Verification code is required" });
+  }
+
+  const pending = pendingRegistrations[email];
+  if (!pending) {
+    return res.status(400).json({ message: "Registration session expired or not found. Please sign up again." });
+  }
+
+  if (Date.now() > pending.expires) {
+    delete pendingRegistrations[email];
+    return res.status(400).json({ message: "OTP expired. Please sign up again." });
+  }
+
+  if (pending.mobileOtp !== mobileOtp.trim()) {
+    return res.status(400).json({ message: "Incorrect Mobile SMS verification code." });
+  }
+
+  // Check again to ensure user wasn't registered in the meantime
+  const users = readUsers();
+  const existingUser = users.find(u => u.email === email);
+  if (existingUser) {
+    delete pendingRegistrations[email];
+    return res.status(400).json({ message: "User already exists" });
+  }
+
+  const hashed = await bcrypt.hash(pending.password, 10);
+  const role = ADMIN_EMAILS.includes(email) ? "admin" : "user";
+  const newUser = { email, password: hashed, name: pending.name, role, phone: pending.phone };
+  
   users.push(newUser);
   writeUsers(users);
+
+  // Clear pending registration
+  delete pendingRegistrations[email];
 
   const token = jwt.sign({ email, role }, "secret123");
   const { password: _, ...userWithoutPassword } = newUser;
@@ -85,23 +145,14 @@ router.post("/login", async (req, res) => {
   if (!isMatch) return res.status(400).json({ message: "Wrong password" });
 
   // If 2FA is enabled globally/request-wise (enabled by default unless explicitly disabled)
-  const is2faActive = twoFactorEnabled !== false;
-
-  if (is2faActive) {
+  const is2faActive = twoFactorEnabled !== false;  if (is2faActive) {
       const emailOtp = generateOtp();
-      const mobileOtp = generateOtp();
       
-      // Cache the generated codes with a 5-minute expiry window
+      // Cache the generated code with a 5-minute expiry window
       pendingOtps[email] = {
           emailOtp,
-          mobileOtp,
           expires: Date.now() + 5 * 60 * 1000
       };
-
-      console.log(`\n======================================================`);
-      console.log(`[SMS SIMULATOR] Sent OTP code to mobile: ${user.phone || "+1 *******23"}`);
-      console.log(`YOUR MOBILE OTP IS: ${mobileOtp}`);
-      console.log(`======================================================\n`);
 
       // Try to send the Email OTP via Nodemailer using configured SMTP credentials
       try {
@@ -142,10 +193,7 @@ router.post("/login", async (req, res) => {
       // Return status indicating that 2-Step Authentication is required to complete the login
       return res.json({ 
           twoFactorRequired: true, 
-          email: user.email, 
-          mobileNumber: user.phone || "+1 *******23",
-          // Send mobileOtp back to support browser-based SMS toast popup overlay simulator
-          simulatedMobileOtp: mobileOtp
+          email: user.email
       });
   }
 
@@ -157,10 +205,10 @@ router.post("/login", async (req, res) => {
 
 // Verify 2-Step Authentication OTP Codes
 router.post("/verify-2fa", async (req, res) => {
-    const { email, emailOtp, mobileOtp } = req.body;
+    const { email, emailOtp } = req.body;
     
-    if (!email || !emailOtp || !mobileOtp) {
-        return res.status(400).json({ message: "Verification codes are required" });
+    if (!email || !emailOtp) {
+        return res.status(400).json({ message: "Verification code is required" });
     }
 
     const pending = pendingOtps[email];
@@ -173,13 +221,9 @@ router.post("/verify-2fa", async (req, res) => {
         return res.status(400).json({ message: "OTP expired. Please log in again." });
     }
 
-    // Verify both codes
+    // Verify email code
     if (pending.emailOtp !== emailOtp.trim()) {
         return res.status(400).json({ message: "Incorrect Email verification code." });
-    }
-
-    if (pending.mobileOtp !== mobileOtp.trim()) {
-        return res.status(400).json({ message: "Incorrect Mobile SMS verification code." });
     }
 
     // Clear verification cache on success
@@ -248,18 +292,11 @@ router.post("/forgot-password/request-otp", async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const emailOtp = generateOtp();
-    const mobileOtp = generateOtp();
 
     pendingOtps[`reset_${email}`] = {
         emailOtp,
-        mobileOtp,
         expires: Date.now() + 5 * 60 * 1000
     };
-
-    console.log(`\n======================================================`);
-    console.log(`[SMS SIMULATOR] Sent Reset Password OTP to mobile: ${user.phone || "+1 *******23"}`);
-    console.log(`YOUR MOBILE RESET OTP IS: ${mobileOtp}`);
-    console.log(`======================================================\n`);
 
     // Send Email
     try {
@@ -297,16 +334,14 @@ router.post("/forgot-password/request-otp", async (req, res) => {
     }
 
     res.json({
-        message: "OTPs dispatched successfully",
-        email: user.email,
-        mobileNumber: user.phone || "+1 *******23",
-        simulatedMobileOtp: mobileOtp
+        message: "OTP dispatched successfully",
+        email: user.email
     });
 });
 
 // Verify 2-Step OTPs for Password Reset Screen
 router.post("/forgot-password/verify-otp", async (req, res) => {
-    const { email, emailOtp, mobileOtp } = req.body;
+    const { email, emailOtp } = req.body;
     const sessionKey = `reset_${email}`;
 
     const pending = pendingOtps[sessionKey];
@@ -321,10 +356,6 @@ router.post("/forgot-password/verify-otp", async (req, res) => {
 
     if (pending.emailOtp !== emailOtp.trim()) {
         return res.status(400).json({ message: "Incorrect Email code." });
-    }
-
-    if (pending.mobileOtp !== mobileOtp.trim()) {
-        return res.status(400).json({ message: "Incorrect Mobile SMS code." });
     }
 
     // Success: Mark this session verified by saving a brief token
@@ -400,6 +431,7 @@ router.put("/profile", (req, res) => {
     writeUsers(users);
     
     // Return updated user without password
+    const updatedUser = users[userIndex];
     res.json({ message: "Profile updated successfully", user: updatedUser });
 });
 
