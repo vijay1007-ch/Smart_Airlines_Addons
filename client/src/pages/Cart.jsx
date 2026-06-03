@@ -125,7 +125,7 @@ const Cart = () => {
                                     justifyContent: 'space-between', 
                                     alignItems: 'center',
                                     padding: '20px',
-                                    borderBottom: index < cartItems.length - 1 ? '1px solid var(--glass-border)' : 'none',
+                                    borderBottom: index < cartItems.length - 1 ? '1px solid var(--border-light)' : 'none',
                                     background: 'rgba(255,255,255,0.02)'
                                 }}>
                                     <div>
@@ -160,13 +160,23 @@ const Cart = () => {
                             <div style={{ display: 'flex', gap: '10px' }}>
                                 <button 
                                     onClick={() => setFlightType('domestic')}
-                                    style={{ background: flightType === 'domestic' ? 'var(--primary-blue)' : 'rgba(255,255,255,0.05)', color: 'white', padding: '8px 20px', width: 'auto' }}
+                                    style={{ 
+                                        background: flightType === 'domestic' ? 'var(--gradient-primary)' : 'var(--bg-main)', 
+                                        color: flightType === 'domestic' ? '#ffffff' : 'var(--text-main)', 
+                                        border: flightType === 'domestic' ? 'none' : '1px solid var(--border-light)',
+                                        padding: '8px 20px', width: 'auto' 
+                                    }}
                                 >
                                     Domestic
                                 </button>
                                 <button 
                                     onClick={() => setFlightType('international')}
-                                    style={{ background: flightType === 'international' ? '#ff9000' : 'rgba(255,255,255,0.05)', color: 'white', padding: '8px 20px', width: 'auto' }}
+                                    style={{ 
+                                        background: flightType === 'international' ? '#ff9000' : 'var(--bg-main)', 
+                                        color: flightType === 'international' ? '#ffffff' : 'var(--text-main)', 
+                                        border: flightType === 'international' ? 'none' : '1px solid var(--border-light)',
+                                        padding: '8px 20px', width: 'auto' 
+                                    }}
                                 >
                                     International
                                 </button>
@@ -182,9 +192,9 @@ const Cart = () => {
                                     value={couponInput}
                                     onChange={(e) => setCouponInput(e.target.value)}
                                     placeholder="Enter coupon code (e.g. WELCOME10)" 
-                                    style={{ flex: 1, margin: 0, padding: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--glass-border)', color: 'var(--text-main)', borderRadius: '8px' }}
+                                    style={{ flex: 1, margin: 0, padding: '12px', background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)',  borderRadius: '8px' }}
                                 />
-                                <button onClick={handleApplyCoupon} style={{ width: 'auto', background: 'rgba(255,255,255,0.1)' }}>Apply</button>
+                                <button onClick={handleApplyCoupon} style={{ width: 'auto', background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)' }}>Apply</button>
                             </div>
                             {couponError && <p style={{ color: '#ff416c', margin: '10px 0 0 0', fontSize: '0.9rem' }}>{couponError}</p>}
                             {couponDiscount > 0 && <p style={{ color: '#2ed573', margin: '10px 0 0 0', fontSize: '0.9rem' }}>Coupon applied: {couponDiscount}% off!</p>}
@@ -210,7 +220,7 @@ const Cart = () => {
                                 </div>
                             )}
 
-                            <div style={{ borderTop: '1px solid var(--glass-border)', margin: '15px 0' }} />
+                            <div style={{ borderTop: '1px solid var(--border-light)', margin: '15px 0' }} />
 
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div>
@@ -225,8 +235,9 @@ const Cart = () => {
                             <button 
                                 onClick={handleClearCart}
                                 style={{ 
-                                    background: 'rgba(255,255,255,0.05)', 
-                                    border: '1px solid rgba(255,255,255,0.1)', 
+                                    background: 'var(--bg-main)', 
+                                    color: 'var(--text-main)',
+                                    border: '1px solid var(--border-light)', 
                                     boxShadow: 'none',
                                     flex: 1
                                 }}>
@@ -234,7 +245,7 @@ const Cart = () => {
                             </button>
                             <button 
                                 onClick={handleCheckout}
-                                style={{ flex: 2, background: 'linear-gradient(90deg, var(--accent-cyan), var(--primary-blue))' }}
+                                style={{ flex: 2, background: 'var(--gradient-primary)', color: '#ffffff', border: 'none' }}
                             >
                                 Proceed to Checkout
                             </button>

@@ -122,15 +122,8 @@ const ResetPassword = () => {
         <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
             <Navbar />
             
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'absolute', top: '20%', left: '10%', width: '300px', height: '300px',
-                background: 'var(--primary-blue)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
-            <div style={{
-                position: 'absolute', bottom: '10%', right: '15%', width: '350px', height: '350px',
-                background: 'var(--accent-pink)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
+            
+            
 
             <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
                 <div className="login-box" style={{ 
@@ -140,7 +133,7 @@ const ResetPassword = () => {
                     borderRadius: '24px',
                     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
-                    border: !isVerified ? '1px solid rgba(255, 65, 108, 0.4)' : '1px solid var(--glass-border)'
+                    border: !isVerified ? '1px solid rgba(255, 65, 108, 0.4)' : '1px solid var(--border-light)'
                 }}>
                     
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -148,7 +141,7 @@ const ResetPassword = () => {
                             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                             width: '60px', height: '60px', borderRadius: '50%', 
                             background: !isVerified ? 'rgba(255, 65, 108, 0.1)' : 'rgba(0, 229, 255, 0.1)', 
-                            border: !isVerified ? '1px solid rgba(255, 65, 108, 0.3)' : '1px solid var(--glass-border)',
+                            border: !isVerified ? '1px solid rgba(255, 65, 108, 0.3)' : '1px solid var(--border-light)',
                             marginBottom: '1rem', 
                             boxShadow: !isVerified ? '0 0 20px rgba(255, 65, 108, 0.3)' : 'var(--glow-cyan)'
                         }}>
@@ -231,7 +224,7 @@ const ResetPassword = () => {
                                     width: '100%', 
                                     background: 'transparent',
                                     color: 'rgba(255, 255, 255, 0.6)',
-                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    border: '1px solid var(--border-light)',
                                     padding: '0.75rem',
                                     fontSize: '0.9rem',
                                     borderRadius: '30px',

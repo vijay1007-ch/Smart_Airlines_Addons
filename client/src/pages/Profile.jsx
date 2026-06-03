@@ -10,7 +10,7 @@ const ProfileRow = ({ icon, title, subtitle, onClick, color }) => (
             alignItems: 'center', 
             justifyContent: 'space-between',
             padding: '15px 0',
-            borderBottom: '1px solid var(--glass-border)',
+            borderBottom: '1px solid var(--border-light)',
             cursor: 'pointer',
             transition: 'background 0.2s ease',
             color: color || 'white'
@@ -68,7 +68,7 @@ const Profile = () => {
                     {/* Left Column: Personal Details */}
                     <div className="card" style={{ alignSelf: 'start', borderTop: '4px solid var(--accent-cyan)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '25px' }}>
-                            <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--primary-blue)', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '2rem' }}>
+                            <div style={{ width: '60px', height: '60px', borderRadius: '50%',  display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '2rem' }}>
                                 {user.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
@@ -118,7 +118,7 @@ const Profile = () => {
                             </div>
                         )}
                         
-                        <div className="card" style={{ borderTop: '4px solid var(--glass-border)', padding: 0, overflow: 'hidden' }}>
+                        <div className="card" style={{ borderTop: '4px solid var(--border-light)', padding: 0, overflow: 'hidden' }}>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <ProfileRow icon="🔐" title="Reset Password" subtitle="Keep your account secure" onClick={() => navigate('/forgot-password')} />
                                 <ProfileRow icon="🚪" title="Logout" subtitle="Sign out of your account" onClick={handleLogout} color="#ff416c" />

@@ -163,27 +163,15 @@ const AdminDashboard = () => {
         <div className="page" style={{ position: 'relative', minHeight: '100vh', paddingBottom: '3rem' }}>
             <Navbar />
 
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'fixed', top: '-10%', right: '-5%', width: '500px', height: '500px',
-                background: 'var(--primary-blue)', filter: 'blur(200px)', borderRadius: '50%', zIndex: -1, opacity: 0.25
-            }} />
-            <div style={{
-                position: 'fixed', bottom: '-10%', left: '-5%', width: '500px', height: '500px',
-                background: 'var(--accent-pink)', filter: 'blur(200px)', borderRadius: '50%', zIndex: -1, opacity: 0.25
-            }} />
+            
+            
 
             <div className="container" style={{ marginTop: '2rem' }}>
                 
                 {/* Header */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                     <div>
-                        <h1 style={{ 
-                            fontSize: '2.5rem', fontWeight: '800', 
-                            background: 'linear-gradient(90deg, #fff, #b388ff)',
-                            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                            marginBottom: '0.5rem'
-                        }}>
+                        <h1 className="title">
                             Admin Dashboard
                         </h1>
                         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
@@ -192,7 +180,7 @@ const AdminDashboard = () => {
                     </div>
                     <button 
                         onClick={() => navigate('/admin/catalogue')}
-                        style={{ padding: '0.75rem 1.5rem', background: 'var(--primary-blue)', color: '#fff', borderRadius: '8px', fontWeight: '600', border: 'none', cursor: 'pointer' }}
+                        style={{ padding: '0.75rem 1.5rem',   borderRadius: '8px', fontWeight: '600', border: 'none', cursor: 'pointer' }}
                     >
                         Manage Catalogue
                     </button>
@@ -221,7 +209,7 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem' }}>
-                                <h2 style={{ fontSize: '2rem', fontWeight: '700', margin: 0, color: '#fff' }}>
+                                <h2 style={{ fontSize: '2rem', fontWeight: '700', margin: 0 }}>
                                     {isLoading ? '...' : stat.value}
                                 </h2>
                                 <span style={{ color: '#4ade80', fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
@@ -275,10 +263,10 @@ const AdminDashboard = () => {
                                     ) : (
                                         orders.map((order, idx) => (
                                             <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                                <td style={{ padding: '1rem 0', fontWeight: '500', color: '#fff' }}>{order.id}</td>
+                                                <td style={{ padding: '1rem 0', fontWeight: '500' }}>{order.id}</td>
                                                 <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{order.customer}</td>
                                                 <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{order.item}</td>
-                                                <td style={{ padding: '1rem 0', fontWeight: '600', color: '#fff' }}>{order.amount}</td>
+                                                <td style={{ padding: '1rem 0', fontWeight: '600' }}>{order.amount}</td>
                                                 <td style={{ padding: '1rem 0' }}>
                                                     <div style={{ 
                                                         display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
@@ -308,7 +296,7 @@ const AdminDashboard = () => {
                             <h3 style={{ fontSize: '1.25rem', fontWeight: '600', margin: 0 }}>
                                 Live Payment Authorizations 
                                 {pendingPayments.length > 0 && (
-                                    <span style={{ marginLeft: '10px', background: '#4ade80', color: '#000', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>
+                                    <span style={{ marginLeft: '10px', background: '#4ade80', color: '#ffffff', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>
                                         {pendingPayments.length} Pending
                                     </span>
                                 )}
@@ -333,14 +321,14 @@ const AdminDashboard = () => {
                                     ) : (
                                         pendingPayments.map((payment, idx) => (
                                             <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                                <td style={{ padding: '1rem 0', fontWeight: '500', color: '#fff' }}>{payment.orderId}</td>
+                                                <td style={{ padding: '1rem 0', fontWeight: '500' }}>{payment.orderId}</td>
                                                 <td style={{ padding: '1rem 0', fontWeight: '600', color: 'var(--accent-cyan)' }}>₹{payment.amount}</td>
                                                 <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{payment.date}</td>
                                                 <td style={{ padding: '1rem 0', textAlign: 'right' }}>
                                                     <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                                                         <button 
                                                             onClick={() => handlePaymentAction(payment.orderId, 'approved')} 
-                                                            style={{ background: 'linear-gradient(90deg, #2ed573, #2ecc71)', color: '#000', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '20px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '5px' }}
+                                                            style={{ background: 'linear-gradient(90deg, #2ed573, #2ecc71)', color: '#ffffff', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '20px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '5px' }}
                                                         >
                                                             <CheckCircle2 size={14} /> Accept
                                                         </button>
@@ -390,7 +378,7 @@ const AdminDashboard = () => {
                                     ) : (
                                         upgrades.map((upg, idx) => (
                                             <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                                <td style={{ padding: '1rem 0', fontWeight: '500', color: '#fff' }}>{upg.id}</td>
+                                                <td style={{ padding: '1rem 0', fontWeight: '500' }}>{upg.id}</td>
                                                 <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{upg.customerName}</td>
                                                 <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{upg.currentSeat}</td>
                                                 <td style={{ padding: '1rem 0', fontWeight: '600', color: 'var(--accent-cyan)' }}>{upg.requestedClass}</td>
@@ -418,7 +406,7 @@ const AdminDashboard = () => {
                                                                     placeholder="Seat (e.g., 2A)" 
                                                                     value={offerData.seat} 
                                                                     onChange={e => setOfferData({...offerData, seat: e.target.value})}
-                                                                    style={{ padding: '0.5rem', width: '130px', marginBottom: 0, borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: '0.85rem' }}
+                                                                    style={{ padding: '0.5rem', width: '130px', marginBottom: 0, borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)',  fontSize: '0.85rem' }}
                                                                     autoFocus
                                                                 />
                                                                 <input 
@@ -426,17 +414,17 @@ const AdminDashboard = () => {
                                                                     placeholder="Price (₹)" 
                                                                     value={offerData.price} 
                                                                     onChange={e => setOfferData({...offerData, price: e.target.value})}
-                                                                    style={{ padding: '0.5rem', width: '100px', marginBottom: 0, borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: '0.85rem' }}
+                                                                    style={{ padding: '0.5rem', width: '100px', marginBottom: 0, borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)',  fontSize: '0.85rem' }}
                                                                 />
                                                             </div>
                                                             <div style={{ display: 'flex', gap: '8px' }}>
                                                                 <button onClick={() => setOfferingId(null)} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '20px' }}>Cancel</button>
-                                                                <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem', background: 'var(--primary-blue)', color: '#000', border: 'none', borderRadius: '20px', fontWeight: '600' }}>Send Offer</button>
+                                                                <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem',  color: '#ffffff', border: 'none', borderRadius: '20px', fontWeight: '600' }}>Send Offer</button>
                                                             </div>
                                                         </div>
                                                     ) : upg.status === 'Pending' ? (
                                                         <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                                                            <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{ background: 'var(--primary-blue)', color: '#000', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '20px', fontWeight: '600' }}>Offer Seat</button>
+                                                            <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{  color: '#ffffff', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '20px', fontWeight: '600' }}>Offer Seat</button>
                                                             <button onClick={() => handleUpgradeReject(upg.id)} style={{ background: 'transparent', border: '1px solid #ef4444', color: '#ef4444', padding: '0.4rem 1rem', fontSize: '0.85rem', borderRadius: '20px', fontWeight: '600' }}>Reject</button>
                                                         </div>
                                                     ) : upg.status === 'Pending Payment' ? (

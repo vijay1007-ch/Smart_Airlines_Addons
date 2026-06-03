@@ -104,15 +104,8 @@ const Signup = () => {
         <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
             <Navbar />
             
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'absolute', top: '20%', left: '10%', width: '300px', height: '300px',
-                background: 'var(--primary-blue)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
-            <div style={{
-                position: 'absolute', bottom: '10%', right: '15%', width: '350px', height: '350px',
-                background: 'var(--accent-pink)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
+            
+            
 
             <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
                 <div className="login-box" style={{ 
@@ -122,7 +115,7 @@ const Signup = () => {
                     borderRadius: '24px',
                     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
-                    border: verificationRequired ? '1px solid rgba(179, 136, 255, 0.4)' : '1px solid var(--glass-border)'
+                    border: verificationRequired ? '1px solid rgba(179, 136, 255, 0.4)' : '1px solid var(--border-light)'
                 }}>
                     
                     {!verificationRequired ? (
@@ -131,15 +124,14 @@ const Signup = () => {
                                 <div style={{ 
                                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                                     width: '60px', height: '60px', borderRadius: '50%', 
-                                    background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--glass-border)',
+                                    background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--border-light)',
                                     marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
                                 }}>
                                     <PlaneTakeoff size={32} color="var(--primary-blue)" />
                                 </div>
                                 <h2 style={{ 
                                     fontSize: '2rem', fontWeight: '800', 
-                                    background: 'linear-gradient(90deg, #fff, #b388ff)',
-                                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                                    
                                     marginBottom: '0.5rem'
                                 }}>
                                     Join the Journey
@@ -253,14 +245,12 @@ const Signup = () => {
                                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                                     width: '60px', height: '60px', borderRadius: '50%', 
                                     background: 'rgba(179, 136, 255, 0.1)', border: '1px solid rgba(179, 136, 255, 0.3)',
-                                    marginBottom: '1rem', boxShadow: '0 0 20px rgba(179, 136, 255, 0.4)'
-                                }}>
+                                    marginBottom: '1rem' }}>
                                     <ShieldCheck size={32} color="#b388ff" />
                                 </div>
                                 <h2 style={{ 
                                     fontSize: '1.8rem', fontWeight: '800', 
-                                    background: 'linear-gradient(90deg, #fff, #b388ff)',
-                                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                                    
                                     marginBottom: '0.5rem'
                                 }}>
                                     Verify Mobile
@@ -332,7 +322,7 @@ const Signup = () => {
                                         width: '100%', 
                                         background: 'transparent',
                                         color: 'rgba(255, 255, 255, 0.6)',
-                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        border: '1px solid var(--border-light)',
                                         padding: '0.75rem',
                                         fontSize: '0.9rem',
                                         borderRadius: '30px',
@@ -363,9 +353,7 @@ const Signup = () => {
                     borderRadius: '20px',
                     padding: '1.25rem',
                     zIndex: 99999,
-                    animation: 'slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                    color: '#fff'
-                }}>
+                    animation: 'slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <Smartphone size={18} color="var(--accent-orange)" />
@@ -377,7 +365,7 @@ const Signup = () => {
                     </div>
                     <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '10px', fontSize: '0.85rem', lineHeight: '1.4' }}>
                         <strong style={{ color: 'var(--accent-orange)' }}>From:</strong> Smart Airline Security<br/>
-                        Your Mobile Signup OTP is: <strong style={{ fontSize: '1.1rem', color: '#fff', letterSpacing: '1px', textShadow: '0 0 5px rgba(255,255,255,0.5)' }}>{simulatedMobileOtp}</strong>
+                        Your Mobile Signup OTP is: <strong style={{ fontSize: '1.1rem',  letterSpacing: '1px' }}>{simulatedMobileOtp}</strong>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
                         <button 
@@ -387,7 +375,7 @@ const Signup = () => {
                             }}
                             style={{
                                 background: 'var(--accent-orange)',
-                                color: '#000',
+                                color: '#ffffff',
                                 padding: '6px 12px',
                                 borderRadius: '8px',
                                 fontSize: '0.75rem',

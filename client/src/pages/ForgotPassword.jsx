@@ -41,15 +41,8 @@ const ForgotPassword = () => {
         <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
             <Navbar />
             
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'absolute', top: '20%', left: '10%', width: '300px', height: '300px',
-                background: 'var(--primary-blue)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
-            <div style={{
-                position: 'absolute', bottom: '10%', right: '15%', width: '350px', height: '350px',
-                background: 'var(--accent-pink)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
+            
+            
 
             <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
                 <div className="login-box" style={{ 
@@ -65,15 +58,14 @@ const ForgotPassword = () => {
                         <div style={{ 
                             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                             width: '60px', height: '60px', borderRadius: '50%', 
-                            background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--glass-border)',
+                            background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--border-light)',
                             marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
                         }}>
                             <PlaneTakeoff size={32} color="var(--primary-blue)" />
                         </div>
                         <h2 style={{ 
                             fontSize: '2rem', fontWeight: '800', 
-                            background: 'linear-gradient(90deg, #fff, #b388ff)',
-                            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                            
                             marginBottom: '0.5rem'
                         }}>
                             Reset Password

@@ -92,24 +92,12 @@ const UserDashboard = () => {
         <div className="page" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
             <Navbar />
             
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'absolute', top: '10%', left: '-5%', width: '500px', height: '500px',
-                background: 'var(--primary-blue)', filter: 'blur(200px)', borderRadius: '50%', zIndex: -1, opacity: 0.15
-            }} />
-            <div style={{
-                position: 'absolute', bottom: '20%', right: '-5%', width: '600px', height: '600px',
-                background: 'var(--accent-pink)', filter: 'blur(250px)', borderRadius: '50%', zIndex: -1, opacity: 0.15
-            }} />
+            
+            
 
             <div className="container" style={{ paddingTop: '2rem', paddingBottom: '100px' }}>
                 
-                <h1 style={{ 
-                    fontSize: '2.5rem', fontWeight: '800', 
-                    background: 'linear-gradient(90deg, #fff, #b388ff)',
-                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                    marginBottom: '0.5rem'
-                }}>
+                <h1 className="title">
                     User Dashboard
                 </h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: '3rem' }}>
@@ -182,7 +170,7 @@ const UserDashboard = () => {
                             }}>
                                 {flightDetails.status}
                             </div>
-                            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '1rem' }}>Seat: <strong style={{ color: upgradeStatus?.status === 'Approved' ? '#00e5ff' : '#fff' }}>{flightDetails.seat}</strong></p>
+                            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '1rem' }}>Seat: <strong style={{ color: upgradeStatus?.status === 'Approved' ? 'var(--primary-blue)' : 'var(--text-main)' }}>{flightDetails.seat}</strong></p>
                         
                             <div style={{ marginTop: '0.5rem', width: '100%' }}>
                                 {!upgradeStatus || upgradeStatus.status === 'Rejected' ? (
@@ -191,9 +179,9 @@ const UserDashboard = () => {
                                             value={selectedClass} 
                                             onChange={(e) => setSelectedClass(e.target.value)}
                                             style={{
-                                                background: 'rgba(255, 255, 255, 0.05)',
-                                                color: '#fff',
-                                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                                background: 'var(--bg-main)',
+                                                
+                                                border: '1px solid var(--border-light)',
                                                 padding: '0.6rem 1rem',
                                                 borderRadius: '20px',
                                                 outline: 'none',
@@ -206,19 +194,19 @@ const UserDashboard = () => {
                                                 maxWidth: '200px'
                                             }}
                                             onFocus={(e) => e.target.style.borderColor = 'var(--accent-cyan)'}
-                                            onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'}
+                                            onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'}
                                         >
-                                            <option value="Business Class" style={{color: '#000'}}>Business Class</option>
-                                            <option value="First Class" style={{color: '#000'}}>First Class</option>
-                                            <option value="Premium Economy" style={{color: '#000'}}>Premium Economy</option>
+                                            <option value="Business Class" style={{color: 'var(--text-main)'}}>Business Class</option>
+                                            <option value="First Class" style={{color: 'var(--text-main)'}}>First Class</option>
+                                            <option value="Premium Economy" style={{color: 'var(--text-main)'}}>Premium Economy</option>
                                         </select>
                                         <button 
                                             onClick={requestUpgrade}
                                             disabled={isRequesting}
                                             style={{ 
-                                                background: 'var(--accent-cyan)', 
+                                                background: 'var(--gradient-primary)', 
                                                 border: 'none', 
-                                                color: '#000',
+                                                color: '#ffffff',
                                                 padding: '0.6rem 1.5rem',
                                                 fontSize: '0.9rem',
                                                 fontWeight: '600',
@@ -252,7 +240,7 @@ const UserDashboard = () => {
                                         onClick={handlePayUpgrade}
                                         style={{ 
                                             background: 'var(--accent-cyan)', 
-                                            color: '#000',
+                                            color: '#ffffff',
                                             padding: '0.4rem 1rem',
                                             fontSize: '0.85rem',
                                             border: 'none',
@@ -277,7 +265,7 @@ const UserDashboard = () => {
                 </div>
 
                 {/* Quick Actions */}
-                <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#fff' }}>Quick Actions</h2>
+                <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Quick Actions</h2>
                 <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
                     <div className="card" onClick={() => navigate('/catalogue')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2rem', transition: 'all 0.3s ease', border: '1px solid rgba(255,255,255,0.05)' }}>
                         <div style={{ width: '60px', height: '60px', borderRadius: '15px', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>

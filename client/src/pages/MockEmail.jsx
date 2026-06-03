@@ -27,9 +27,7 @@ const MockEmail = () => {
                 <div style={{
                     background: 'linear-gradient(135deg, #0052cc, #00e5ff)',
                     padding: '2rem',
-                    textAlign: 'center',
-                    color: '#fff'
-                }}>
+                    textAlign: 'center' }}>
                     <MailOpen size={48} style={{ marginBottom: '1rem', opacity: 0.9 }} />
                     <h1 style={{ margin: 0, fontSize: '1.75rem', fontWeight: '600' }}>Smart Airline Support</h1>
                     <p style={{ margin: '0.5rem 0 0 0', opacity: 0.8, fontSize: '0.9rem' }}>Password Reset Request</p>
@@ -49,7 +47,7 @@ const MockEmail = () => {
                             onClick={() => navigate('/reset-password')}
                             style={{
                                 background: '#0052cc',
-                                color: '#fff',
+                                
                                 padding: '1rem 2.5rem',
                                 borderRadius: '8px',
                                 border: 'none',

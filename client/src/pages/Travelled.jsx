@@ -35,18 +35,13 @@ const Travelled = () => {
         <div className="page" style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
             <Navbar />
             
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'absolute', top: '20%', right: '-5%', width: '400px', height: '400px',
-                background: 'var(--accent-pink)', filter: 'blur(200px)', borderRadius: '50%', zIndex: -1, opacity: 0.15
-            }} />
+            
 
             <div className="container" style={{ paddingTop: '2rem', paddingBottom: '100px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
                     <h1 style={{ 
                         fontSize: '2.5rem', fontWeight: '800', 
-                        background: 'linear-gradient(90deg, #fff, #00e5ff)',
-                        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                        
                         margin: 0
                     }}>
                         Travelled History
@@ -113,7 +108,7 @@ const Travelled = () => {
                                 }}>
                                     <CheckCircle size={14} /> {flight.status}
                                 </div>
-                                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>Seat: <strong style={{ color: '#fff' }}>{flight.seat}</strong></p>
+                                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>Seat: <strong >{flight.seat}</strong></p>
                             </div>
                         </div>
                     ))}

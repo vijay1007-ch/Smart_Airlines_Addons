@@ -13,8 +13,7 @@ const BoardingPassModal = ({ order, onClose, user }) => {
         try {
             const canvas = await html2canvas(passRef.current, {
                 scale: 2,
-                backgroundColor: null,
-            });
+                backgroundColor: null });
             
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('l', 'mm', [200, 100]); // landscape, custom size
@@ -48,7 +47,7 @@ const BoardingPassModal = ({ order, onClose, user }) => {
         }}>
             <div style={{ maxWidth: '800px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
-                    <button onClick={handleDownload} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--primary-blue)', padding: '10px 20px', width: 'auto' }}>
+                    <button onClick={handleDownload} style={{ display: 'flex', alignItems: 'center', gap: '10px',  padding: '10px 20px', width: 'auto' }}>
                         <Download size={18} /> Download PDF
                     </button>
                     <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.1)', color: 'white', padding: '10px', borderRadius: '50%', width: '45px', height: '45px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -127,8 +126,8 @@ const BoardingPassModal = ({ order, onClose, user }) => {
 
                     {/* Perforated Line Divider */}
                     <div style={{ width: '2px', background: 'transparent', borderLeft: '3px dashed #ccc', position: 'relative' }}>
-                        <div style={{ position: 'absolute', top: '-15px', left: '-14px', width: '30px', height: '30px', background: 'rgba(0,0,0,0.8)', borderRadius: '50%' }} />
-                        <div style={{ position: 'absolute', bottom: '-15px', left: '-14px', width: '30px', height: '30px', background: 'rgba(0,0,0,0.8)', borderRadius: '50%' }} />
+                        
+                        
                     </div>
 
                     {/* Right Stub Section */}

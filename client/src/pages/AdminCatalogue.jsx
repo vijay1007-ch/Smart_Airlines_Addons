@@ -108,25 +108,13 @@ const AdminCatalogue = () => {
         <div className="page" style={{ position: 'relative', minHeight: '100vh', paddingBottom: '3rem' }}>
             <Navbar />
 
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'fixed', top: '-10%', right: '-5%', width: '500px', height: '500px',
-                background: 'var(--primary-blue)', filter: 'blur(200px)', borderRadius: '50%', zIndex: -1, opacity: 0.25
-            }} />
-            <div style={{
-                position: 'fixed', bottom: '-10%', left: '-5%', width: '500px', height: '500px',
-                background: 'var(--accent-pink)', filter: 'blur(200px)', borderRadius: '50%', zIndex: -1, opacity: 0.25
-            }} />
+            
+            
 
             <div className="container" style={{ marginTop: '2rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                     <div>
-                        <h1 style={{ 
-                            fontSize: '2.5rem', fontWeight: '800', 
-                            background: 'linear-gradient(90deg, #fff, #b388ff)',
-                            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                            marginBottom: '0.5rem'
-                        }}>
+                        <h1 className="title">
                             Manage Catalogue
                         </h1>
                         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
@@ -148,16 +136,16 @@ const AdminCatalogue = () => {
                             placeholder="Item Name" 
                             value={addForm.name}
                             onChange={(e) => setAddForm({...addForm, name: e.target.value})}
-                            style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
+                            style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)' }}
                         />
                         <input 
                             type="number" 
                             placeholder="Price" 
                             value={addForm.price}
                             onChange={(e) => setAddForm({...addForm, price: e.target.value})}
-                            style={{ width: '150px', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
+                            style={{ width: '150px', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)' }}
                         />
-                        <button onClick={handleAdd} style={{ background: '#4ade80', color: '#000' }}>Save</button>
+                        <button onClick={handleAdd} style={{ background: '#4ade80', color: '#ffffff' }}>Save</button>
                         <button onClick={() => setIsAdding(false)} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)' }}>Cancel</button>
                     </div>
                 )}
@@ -187,13 +175,13 @@ const AdminCatalogue = () => {
                                         <tr key={addon.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                                             <td style={{ padding: '1rem 0', fontWeight: '500', color: 'var(--text-muted)' }}>#{index + 1}</td>
                                             
-                                            <td style={{ padding: '1rem 0', color: '#fff' }}>
+                                            <td style={{ padding: '1rem 0' }}>
                                                 {isEditing === addon.id ? (
                                                     <input 
                                                         type="text" 
                                                         value={editForm.name}
                                                         onChange={(e) => setEditForm({...editForm, name: e.target.value})}
-                                                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.3)', color: '#fff' }}
+                                                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.3)' }}
                                                     />
                                                 ) : addon.name}
                                             </td>
@@ -204,7 +192,7 @@ const AdminCatalogue = () => {
                                                         type="number" 
                                                         value={editForm.price}
                                                         onChange={(e) => setEditForm({...editForm, price: e.target.value})}
-                                                        style={{ width: '100px', padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.3)', color: '#fff' }}
+                                                        style={{ width: '100px', padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.3)' }}
                                                     />
                                                 ) : `₹${addon.price}`}
                                             </td>
@@ -219,7 +207,7 @@ const AdminCatalogue = () => {
                                                         ><Save size={16} /></button>
                                                         <button 
                                                             onClick={() => setIsEditing(null)}
-                                                            style={{ padding: '0.5rem', background: 'rgba(255,255,255,0.05)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                                                            style={{ padding: '0.5rem', background: 'rgba(255,255,255,0.05)',  border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                                                             title="Cancel"
                                                         ><X size={16} /></button>
                                                     </div>
@@ -230,7 +218,7 @@ const AdminCatalogue = () => {
                                                                 setIsEditing(addon.id);
                                                                 setEditForm({ name: addon.name, price: addon.price });
                                                             }}
-                                                            style={{ padding: '0.5rem', background: 'rgba(255, 255, 255, 0.05)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                                                            style={{ padding: '0.5rem', background: 'var(--bg-main)',  border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                                                             title="Edit"
                                                         ><Edit2 size={16} /></button>
                                                         <button 

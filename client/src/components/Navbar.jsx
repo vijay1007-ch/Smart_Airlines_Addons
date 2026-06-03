@@ -11,23 +11,23 @@ const SidebarRow = ({ icon, title, subtitle, onClick, color }) => (
             alignItems: 'center', 
             justifyContent: 'space-between',
             padding: '15px 20px',
-            borderBottom: '1px solid var(--glass-border)',
+            borderBottom: '1px solid var(--border-light)',
             cursor: 'pointer',
             transition: 'background 0.2s ease',
-            color: color || 'var(--text-main)',
+            color: color || '#ffffff',
             textDecoration: 'none'
         }}
-        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(150,150,150,0.1)'}
+        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
         onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
     >
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <div style={{ fontSize: '1.5rem' }}>{icon}</div>
             <div>
-                <div style={{ fontWeight: '600', fontSize: '1rem', color: color || 'var(--text-main)' }}>{title}</div>
-                {subtitle && <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{subtitle}</div>}
+                <div style={{ fontWeight: '600', fontSize: '1rem', color: color || '#ffffff' }}>{title}</div>
+                {subtitle && <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{subtitle}</div>}
             </div>
         </div>
-        <div style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>›</div>
+        <div style={{ fontSize: '1.2rem', color: '#94a3b8' }}>›</div>
     </div>
 );
 
@@ -162,20 +162,18 @@ const Navbar = () => {
                             width: '40px', 
                             height: '40px', 
                             borderRadius: '50%',
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            border: '1px solid var(--glass-border)',
-                            transition: 'all 0.3s ease',
-                            color: 'var(--text-main)'
-                        }}
+                            background: 'var(--bg-main)',
+                            border: '1px solid var(--border-light)',
+                            transition: 'all 0.3s ease' }}
                         onMouseEnter={(e) => {
                             e.currentTarget.style.background = 'rgba(0, 229, 255, 0.1)';
                             e.currentTarget.style.boxShadow = 'var(--glow-cyan)';
                             e.currentTarget.style.borderColor = 'var(--primary-blue)';
                         }}
                         onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                            e.currentTarget.style.background = 'var(--bg-main)';
                             e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.borderColor = 'var(--glass-border)';
+                            e.currentTarget.style.borderColor = 'var(--border-light)';
                         }}
                     >
                         <Settings size={20} />
@@ -214,9 +212,9 @@ const Navbar = () => {
                             left: 0,
                             height: '100vh',
                             width: '320px',
-                            background: isLightMode ? 'rgba(255, 255, 255, 0.98)' : 'rgba(15, 23, 42, 0.98)',
-                            backdropFilter: 'blur(20px)',
-                            borderRight: '1px solid var(--glass-border)',
+                            background: 'var(--gradient-sidebar)',
+                            backdropFilter: 'none',
+                            borderRight: 'none',
                             boxShadow: '2px 0 20px rgba(0,0,0,0.5)',
                             transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
                             transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -227,18 +225,18 @@ const Navbar = () => {
                         }}
                     >
                         {/* Sidebar Header (Profile Info) */}
-                        <div style={{ padding: '30px 20px', borderBottom: '1px solid var(--glass-border)', background: isLightMode ? 'rgba(0,0,0,0.03)' : 'rgba(255,255,255,0.03)' }}>
+                        <div style={{ padding: '30px 20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.1)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--accent-cyan)' }}>My Profile</h2>
-                                <X size={24} color="var(--text-muted)" style={{ cursor: 'pointer' }} onClick={() => setIsSidebarOpen(false)} />
+                                <h2 style={{ margin: 0, fontSize: '1.5rem', color: '#ffffff' }}>My Profile</h2>
+                                <X size={24} color="#94a3b8" style={{ cursor: 'pointer' }} onClick={() => setIsSidebarOpen(false)} />
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: 'var(--primary-blue)', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.5rem', fontWeight: 'bold' }}>
+                                <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: 'var(--gradient-primary)', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.5rem', fontWeight: 'bold', color: '#fff' }}>
                                     {user.name.charAt(0).toUpperCase()}
                                 </div>
                                 <div>
-                                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text-main)' }}>{user.name}</div>
-                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{user.email}</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#ffffff' }}>{user.name}</div>
+                                    <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>{user.email}</div>
                                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                         <div style={{ 
                                             display: 'inline-block', 
@@ -275,15 +273,15 @@ const Navbar = () => {
                             </div>
                             
                             {user.role === 'user' && (
-                                <div style={{ marginTop: '20px', padding: '15px', background: 'var(--card-bg)', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
+                                <div style={{ marginTop: '20px', padding: '15px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                                        <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--accent-cyan)' }}>SKYPOINTS ({tier})</span>
-                                        <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{earnedPoints} pts</span>
+                                        <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#38bdf8' }}>SKYPOINTS ({tier})</span>
+                                        <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#ffffff' }}>{earnedPoints} pts</span>
                                     </div>
                                     <div style={{ width: '100%', height: '8px', background: 'rgba(0,0,0,0.2)', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
                                         <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #ff416c, #ff9000)', transition: 'width 1s ease' }} />
                                     </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px', fontSize: '0.75rem', color: '#94a3b8' }}>
                                         <span>Current Tier</span>
                                         <span>Next Tier ({nextTier})</span>
                                     </div>
@@ -295,14 +293,14 @@ const Navbar = () => {
                         <div style={{ flex: 1, padding: '10px 0' }}>
                             {user.role === 'admin' ? (
                                 <>
-                                    <div style={{ padding: '15px 20px 5px', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>Admin Controls</div>
+                                    <div style={{ padding: '15px 20px 5px', fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Admin Controls</div>
                                     <SidebarRow icon="📊" title="Dashboard" subtitle="System analytics & overview" onClick={() => { setIsSidebarOpen(false); navigate('/admin'); }} />
                                     <SidebarRow icon="📋" title="Catalogue" subtitle="Manage available add-ons" onClick={() => { setIsSidebarOpen(false); navigate('/admin/catalogue'); }} />
                                     <SidebarRow icon="📦" title="Bundles" subtitle="Configure combo packages" onClick={() => { setIsSidebarOpen(false); navigate('/admin/bundles'); }} />
                                 </>
                             ) : (
                                 <>
-                                    <div style={{ padding: '15px 20px 5px', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>Passenger Services</div>
+                                    <div style={{ padding: '15px 20px 5px', fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Passenger Services</div>
                                     <SidebarRow icon="🏠" title="Dashboard" subtitle="Flight overview & bookings" onClick={() => { setIsSidebarOpen(false); navigate('/dashboard'); }} />
                                     <SidebarRow icon="✈️" title="My Flights" subtitle="Past & upcoming travels" onClick={() => { setIsSidebarOpen(false); navigate('/travelled'); }} />
                                     <SidebarRow icon="🎁" title="Bundles" subtitle="Exclusive combo offers" onClick={() => { setIsSidebarOpen(false); navigate('/bundles'); }} />
@@ -314,20 +312,7 @@ const Navbar = () => {
                         </div>
 
                         {/* Footer / Logout */}
-                        <div style={{ borderTop: '1px solid var(--glass-border)', padding: '10px 0' }}>
-                            <div 
-                                onClick={() => setIsLightMode(!isLightMode)}
-                                style={{ 
-                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '15px 20px', cursor: 'pointer', transition: 'background 0.2s', borderBottom: '1px solid var(--glass-border)'
-                                }}
-                                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(150,150,150,0.1)'}
-                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', color: 'var(--text-main)' }}>
-                                    {isLightMode ? <Moon size={24} color="var(--primary-blue)" /> : <Sun size={24} color="#ff9000" />}
-                                    <div style={{ fontWeight: '600', fontSize: '1rem' }}>{isLightMode ? 'Dark Mode' : 'Light Mode'}</div>
-                                </div>
-                            </div>
+                        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '10px 0' }}>
                             <SidebarRow icon="✏️" title="Edit Profile" onClick={() => { setIsSidebarOpen(false); navigate('/edit-profile'); }} />
                             <SidebarRow icon="🔐" title="Reset Password" onClick={() => { setIsSidebarOpen(false); navigate('/forgot-password'); }} />
                             <SidebarRow icon="🚪" title="Logout" onClick={handleLogout} color="#ff416c" />
@@ -354,7 +339,7 @@ const Navbar = () => {
                         width: '100%',
                         padding: '2.5rem',
                         borderRadius: '24px',
-                        border: '1px solid var(--glass-border)',
+                        border: '1px solid var(--border-light)',
                         boxShadow: pingStatus === 'connected' ? '0 0 40px rgba(0, 229, 255, 0.2)' : pingStatus === 'offline' ? '0 0 40px rgba(255, 65, 108, 0.2)' : 'var(--shadow-card)',
                         transition: 'all 0.5s ease',
                         position: 'relative'
@@ -363,7 +348,7 @@ const Navbar = () => {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <Settings size={28} color="var(--primary-blue)" style={{ animation: isTestingPing ? 'spin 2s linear infinite' : 'none' }} />
-                                <h2 style={{ fontSize: '1.5rem', margin: 0, fontWeight: '800', background: 'linear-gradient(90deg, #fff, #b388ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                                <h2 style={{ fontSize: '1.5rem', margin: 0, fontWeight: '800' }}>
                                     Network Settings
                                 </h2>
                             </div>
@@ -378,7 +363,7 @@ const Navbar = () => {
                             background: 'rgba(0,0,0,0.2)',
                             padding: '10px 15px',
                             borderRadius: '12px',
-                            border: '1px solid var(--glass-border)',
+                            border: '1px solid var(--border-light)',
                             marginBottom: '1.5rem'
                         }}>
                             <Wifi size={18} color={pingStatus === 'connected' ? '#00e5ff' : pingStatus === 'offline' ? '#ff416c' : '#a0aec0'} />
@@ -397,13 +382,13 @@ const Navbar = () => {
                                 disabled={isTestingPing}
                                 style={{
                                     marginLeft: 'auto',
-                                    background: 'rgba(255,255,255,0.05)',
-                                    color: '#fff',
+                                    background: 'var(--bg-main)',
+                                    color: 'var(--text-main)',
                                     padding: '4px 10px',
                                     borderRadius: '8px',
                                     fontSize: '0.75rem',
                                     boxShadow: 'none',
-                                    border: '1px solid var(--glass-border)'
+                                    border: '1px solid var(--border-light)'
                                 }}
                             >
                                 Re-Test
@@ -432,7 +417,7 @@ const Navbar = () => {
                             <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
                                 <button 
                                     onClick={() => { setServerUrlState("http://localhost:5000"); testConnection("http://localhost:5000"); }}
-                                    style={{ flex: 1, padding: '8px', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', boxShadow: 'none', border: '1px solid var(--glass-border)', cursor: 'pointer', borderRadius: '8px' }}
+                                    style={{ flex: 1, padding: '8px', fontSize: '0.75rem', background: 'var(--bg-main)', color: 'var(--text-main)', boxShadow: 'none', border: '1px solid var(--border-light)', cursor: 'pointer', borderRadius: '8px' }}
                                 >
                                     Localhost (5000)
                                 </button>
@@ -440,7 +425,7 @@ const Navbar = () => {
                                     onClick={() => {
                                         alert("To connect your phone, find your PC's local IP (e.g. http://192.168.1.10:5000) by typing 'ipconfig' in Command Prompt on Windows. Make sure your phone is on the same WiFi network as your PC!");
                                     }}
-                                    style={{ flex: 1, padding: '8px', fontSize: '0.75rem', background: 'rgba(255,255,255,0.05)', boxShadow: 'none', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', cursor: 'pointer', borderRadius: '8px' }}
+                                    style={{ flex: 1, padding: '8px', fontSize: '0.75rem', background: 'var(--bg-main)', color: 'var(--text-main)', boxShadow: 'none', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', cursor: 'pointer', borderRadius: '8px' }}
                                 >
                                     <HelpCircle size={12} /> Mobile LAN IP Help
                                 </button>
@@ -481,9 +466,9 @@ const Navbar = () => {
                                 onClick={() => setIsSettingsOpen(false)}
                                 style={{
                                     flex: 1,
-                                    background: 'rgba(255,255,255,0.05)',
-                                    color: '#fff',
-                                    border: '1px solid var(--glass-border)',
+                                    background: 'var(--bg-main)',
+                                    color: 'var(--text-main)',
+                                    border: '1px solid var(--border-light)',
                                     boxShadow: 'none',
                                     borderRadius: '30px'
                                 }}

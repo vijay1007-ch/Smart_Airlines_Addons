@@ -133,8 +133,8 @@ const Catalogue = () => {
                 }}>
                     <div className="card" style={{ 
                         width: '400px', padding: '2rem', textAlign: 'center',
-                        background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98))',
-                        border: '1px solid rgba(0, 229, 255, 0.2)'
+                        background: 'var(--bg-main)',
+                        border: '1px solid var(--border-light)'
                     }}>
                         <h2 style={{ marginBottom: '1rem' }}>Extra Baggage</h2>
                         <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
@@ -144,14 +144,14 @@ const Catalogue = () => {
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', marginBottom: '2rem' }}>
                             <button 
                                 onClick={() => setBaggageModal(prev => ({ ...prev, kg: Math.max(1, prev.kg - 1) }))}
-                                style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }}
+                                style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)' }}
                             >-</button>
                             
-                            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', width: '50px' }}>{baggageModal.kg}</span>
+                            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', width: '50px', color: 'var(--text-main)' }}>{baggageModal.kg}</span>
                             
                             <button 
                                 onClick={() => setBaggageModal(prev => ({ ...prev, kg: prev.kg + 1 }))}
-                                style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }}
+                                style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)' }}
                             >+</button>
                         </div>
 
@@ -162,13 +162,13 @@ const Catalogue = () => {
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <button 
                                 onClick={() => setBaggageModal({ isOpen: false, addon: null, kg: 1 })}
-                                style={{ flex: 1, background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white' }}
+                                style={{ flex: 1, background: 'var(--bg-main)', border: '1px solid var(--border-light)', color: 'var(--text-main)' }}
                             >
                                 Cancel
                             </button>
                             <button 
                                 onClick={confirmBaggage}
-                                style={{ flex: 1, background: 'linear-gradient(90deg, var(--accent-cyan), var(--primary-blue))', color: 'black', fontWeight: 'bold' }}
+                                style={{ flex: 1, background: 'var(--gradient-primary)', color: '#ffffff', fontWeight: 'bold', border: 'none' }}
                             >
                                 Confirm
                             </button>

@@ -54,7 +54,7 @@ const History = () => {
                                     padding: '15px 20px', 
                                     display: 'flex', 
                                     justifyContent: 'space-between', 
-                                    borderBottom: '1px solid var(--glass-border)' 
+                                    borderBottom: '1px solid var(--border-light)' 
                                 }}>
                                     <div>
                                         <h3 style={{ margin: '0 0 5px 0' }}>Order {order.orderId}</h3>
@@ -65,7 +65,7 @@ const History = () => {
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                             <button 
                                                 onClick={() => setSelectedOrderForPass(order)}
-                                                style={{ background: 'var(--primary-blue)', color: 'white', padding: '5px 15px', fontSize: '0.8rem' }}
+                                                style={{  color: 'white', padding: '5px 15px', fontSize: '0.8rem' }}
                                             >
                                                 Boarding Pass
                                             </button>

@@ -104,15 +104,8 @@ const Login = () => {
         <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
             <Navbar />
             
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'absolute', top: '20%', left: '10%', width: '300px', height: '300px',
-                background: 'var(--primary-blue)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
-            <div style={{
-                position: 'absolute', bottom: '10%', right: '15%', width: '350px', height: '350px',
-                background: 'var(--accent-pink)', filter: 'blur(150px)', borderRadius: '50%', zIndex: -1, opacity: 0.3
-            }} />
+            
+            
 
             <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
                 <div className="login-box" style={{ 
@@ -122,7 +115,7 @@ const Login = () => {
                     borderRadius: '24px',
                     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
-                    border: twoFactorRequired ? '1px solid rgba(179, 136, 255, 0.4)' : '1px solid var(--glass-border)'
+                    border: twoFactorRequired ? '1px solid rgba(179, 136, 255, 0.4)' : '1px solid var(--border-light)'
                 }}>
                     
                     {!twoFactorRequired ? (
@@ -132,15 +125,14 @@ const Login = () => {
                                 <div style={{ 
                                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                                     width: '60px', height: '60px', borderRadius: '50%', 
-                                    background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--glass-border)',
+                                    background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--border-light)',
                                     marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
                                 }}>
                                     <PlaneTakeoff size={32} color="var(--primary-blue)" />
                                 </div>
                                 <h2 style={{ 
                                     fontSize: '2rem', fontWeight: '800', 
-                                    background: 'linear-gradient(90deg, #fff, #b388ff)',
-                                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                                    
                                     marginBottom: '0.5rem'
                                 }}>
                                     Welcome Back
@@ -164,7 +156,7 @@ const Login = () => {
 
                             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                                 <div style={{ position: 'relative' }}>
-                                    <Mail size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
+                                    <Mail size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                     <input 
                                         type="email" 
                                         placeholder="Email Address" 
@@ -176,7 +168,7 @@ const Login = () => {
                                 </div>
                                 
                                 <div style={{ position: 'relative' }}>
-                                    <Lock size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
+                                    <Lock size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                     <input 
                                         type="password" 
                                         placeholder="Password" 
@@ -239,14 +231,12 @@ const Login = () => {
                                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                                     width: '60px', height: '60px', borderRadius: '50%', 
                                     background: 'rgba(179, 136, 255, 0.1)', border: '1px solid rgba(179, 136, 255, 0.3)',
-                                    marginBottom: '1rem', boxShadow: '0 0 20px rgba(179, 136, 255, 0.4)'
-                                }}>
+                                    marginBottom: '1rem' }}>
                                     <ShieldCheck size={32} color="#b388ff" />
                                 </div>
                                 <h2 style={{ 
                                     fontSize: '1.8rem', fontWeight: '800', 
-                                    background: 'linear-gradient(90deg, #fff, #b388ff)',
-                                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                                    
                                     marginBottom: '0.5rem'
                                 }}>
                                     2-Step Verification
@@ -276,7 +266,7 @@ const Login = () => {
                                         Email verification code
                                     </label>
                                     <div style={{ position: 'relative' }}>
-                                        <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.4)' }} />
+                                        <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                         <input 
                                             type="text" 
                                             maxLength="6"
@@ -287,7 +277,7 @@ const Login = () => {
                                             style={{ paddingLeft: '48px', marginBottom: 0, letterSpacing: '1px' }}
                                         />
                                     </div>
-                                    <span style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.4)', marginTop: '4px', display: 'block' }}>
+                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block' }}>
                                         Sent to {email} (Check your real mailbox!)
                                     </span>
                                 </div>
@@ -304,7 +294,8 @@ const Login = () => {
                                         alignItems: 'center',
                                         gap: '0.5rem',
                                         fontSize: '1.05rem',
-                                        background: 'var(--gradient-purple)',
+                                        background: 'var(--gradient-primary)',
+                                        color: '#ffffff',
                                         opacity: isLoading ? 0.7 : 1,
                                         borderRadius: '30px'
                                     }}
@@ -316,17 +307,17 @@ const Login = () => {
                                 <button 
                                     type="button" 
                                     onClick={() => setTwoFactorRequired(false)}
-                                    style={{ 
-                                        width: '100%', 
-                                        background: 'transparent',
-                                        color: 'rgba(255, 255, 255, 0.6)',
-                                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                                        padding: '0.75rem',
-                                        fontSize: '0.9rem',
-                                        borderRadius: '30px',
-                                        boxShadow: 'none',
-                                        cursor: 'pointer'
-                                    }}
+                                style={{ 
+                                    width: '100%', 
+                                    background: 'var(--bg-main)',
+                                    color: 'var(--text-main)',
+                                    border: '1px solid var(--border-light)',
+                                    padding: '0.75rem',
+                                    fontSize: '0.9rem',
+                                    borderRadius: '30px',
+                                    boxShadow: 'none',
+                                    cursor: 'pointer'
+                                }}
                                 >
                                     Back to Login
                                 </button>

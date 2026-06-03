@@ -24,19 +24,9 @@ const Home = () => {
         <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
             <Navbar />
             
-            {/* Ambient Background Elements */}
-            <div style={{
-                position: 'absolute', top: '10%', left: '-5%', width: '500px', height: '500px',
-                background: 'var(--primary-blue)', filter: 'blur(200px)', borderRadius: '50%', zIndex: -1, opacity: 0.15
-            }} />
-            <div style={{
-                position: 'absolute', bottom: '20%', right: '-5%', width: '600px', height: '600px',
-                background: 'var(--accent-pink)', filter: 'blur(250px)', borderRadius: '50%', zIndex: -1, opacity: 0.15
-            }} />
-            <div style={{
-                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '800px', height: '800px',
-                background: 'var(--secondary-blue)', filter: 'blur(300px)', borderRadius: '50%', zIndex: -1, opacity: 0.1
-            }} />
+            
+            
+            
 
             {/* Hero Section */}
             <div className="container" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '75vh', textAlign: 'center', paddingTop: '4rem' }}>
@@ -54,7 +44,7 @@ const Home = () => {
                     Redefine Your Journey
                 </h1>
                 
-                <p style={{ color: 'var(--text-muted)', fontSize: '1.35rem', maxWidth: '700px', marginBottom: '3.5rem', lineHeight: '1.7', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+                <p style={{ color: 'var(--text-muted)', fontSize: '1.35rem', maxWidth: '700px', marginBottom: '3.5rem', lineHeight: '1.7' }}>
                     Your flight should be as extraordinary as your destination. Personalize your travel experience with premium addons crafted for your absolute comfort.
                 </p>
                 
@@ -83,8 +73,8 @@ const Home = () => {
                                     alignItems: 'center',
                                     gap: '1rem',
                                     background: 'transparent',
-                                    border: '1px solid var(--glass-border)',
-                                    color: 'var(--text-main)',
+                                    border: '1px solid var(--border-light)',
+                                    
                                     boxShadow: 'none'
                                 }}
                             >
@@ -118,12 +108,12 @@ const Home = () => {
                         <div key={index} className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '2.5rem 2rem' }}>
                             <div style={{
                                 width: '70px', height: '70px', borderRadius: '20px', 
-                                background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)',
+                                background: 'var(--bg-card)', border: '1px solid var(--border-light)',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem'
                             }}>
                                 {addon.icon}
                             </div>
-                            <h3 style={{ fontSize: '1.4rem', marginBottom: '1rem', color: '#fff' }}>{addon.title}</h3>
+                            <h3 style={{ fontSize: '1.4rem', marginBottom: '1rem' }}>{addon.title}</h3>
                             <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.95rem', lineHeight: '1.6' }}>{addon.desc}</p>
                         </div>
                     ))}

@@ -180,31 +180,31 @@ const Payment = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                 <button 
                     onClick={() => setPaymentMethod('card')}
-                    style={{ gridColumn: 'span 2', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'none', padding: '15px' }}
+                    style={{ gridColumn: 'span 2', background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)', boxShadow: 'none', padding: '15px' }}
                 >
                     💳 Credit / Debit Card
                 </button>
                 <button 
                     onClick={() => setPaymentMethod('PhonePe')}
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'none', padding: '15px' }}
+                    style={{ background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)', boxShadow: 'none', padding: '15px' }}
                 >
                     📱 PhonePe
                 </button>
                 <button 
                     onClick={() => setPaymentMethod('Google Pay')}
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'none', padding: '15px' }}
+                    style={{ background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)', boxShadow: 'none', padding: '15px' }}
                 >
                     🇬 Google Pay
                 </button>
                 <button 
                     onClick={() => setPaymentMethod('FamPay')}
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'none', padding: '15px' }}
+                    style={{ background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)', boxShadow: 'none', padding: '15px' }}
                 >
                     🔥 FamPay
                 </button>
                 <button 
                     onClick={() => setPaymentMethod('Other UPI')}
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'none', padding: '15px' }}
+                    style={{ background: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-light)', boxShadow: 'none', padding: '15px' }}
                 >
                     🏦 Other UPI
                 </button>
@@ -265,7 +265,8 @@ const Payment = () => {
                     disabled={isProcessing || totalPrice === 0}
                     style={{ 
                         width: '100%', 
-                        background: isProcessing ? 'var(--glass-border)' : 'linear-gradient(90deg, var(--accent-cyan), var(--primary-blue))',
+                        background: isProcessing ? 'var(--border-light)' : 'var(--gradient-primary)',
+                        color: '#ffffff',
                         opacity: totalPrice === 0 ? 0.5 : 1
                     }}
                 >
@@ -286,7 +287,7 @@ const Payment = () => {
                     Scan this QR Code using your <strong>{provider}</strong> app to pay <strong style={{color: 'var(--accent-cyan)', fontSize: '1.2rem'}}>₹{totalPrice}</strong>.
                 </p>
                 
-                <div style={{ background: 'white', padding: '15px', borderRadius: '15px', display: 'inline-block', marginBottom: '30px', boxShadow: '0 0 20px rgba(0, 229, 255, 0.3)' }}>
+                <div style={{ background: 'white', padding: '15px', borderRadius: '15px', display: 'inline-block', marginBottom: '30px' }}>
                     <img src={qrUrl} alt="UPI QR Code" style={{ width: '200px', height: '200px', display: 'block' }} />
                 </div>
 
@@ -301,7 +302,8 @@ const Payment = () => {
                     disabled={isProcessing || totalPrice === 0}
                     style={{ 
                         width: '100%', 
-                        background: isProcessing ? 'var(--glass-border)' : 'linear-gradient(90deg, var(--accent-cyan), var(--primary-blue))',
+                        background: isProcessing ? 'var(--border-light)' : 'var(--gradient-primary)',
+                        color: '#ffffff',
                         marginBottom: '20px'
                     }}
                 >

@@ -119,8 +119,8 @@ const Bundles = () => {
                                                 <div style={{ color: 'var(--text-muted)', marginTop: '2px' }}>
                                                     <CheckCircle size={18} />
                                                 </div>
-                                                <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.5', color: '#e2e8f0' }}>
-                                                    {feature.text.replace(/Any standard seat|Gourmair|Hot Meals|50% off Prime seats|Xpress Ahead/g, match => `**${match}**`).split('**').map((part, i) => i % 2 === 1 ? <strong key={i} style={{color: '#fff'}}>{part}</strong> : part)}
+                                                <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: '1.5', color: 'var(--text-main)' }}>
+                                                    {feature.text.replace(/Any standard seat|Gourmair|Hot Meals|50% off Prime seats|Xpress Ahead/g, match => `**${match}**`).split('**').map((part, i) => i % 2 === 1 ? <strong key={i} >{part}</strong> : part)}
                                                 </p>
                                             </div>
                                         ))}
@@ -131,9 +131,9 @@ const Bundles = () => {
                                         style={{ 
                                             width: '100%', 
                                             padding: '1rem', 
-                                            background: isSelected(bundle.name) ? 'rgba(255,255,255,0.1)' : `linear-gradient(90deg, ${bundle.iconBg || '#00e5ff'}, ${bundle.iconBg || '#00e5ff'}dd)`, 
-                                            color: isSelected(bundle.name) ? '#fff' : '#000',
-                                            border: isSelected(bundle.name) ? '1px solid rgba(255,255,255,0.2)' : 'none',
+                                            background: isSelected(bundle.name) ? 'rgba(0,0,0,0.1)' : `linear-gradient(90deg, ${bundle.iconBg || '#00e5ff'}, ${bundle.iconBg || '#00e5ff'}dd)`, 
+                                            color: '#ffffff',
+                                            border: isSelected(bundle.name) ? '1px solid var(--border-light)' : 'none',
                                             fontWeight: 'bold',
                                             fontSize: '1.1rem',
                                             marginTop: 'auto'
