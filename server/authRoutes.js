@@ -161,6 +161,7 @@ router.post("/login", async (req, res) => {
               port: 587,
               secure: false,
               requireTLS: true,
+              family: 4,
               auth: {
                   user: process.env.SMTP_USER || "your-email@gmail.com",
                   pass: process.env.SMTP_PASS || "your-app-password"
@@ -259,6 +260,7 @@ router.post("/forgot-password", async (req, res) => {
             port: 587,
             secure: false,
             requireTLS: true,
+            family: 4,
             auth: {
                 user: process.env.SMTP_USER || "your-email@gmail.com", 
                 pass: process.env.SMTP_PASS || "your-app-password" 
@@ -311,6 +313,7 @@ router.post("/forgot-password/request-otp", async (req, res) => {
             port: 587,
             secure: false,
             requireTLS: true,
+            family: 4,
             auth: {
                 user: process.env.SMTP_USER || "your-email@gmail.com",
                 pass: process.env.SMTP_PASS || "your-app-password"
