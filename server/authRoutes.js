@@ -157,7 +157,10 @@ router.post("/login", async (req, res) => {
       // Try to send the Email OTP via Nodemailer using configured SMTP credentials
       try {
           let transporter = nodemailer.createTransport({
-              service: 'gmail',
+              host: 'smtp.gmail.com',
+              port: 587,
+              secure: false,
+              requireTLS: true,
               auth: {
                   user: process.env.SMTP_USER || "your-email@gmail.com",
                   pass: process.env.SMTP_PASS || "your-app-password"
@@ -252,7 +255,10 @@ router.post("/forgot-password", async (req, res) => {
     
     try {
         let transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
             auth: {
                 user: process.env.SMTP_USER || "your-email@gmail.com", 
                 pass: process.env.SMTP_PASS || "your-app-password" 
@@ -301,7 +307,10 @@ router.post("/forgot-password/request-otp", async (req, res) => {
     // Send Email
     try {
         let transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
             auth: {
                 user: process.env.SMTP_USER || "your-email@gmail.com",
                 pass: process.env.SMTP_PASS || "your-app-password"
