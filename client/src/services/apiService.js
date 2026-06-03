@@ -5,6 +5,9 @@
  */
 
 export const getApiUrl = () => {
+    if (process.env.REACT_APP_BACKEND_URL) {
+        return process.env.REACT_APP_BACKEND_URL;
+    }
     return localStorage.getItem("API_URL") || "http://localhost:5000";
 };
 
