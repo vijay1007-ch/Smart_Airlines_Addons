@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { TrendingUp, DollarSign, Users, Plane, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import { TrendingUp, IndianRupee, Users, Plane, CheckCircle2, XCircle, Clock } from 'lucide-react';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [analytics, setAnalytics] = useState({
-        revenue: "$0.00", profit: "$0.00", customers: 0, activeFlights: 142
+        revenue: "₹0.00", profit: "₹0.00", customers: 0, activeFlights: 142
     });
     const [orders, setOrders] = useState([]);
     const [upgrades, setUpgrades] = useState([]);
@@ -61,15 +61,15 @@ const AdminDashboard = () => {
             // Format orders for the table, taking the 10 most recent
             const formattedOrders = ordersData.reverse().slice(0, 10).map(o => {
                 // If it's a real order with items
-                let amount = "$0.00";
+                let amount = "₹0.00";
                 let itemsStr = "Custom Order";
                 
                 if (o.items && Array.isArray(o.items)) {
                     const total = o.items.reduce((sum, item) => sum + (parseFloat(item.price) || 0) * (item.quantity || 1), 0);
-                    amount = `$${total.toFixed(2)}`;
+                    amount = `₹${total.toFixed(2)}`;
                     itemsStr = o.items.map(i => i.name).join(', ') || "Unknown Item";
                 } else if (o.amount) {
-                    amount = typeof o.amount === 'string' && o.amount.startsWith('$') ? o.amount : `$${o.amount}`;
+                    amount = typeof o.amount === 'string' && o.amount.startsWith('₹') ? o.amount : `₹${o.amount}`;
                     itemsStr = o.item || "Add-on Purchase";
                 }
 
@@ -144,7 +144,7 @@ const AdminDashboard = () => {
     if (!user) return null;
 
     const stats = [
-        { title: "Total Revenue", value: analytics.revenue, trend: "+20.1%", icon: DollarSign, color: "#00e5ff" },
+        { title: "Total Revenue", value: analytics.revenue, trend: "+20.1%", icon: IndianRupee, color: "#00e5ff" },
         { title: "Net Profit", value: analytics.profit, trend: "+15.3%", icon: TrendingUp, color: "#b388ff" },
         { title: "Active Flights", value: analytics.activeFlights.toString(), trend: "+4.2%", icon: Plane, color: "#00e5ff" },
         { title: "New Customers", value: analytics.customers.toString(), trend: "+11.4%", icon: Users, color: "#b388ff" }

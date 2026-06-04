@@ -295,6 +295,7 @@ const Navbar = () => {
                                 <>
                                     <div style={{ padding: '15px 20px 5px', fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Admin Controls</div>
                                     <SidebarRow icon="📊" title="Dashboard" subtitle="System analytics & overview" onClick={() => { setIsSidebarOpen(false); navigate('/admin'); }} />
+                                    <SidebarRow icon="👥" title="User Data" subtitle="Passenger details & info" onClick={() => { setIsSidebarOpen(false); navigate('/admin/users'); }} />
                                     <SidebarRow icon="📋" title="Catalogue" subtitle="Manage available add-ons" onClick={() => { setIsSidebarOpen(false); navigate('/admin/catalogue'); }} />
                                     <SidebarRow icon="📦" title="Bundles" subtitle="Configure combo packages" onClick={() => { setIsSidebarOpen(false); navigate('/admin/bundles'); }} />
                                 </>

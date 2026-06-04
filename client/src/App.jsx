@@ -15,6 +15,7 @@ import ApprovePayment from './pages/ApprovePayment';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminCatalogue from './pages/AdminCatalogue';
 import AdminBundles from './pages/AdminBundles';
+import AdminUsers from './pages/AdminUsers';
 import UserDashboard from './pages/UserDashboard';
 import Travelled from './pages/Travelled';
 import Profile from './pages/Profile';
@@ -41,6 +42,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/catalogue" element={<AdminCatalogue />} />
         <Route path="/admin/bundles" element={<AdminBundles />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
