@@ -4,10 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
 const router = express.Router();
-const resend = new Resend(process.env.RESEND_API_KEY);
 const USERS_FILE = path.join(__dirname, "users.json");
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret123";
@@ -46,8 +45,16 @@ const writeUsers = (users) => {
 };
 
 const sendEmail = async ({ to, subject, html, from }) => {
-    return await resend.emails.send({
-        from: from || "Smart Airline Security <onboarding@resend.dev>",
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.SMTP_USER || "your-email@gmail.com",
+            pass: process.env.SMTP_PASS || "your-app-password"
+        },
+    });
+
+    return await transporter.sendMail({
+        from: from || '"Smart Airline Security" <support@smartairline.com>',
         to,
         subject,
         html,
