@@ -49,7 +49,7 @@ const writeUsers = (users) => {
 
 // UPDATED: sendEmail now uses Resend HTTP API, no SMTP
 const sendEmail = async ({ to, subject, html, from }) => {
-    const fromAddress = from || "Smart Airline Security <support@smartairline.com>";
+    const fromAddress = from || "Smart Airline Security <onboarding@resend.dev>";
 
     const result = await resend.emails.send({
         from: fromAddress,
