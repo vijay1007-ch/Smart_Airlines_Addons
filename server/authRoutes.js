@@ -4,12 +4,15 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");   // NEW: Resend import
 
 const router = express.Router();
 const USERS_FILE = path.join(__dirname, "users.json");
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret123";
+
+// NEW: Resend client
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const ADMIN_EMAILS = [
     "bikkinavijay0@gmail.com",
@@ -44,21 +47,23 @@ const writeUsers = (users) => {
     fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 };
 
+// UPDATED: sendEmail now uses Resend HTTP API, no SMTP
 const sendEmail = async ({ to, subject, html, from }) => {
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.SMTP_USER || "your-email@gmail.com",
-            pass: process.env.SMTP_PASS || "your-app-password"
-        },
-    });
+    const fromAddress = from || "Smart Airline Security <support@smartairline.com>";
 
-    return await transporter.sendMail({
-        from: from || '"Smart Airline Security" <support@smartairline.com>',
+    const result = await resend.emails.send({
+        from: fromAddress,
         to,
         subject,
         html,
     });
+
+    if (result.error) {
+        console.error("Resend email error:", result.error);
+        throw new Error("Failed to send email via Resend");
+    }
+
+    return result;
 };
 
 router.get("/health", (req, res) => {

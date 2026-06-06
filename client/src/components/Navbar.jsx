@@ -4,11 +4,11 @@ import { Menu, X, Sun, Moon, Settings, ShieldAlert, Wifi, Globe, Smartphone, Hel
 import { getApiUrl, setApiUrl, is2FAEnabled, set2FAEnabled } from '../services/apiService';
 
 const SidebarRow = ({ icon, title, subtitle, onClick, color }) => (
-    <div 
+    <div
         onClick={onClick}
-        style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
+        style={{
+            display: 'flex',
+            alignItems: 'center',
             justifyContent: 'space-between',
             padding: '15px 20px',
             borderBottom: '1px solid var(--border-light)',
@@ -37,7 +37,7 @@ const Navbar = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLightMode, setIsLightMode] = useState(localStorage.getItem('theme') === 'light');
-    
+
     // Connection and 2FA states
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [serverUrl, setServerUrlState] = useState(getApiUrl());
@@ -59,20 +59,20 @@ const Navbar = () => {
     const testConnection = async (urlToTest) => {
         setIsTestingPing(true);
         setPingStatus('unknown');
-        
+
         const url = urlToTest || serverUrl;
-        
+
         try {
             // Setup a 4-second timeout for the ping request
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 4000);
-            
-            const response = await fetch(`${url}/auth/health`, { 
+
+            const response = await fetch(`${url}/auth/health`, {
                 method: 'GET',
                 signal: controller.signal
             });
             clearTimeout(timeoutId);
-            
+
             if (response.ok) {
                 setPingStatus('connected');
             } else {
@@ -139,7 +139,7 @@ const Navbar = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                     {/* Hamburger Area (triggers sidebar on hover) */}
                     {showLinks && user && (
-                        <div 
+                        <div
                             onMouseEnter={() => setIsSidebarOpen(true)}
                             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '10px 10px 10px 0' }}
                         >
@@ -151,20 +151,21 @@ const Navbar = () => {
 
                 <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                     {/* Connection and Security Settings Gear Icon */}
-                    <div 
+                    <div
                         onClick={() => setIsSettingsOpen(true)}
                         title="Connection & Security Settings"
-                        style={{ 
-                            cursor: 'pointer', 
-                            display: 'flex', 
-                            alignItems: 'center', 
+                        style={{
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
                             justifyContent: 'center',
-                            width: '40px', 
-                            height: '40px', 
+                            width: '40px',
+                            height: '40px',
                             borderRadius: '50%',
                             background: 'var(--bg-main)',
                             border: '1px solid var(--border-light)',
-                            transition: 'all 0.3s ease' }}
+                            transition: 'all 0.3s ease'
+                        }}
                         onMouseEnter={(e) => {
                             e.currentTarget.style.background = 'rgba(0, 229, 255, 0.1)';
                             e.currentTarget.style.boxShadow = 'var(--glow-cyan)';
@@ -182,12 +183,12 @@ const Navbar = () => {
                     {showLinks && !user && <Link to="/login">Login</Link>}
                 </div>
             </div>
-            
+
             {/* The Sidebar Drawer */}
             {showLinks && user && (
                 <>
                     {/* Backdrop for auto-hide effect */}
-                    <div 
+                    <div
                         onMouseEnter={() => setIsSidebarOpen(false)} // Close if mouse enters backdrop
                         style={{
                             position: 'fixed',
@@ -204,7 +205,7 @@ const Navbar = () => {
                     />
 
                     {/* Drawer Content */}
-                    <div 
+                    <div
                         onMouseLeave={() => setIsSidebarOpen(false)}
                         style={{
                             position: 'fixed',
@@ -238,30 +239,30 @@ const Navbar = () => {
                                     <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#ffffff' }}>{user.name}</div>
                                     <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>{user.email}</div>
                                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                        <div style={{ 
-                                            display: 'inline-block', 
+                                        <div style={{
+                                            display: 'inline-block',
                                             marginTop: '5px',
-                                            background: user.role === 'admin' ? 'rgba(255, 65, 108, 0.2)' : 'rgba(46, 213, 115, 0.2)', 
-                                            color: user.role === 'admin' ? '#ff416c' : '#2ed573', 
-                                            padding: '2px 10px', 
-                                            borderRadius: '12px', 
+                                            background: user.role === 'admin' ? 'rgba(255, 65, 108, 0.2)' : 'rgba(46, 213, 115, 0.2)',
+                                            color: user.role === 'admin' ? '#ff416c' : '#2ed573',
+                                            padding: '2px 10px',
+                                            borderRadius: '12px',
                                             fontSize: '0.75rem',
-                                            fontWeight: 'bold', 
-                                            border: `1px solid ${user.role === 'admin' ? '#ff416c' : '#2ed573'}` 
+                                            fontWeight: 'bold',
+                                            border: `1px solid ${user.role === 'admin' ? '#ff416c' : '#2ed573'}`
                                         }}>
                                             {user.role.toUpperCase()}
                                         </div>
-                                        
+
                                         {isShuuPassActive && (
-                                            <div style={{ 
-                                                display: 'inline-block', 
+                                            <div style={{
+                                                display: 'inline-block',
                                                 marginTop: '5px',
-                                                background: 'rgba(0, 119, 255, 0.2)', 
-                                                color: '#0077ff', 
-                                                padding: '2px 10px', 
-                                                borderRadius: '12px', 
+                                                background: 'rgba(0, 119, 255, 0.2)',
+                                                color: '#0077ff',
+                                                padding: '2px 10px',
+                                                borderRadius: '12px',
                                                 fontSize: '0.75rem',
-                                                fontWeight: 'bold', 
+                                                fontWeight: 'bold',
                                                 border: '1px solid #0077ff',
                                                 boxShadow: '0 0 10px rgba(0, 119, 255, 0.3)'
                                             }}>
@@ -271,7 +272,7 @@ const Navbar = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {user.role === 'user' && (
                                 <div style={{ marginTop: '20px', padding: '15px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -377,8 +378,8 @@ const Navbar = () => {
                             }}>
                                 {isTestingPing ? 'Testing Connection...' : pingStatus === 'connected' ? 'Connected 🟢' : pingStatus === 'offline' ? 'Offline 🔴' : 'Checking...'}
                             </span>
-                            
-                            <button 
+
+                            <button
                                 onClick={() => testConnection(serverUrl)}
                                 disabled={isTestingPing}
                                 style={{
@@ -403,26 +404,26 @@ const Navbar = () => {
                             </label>
                             <div style={{ position: 'relative' }}>
                                 <Globe size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.4)' }} />
-                                <input 
-                                    type="text" 
-                                    value={serverUrl} 
+                                <input
+                                    type="text"
+                                    value={serverUrl}
                                     onChange={(e) => {
                                         setServerUrlState(e.target.value);
                                     }}
-                                    placeholder="http://localhost:5000"
+                                    placeholder="https://smart-airlines-backend.onrender.com"
                                     style={{ paddingLeft: '48px', marginBottom: 0, width: '100%' }}
                                 />
                             </div>
-                            
+
                             {/* Preset Buttons */}
                             <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
-                                <button 
-                                    onClick={() => { setServerUrlState("http://localhost:5000"); testConnection("http://localhost:5000"); }}
+                                <button
+                                    onClick={() => { setServerUrlState("https://smart-airlines-backend.onrender.com"); testConnection("https://smart-airlines-backend.onrender.com"); }}
                                     style={{ flex: 1, padding: '8px', fontSize: '0.75rem', background: 'var(--bg-main)', color: 'var(--text-main)', boxShadow: 'none', border: '1px solid var(--border-light)', cursor: 'pointer', borderRadius: '8px' }}
                                 >
-                                    Localhost (5000)
+                                    Render Backend
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => {
                                         alert("To connect your phone, find your PC's local IP (e.g. http://192.168.1.10:5000) by typing 'ipconfig' in Command Prompt on Windows. Make sure your phone is on the same WiFi network as your PC!");
                                     }}
@@ -449,9 +450,9 @@ const Navbar = () => {
                                 Enforce 6-digit verification code dispatch to both registered **Email** and **Mobile SMS** during Login and Password Resets.
                             </p>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-                                <input 
-                                    type="checkbox" 
-                                    checked={is2fa} 
+                                <input
+                                    type="checkbox"
+                                    checked={is2fa}
                                     onChange={(e) => setIs2fa(e.target.checked)}
                                     style={{ width: '20px', height: '20px', margin: 0, cursor: 'pointer' }}
                                 />
@@ -463,7 +464,7 @@ const Navbar = () => {
 
                         {/* Save & Cancel Buttons */}
                         <div style={{ display: 'flex', gap: '15px' }}>
-                            <button 
+                            <button
                                 onClick={() => setIsSettingsOpen(false)}
                                 style={{
                                     flex: 1,
@@ -476,7 +477,7 @@ const Navbar = () => {
                             >
                                 Cancel
                             </button>
-                            <button 
+                            <button
                                 onClick={handleSaveSettings}
                                 style={{
                                     flex: 1,
