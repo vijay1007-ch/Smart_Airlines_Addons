@@ -26,15 +26,12 @@ const AdminSidebar = () => {
 
     const navItems = [
         { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+        { name: 'Profile', path: '/edit-profile', icon: Users },
         { name: 'User Data', path: '/admin/users', icon: Users },
         { name: 'Catalogue', path: '/admin/catalogue', icon: ShoppingCart },
         { name: 'Bundles', path: '/admin/bundles', icon: Package },
-        { name: 'Add-ons', path: '#', icon: Box },
-        { name: 'Orders', path: '#', icon: Receipt },
-        { name: 'Payments', path: '#', icon: CreditCard },
         { name: 'Reports', path: '#', icon: BarChart3 },
-        { name: 'Settings', path: '#', icon: Settings },
-        { name: 'Support', path: '#', icon: LifeBuoy }
+        { name: 'Settings', path: '#', icon: Settings }
     ];
 
     return (

@@ -1,7 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const nodemailer = require("nodemailer");
+const fetch = require("node-fetch");
 
 const router = express.Router();
 const ORDERS_FILE = path.join(__dirname, "orders.json");
@@ -125,60 +125,99 @@ router.get("/stats", (req, res) => {
 
 // Send Receipt Email
 router.post("/receipt", async (req, res) => {
-    const { email, name, status, items, total, reason } = req.body;
+    const { email, name, status, items, total, reason, paymentMethod } = req.body;
     if (!email) return res.status(400).json({ message: "No email provided" });
 
     try {
-        let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.SMTP_USER || "your-email@gmail.com",
-                pass: process.env.SMTP_PASS || "your-app-password"
-            },
-        });
-
         let subject = "";
         let htmlBody = "";
 
         if (status === "success") {
             subject = "Payment Successful - Smart Airline Receipt";
-            const itemsList = items.map(item => `<li>${item.name} - ₹${item.price}</li>`).join("");
+            const itemsList = items.map(item => `<li style="margin-bottom: 5px;"><strong>${item.name}</strong> - ₹${item.price}</li>`).join("");
             htmlBody = `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-                    <h2 style="color: #4ade80; text-align: center;">Payment Successful!</h2>
-                    <p style="font-size: 16px; color: #333;">Hi ${name || 'Passenger'},</p>
-                    <p style="font-size: 16px; color: #555;">Thank you for your purchase. Here is your receipt:</p>
-                    <ul style="color: #333; font-size: 15px;">
-                        ${itemsList}
-                    </ul>
-                    <hr/>
-                    <h3 style="color: #000; text-align: right;">Total Paid: ₹${total}</h3>
-                    <p style="font-size: 14px; color: #999;">Your add-ons have been confirmed for your flight.</p>
+                <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 40px; margin-bottom: 10px;">✅</div>
+                        <h2 style="color: #10b981; margin: 0;">Payment Successful!</h2>
+                    </div>
+                    <p style="font-size: 16px; color: #334155; margin-bottom: 20px;">Hi <strong>${name || 'Passenger'}</strong>,</p>
+                    <p style="font-size: 16px; color: #475569; margin-bottom: 15px;">Thank you for your purchase. Your transaction was successful. Here are your purchase details:</p>
+                    
+                    <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <ul style="color: #334155; font-size: 15px; list-style-type: none; padding-left: 0; margin: 0;">
+                            ${itemsList}
+                        </ul>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <tr>
+                            <td style="padding: 8px 0; color: #64748b; border-bottom: 1px solid #e2e8f0;">Payment Method:</td>
+                            <td style="padding: 8px 0; color: #0f172a; text-align: right; font-weight: bold; border-bottom: 1px solid #e2e8f0;">${paymentMethod || 'Credit/Debit Card'}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 0; color: #0f172a; font-weight: bold; font-size: 18px;">Total Paid:</td>
+                            <td style="padding: 12px 0; color: #10b981; text-align: right; font-weight: bold; font-size: 18px;">₹${total}</td>
+                        </tr>
+                    </table>
+
+                    <p style="font-size: 14px; color: #94a3b8; text-align: center; margin-top: 30px;">Your add-ons have been confirmed for your flight. Have a great journey!</p>
                 </div>
             `;
         } else {
             subject = "Payment Failed - Smart Airline";
             htmlBody = `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-                    <h2 style="color: #f87171; text-align: center;">Payment Failed</h2>
-                    <p style="font-size: 16px; color: #333;">Hi ${name || 'Passenger'},</p>
-                    <p style="font-size: 16px; color: #555;">Unfortunately, your recent transaction of <strong>₹${total}</strong> was declined.</p>
-                    <p style="font-size: 16px; color: #333;"><strong>Reason:</strong> ${reason || "Declined by administrator."}</p>
-                    <p style="font-size: 14px; color: #999;">Please try another payment method or contact support.</p>
+                <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 40px; margin-bottom: 10px;">❌</div>
+                        <h2 style="color: #ef4444; margin: 0;">Payment Failed</h2>
+                    </div>
+                    <p style="font-size: 16px; color: #334155; margin-bottom: 20px;">Hi <strong>${name || 'Passenger'}</strong>,</p>
+                    <p style="font-size: 16px; color: #475569; margin-bottom: 15px;">Unfortunately, your recent transaction of <strong style="color: #ef4444;">₹${total}</strong> was declined.</p>
+                    
+                    <div style="background-color: #fef2f2; border: 1px solid #fca5a5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="font-size: 15px; color: #991b1b; margin: 0;"><strong>Reason:</strong> ${reason || "Declined by administrator."}</p>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <tr>
+                            <td style="padding: 8px 0; color: #64748b; border-bottom: 1px solid #e2e8f0;">Attempted Method:</td>
+                            <td style="padding: 8px 0; color: #0f172a; text-align: right; font-weight: bold; border-bottom: 1px solid #e2e8f0;">${paymentMethod || 'Credit/Debit Card'}</td>
+                        </tr>
+                    </table>
+
+                    <p style="font-size: 14px; color: #64748b; text-align: center; margin-top: 30px;">Please try another payment method or contact support if you need assistance.</p>
                 </div>
             `;
         }
 
-        await transporter.sendMail({
-            from: '"Smart Airline Team ✈️" <support@smartairline.com>',
-            to: email,
-            subject: subject,
-            html: htmlBody,
+        const apiKey = process.env.BREVO_API_KEY;
+        const senderEmail = "bikkinavijay0@gmail.com"; 
+
+        const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {
+            method: "POST",
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json",
+                "api-key": apiKey,
+            },
+            body: JSON.stringify({
+                sender: { email: senderEmail, name: "Smart Airline" },
+                to: [{ email: email }],
+                subject: subject,
+                htmlContent: htmlBody,
+            }),
         });
+
+        if (!brevoRes.ok) {
+            const errText = await brevoRes.text();
+            console.error("Brevo receipt email error:", brevoRes.status, errText);
+            throw new Error(`Brevo send failed with status ${brevoRes.status}`);
+        }
 
         res.json({ message: "Receipt sent" });
     } catch (error) {
-        console.error("Receipt SMTP Error:", error.message);
+        console.error("Receipt Brevo Error:", error.message);
         res.status(500).json({ message: "Failed to send receipt." });
     }
 });

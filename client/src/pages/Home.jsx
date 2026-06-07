@@ -68,30 +68,17 @@ const Home = () => {
                                     Explore Add-ons
                                 </button>
                             ) : (
-                                <>
-                                    <button 
-                                        onClick={() => navigate('/login')}
-                                        style={{ 
-                                            padding: '1rem 2.5rem', 
-                                            fontSize: '1.1rem',
-                                            background: 'var(--gradient-primary)',
-                                            boxShadow: 'var(--glow-cyan)'
-                                        }}
-                                    >
-                                        Explore Add-ons
-                                    </button>
-                                    <button 
-                                        onClick={() => navigate('/signup')}
-                                        className="secondary"
-                                        style={{ 
-                                            padding: '1rem 2.5rem', 
-                                            fontSize: '1.1rem',
-                                            background: 'rgba(255,255,255,0.05)'
-                                        }}
-                                    >
-                                        View Bundles
-                                    </button>
-                                </>
+                                <button 
+                                    onClick={() => navigate('/login')}
+                                    style={{ 
+                                        padding: '1rem 2.5rem', 
+                                        fontSize: '1.1rem',
+                                        background: 'var(--gradient-primary)',
+                                        boxShadow: 'var(--glow-cyan)'
+                                    }}
+                                >
+                                    Login
+                                </button>
                             )}
                         </div>
                     </div>
@@ -123,6 +110,28 @@ const Home = () => {
                             filter: 'blur(100px)',
                             zIndex: -1
                         }} />
+                    </div>
+                </div>
+
+                {/* About the Site Section */}
+                <div className="container" style={{ paddingBottom: '4rem' }}>
+                    <div style={{
+                        background: 'rgba(15, 23, 42, 0.6)',
+                        border: '1px solid var(--border-light)',
+                        borderRadius: '16px',
+                        padding: '3rem',
+                        backdropFilter: 'blur(10px)',
+                        textAlign: 'center',
+                        maxWidth: '800px',
+                        margin: '0 auto'
+                    }}>
+                        <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: '#ffffff' }}>Why Choose Smart Airline?</h2>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+                            Welcome to the next generation of flight personalization. Our platform allows you to seamlessly upgrade your travel experience before you even step foot in the airport. From requesting a priority seat upgrade to pre-ordering gourmet meals and securing high-speed Wi-Fi, we put the power of choice in your hands.
+                        </p>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: '1.8' }}>
+                            Whether you are a frequent flyer aiming for the coveted Platinum tier or a vacationer looking for that extra bit of comfort, our curated add-ons and exclusive bundles guarantee a hassle-free, premium journey.
+                        </p>
                     </div>
                 </div>
 

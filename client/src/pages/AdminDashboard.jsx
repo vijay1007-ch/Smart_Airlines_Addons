@@ -52,6 +52,8 @@ const AdminDashboard = () => {
             // Fetch stats
             const statsRes = await fetch(`${getApiUrl()}/orders/stats`);
             const statsData = await statsRes.json();
+            if (typeof statsData.revenue === 'string') statsData.revenue = statsData.revenue.replace('$', '₹');
+            if (typeof statsData.profit === 'string') statsData.profit = statsData.profit.replace('$', '₹');
             setAnalytics(statsData);
 
             // Fetch orders

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Sun, Moon, Settings, ShieldAlert, Wifi, Globe, Smartphone, HelpCircle } from 'lucide-react';
+import { Menu, X, Sun, Moon, Settings, ShieldAlert, Wifi, Globe, Smartphone, HelpCircle, Home, Plane, Package, Store, ShoppingCart, Receipt, Edit2, Key, LogOut } from 'lucide-react';
 import { getApiUrl, setApiUrl, is2FAEnabled, set2FAEnabled } from '../services/apiService';
 
 const SidebarRow = ({ icon, title, subtitle, onClick, color }) => (
@@ -206,6 +206,7 @@ const Navbar = () => {
 
                     {/* Drawer Content */}
                     <div
+                        className="sidebar-drawer"
                         onMouseLeave={() => setIsSidebarOpen(false)}
                         style={{
                             position: 'fixed',
@@ -225,6 +226,10 @@ const Navbar = () => {
                             overflowY: 'auto'
                         }}
                     >
+                        <style>{`
+                            .sidebar-drawer::-webkit-scrollbar { display: none; }
+                            .sidebar-drawer { -ms-overflow-style: none; scrollbar-width: none; }
+                        `}</style>
                         {/* Sidebar Header (Profile Info) */}
                         <div style={{ padding: '30px 20px', borderBottom: '1px solid var(--border-light)', background: 'var(--bg-main)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
@@ -236,8 +241,8 @@ const Navbar = () => {
                                     {user.name.charAt(0).toUpperCase()}
                                 </div>
                                 <div>
-                                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text-main)' }}>{user.name}</div>
-                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{user.email}</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text-main)', maxWidth: '180px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.name}</div>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', maxWidth: '180px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.email}</div>
                                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                         <div style={{
                                             display: 'inline-block',
@@ -303,21 +308,21 @@ const Navbar = () => {
                             ) : (
                                 <>
                                     <div style={{ padding: '15px 20px 5px', fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Passenger Services</div>
-                                    <SidebarRow icon="🏠" title="Dashboard" subtitle="Flight overview & bookings" onClick={() => { setIsSidebarOpen(false); navigate('/dashboard'); }} />
-                                    <SidebarRow icon="✈️" title="My Flights" subtitle="Past & upcoming travels" onClick={() => { setIsSidebarOpen(false); navigate('/travelled'); }} />
-                                    <SidebarRow icon="🎁" title="Bundles" subtitle="Exclusive combo offers" onClick={() => { setIsSidebarOpen(false); navigate('/bundles'); }} />
-                                    <SidebarRow icon="🛍️" title="Catalogue" subtitle="Explore available add-ons" onClick={() => { setIsSidebarOpen(false); navigate('/catalogue'); }} />
-                                    <SidebarRow icon="🛒" title="Cart" subtitle="View selected items" onClick={() => { setIsSidebarOpen(false); navigate('/cart'); }} />
-                                    <SidebarRow icon="🧾" title="Orders" subtitle="Purchase history & receipts" onClick={() => { setIsSidebarOpen(false); navigate('/history'); }} />
+                                    <SidebarRow icon={<Home size={22} />} title="Dashboard" subtitle="Flight overview & bookings" onClick={() => { setIsSidebarOpen(false); navigate('/dashboard'); }} />
+                                    <SidebarRow icon={<Plane size={22} />} title="My Flights" subtitle="Past & upcoming travels" onClick={() => { setIsSidebarOpen(false); navigate('/travelled'); }} />
+                                    <SidebarRow icon={<Package size={22} />} title="Bundles" subtitle="Exclusive combo offers" onClick={() => { setIsSidebarOpen(false); navigate('/bundles'); }} />
+                                    <SidebarRow icon={<Store size={22} />} title="Catalogue" subtitle="Explore available add-ons" onClick={() => { setIsSidebarOpen(false); navigate('/catalogue'); }} />
+                                    <SidebarRow icon={<ShoppingCart size={22} />} title="Cart" subtitle="View selected items" onClick={() => { setIsSidebarOpen(false); navigate('/cart'); }} />
+                                    <SidebarRow icon={<Receipt size={22} />} title="Orders" subtitle="Purchase history & receipts" onClick={() => { setIsSidebarOpen(false); navigate('/history'); }} />
                                 </>
                             )}
                         </div>
 
                         {/* Footer / Logout */}
                         <div style={{ borderTop: '1px solid var(--border-light)', padding: '10px 0' }}>
-                            <SidebarRow icon="✏️" title="Edit Profile" onClick={() => { setIsSidebarOpen(false); navigate('/edit-profile'); }} />
-                            <SidebarRow icon="🔐" title="Reset Password" onClick={() => { setIsSidebarOpen(false); navigate('/forgot-password'); }} />
-                            <SidebarRow icon="🚪" title="Logout" onClick={handleLogout} color="#ff416c" />
+                            <SidebarRow icon={<Edit2 size={22} />} title="Edit Profile" onClick={() => { setIsSidebarOpen(false); navigate('/edit-profile'); }} />
+                            <SidebarRow icon={<Key size={22} />} title="Reset Password" onClick={() => { setIsSidebarOpen(false); navigate('/forgot-password'); }} />
+                            <SidebarRow icon={<LogOut size={22} />} title="Logout" onClick={handleLogout} color="#ff416c" />
                         </div>
                     </div>
                 </>

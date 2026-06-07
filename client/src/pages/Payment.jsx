@@ -99,7 +99,8 @@ const Payment = () => {
                                     name: user.name,
                                     status: "success",
                                     items: cart,
-                                    total: totalPrice
+                                    total: totalPrice,
+                                    paymentMethod: paymentMethod
                                 })
                             });
                         }
@@ -132,6 +133,7 @@ const Payment = () => {
                                 status: "failed",
                                 items: cart,
                                 total: totalPrice,
+                                paymentMethod: paymentMethod,
                                 reason: "Declined by administrator."
                             })
                         }).catch(err => console.error(err));
