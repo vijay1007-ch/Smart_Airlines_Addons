@@ -1,30 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Vibrant, Modern "Real Dev" Colorful Palette */
-    --bg-main: #f8faff;           
-    --bg-card: #ffffff;           
-    --primary-blue: #4f46e5;      /* Vibrant Indigo */
-    --primary-hover: #4338ca;
+    /* Deep Dark "Real Dev" Colorful Palette */
+    --bg-main: #060b13;           
+    --bg-card: rgba(15, 23, 42, 0.6);           
+    --primary-blue: #0070f3;      /* Deep Blue */
+    --primary-hover: #0056b3;
+    --accent-cyan: #00e5ff;       /* Neon Cyan */
     --secondary-accent: #f43f5e;  /* Vibrant Rose */
     --tertiary-accent: #0ea5e9;   /* Bright Sky Blue */
     --warning: #f59e0b;           /* Amber */
     --success: #10b981;           /* Emerald */
     
-    --text-main: #1e293b;         /* Slate 800 */
-    --text-muted: #64748b;        /* Slate 500 */
-    --border-light: #e2e8f0;      
-    --border-hover: #cbd5e1;
+    --text-main: #f8fafc;         /* White/Slate 50 */
+    --text-muted: #94a3b8;        /* Slate 400 */
+    --border-light: rgba(255, 255, 255, 0.1);      
+    --border-hover: rgba(255, 255, 255, 0.2);
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #4f46e5, #0ea5e9);
+    --gradient-primary: linear-gradient(135deg, #0070f3, #00e5ff);
     --gradient-hot: linear-gradient(135deg, #f43f5e, #f97316);
-    --gradient-sidebar: linear-gradient(180deg, #1e1b4b, #312e81);
+    --gradient-sidebar: linear-gradient(180deg, rgba(6, 11, 19, 0.95), rgba(15, 23, 42, 0.95));
 
     /* Colorful, Soft Shadows */
-    --shadow-sm: 0 2px 4px 0 rgba(79, 70, 229, 0.05);
-    --shadow-card: 0 10px 25px -5px rgba(79, 70, 229, 0.1), 0 8px 10px -6px rgba(79, 70, 229, 0.05);
-    --shadow-hover: 0 20px 25px -5px rgba(79, 70, 229, 0.15), 0 8px 10px -6px rgba(79, 70, 229, 0.1);
+    --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 20px 25px -5px rgba(0, 229, 255, 0.15), 0 8px 10px -6px rgba(0, 229, 255, 0.1);
+    --glow-cyan: 0 0 20px rgba(0, 229, 255, 0.4);
 }
 
 * {
@@ -34,12 +36,11 @@
 }
 
 body {
-    /* Soft, colorful ambient glow background */
+    /* Deep dark blue ambient glow background */
     background-color: var(--bg-main);
     background-image: 
-        radial-gradient(circle at top left, rgba(79, 70, 229, 0.20) 0%, transparent 50%),
-        radial-gradient(circle at top right, rgba(14, 165, 233, 0.20) 0%, transparent 50%),
-        radial-gradient(circle at bottom center, rgba(244, 63, 94, 0.15) 0%, transparent 60%);
+        radial-gradient(circle at top left, rgba(0, 112, 243, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at bottom right, rgba(0, 229, 255, 0.1) 0%, transparent 40%);
     background-attachment: fixed;
     color: var(--text-main);
     font-family: 'Outfit', sans-serif;
@@ -66,7 +67,7 @@ p {
     font-weight: 800;
     margin-bottom: 2rem;
     text-align: center;
-    background: var(--gradient-primary);
+    background: var(--text-main);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.02em;
@@ -93,9 +94,9 @@ p {
     top: 0;
     width: 100%;
     height: 75px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(6, 11, 19, 0.8);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(79, 70, 229, 0.1);
+    border-bottom: 1px solid var(--border-light);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -107,10 +108,11 @@ p {
 .navbar .logo {
     font-size: 1.4rem;
     font-weight: 800;
-    background: var(--gradient-hot);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-main);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .navbar .nav-links {
@@ -128,7 +130,7 @@ p {
 }
 
 .navbar a:hover {
-    color: var(--primary-blue);
+    color: var(--text-main);
 }
 
 /* Vibrant Cards */
@@ -138,6 +140,7 @@ p {
 .summary,
 .login-box {
     background: var(--bg-card);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--border-light);
     border-radius: 16px;
     padding: 2.25rem;
@@ -167,18 +170,18 @@ p {
 .card:hover,
 .service-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(79, 70, 229, 0.2);
-    box-shadow: var(--shadow-hover);
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glow-cyan);
 }
 
 /* Beautiful Gradient Buttons */
 button,
 .btn {
-    background: var(--gradient-primary);
+    background: var(--primary-blue);
     color: #ffffff;
     border: none;
     padding: 0.85rem 1.75rem;
-    border-radius: 12px;
+    border-radius: 8px;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
@@ -187,25 +190,25 @@ button,
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
 button:hover,
 .btn:hover {
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+    background: var(--primary-hover);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
 button.secondary {
-    background: #ffffff;
-    color: var(--primary-blue);
-    border: 1px solid rgba(79, 70, 229, 0.2);
-    box-shadow: var(--shadow-sm);
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-light);
+    box-shadow: none;
 }
 
 button.secondary:hover {
-    background: #f8faff;
-    border-color: var(--primary-blue);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-main);
 }
 
 /* Inputs */
@@ -214,22 +217,25 @@ select {
     width: 100%;
     padding: 0.85rem 1rem;
     margin-bottom: 1.25rem;
-    background: #ffffff;
+    background: rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-light);
-    border-radius: 10px;
+    border-radius: 8px;
     color: var(--text-main);
     font-size: 1rem;
     transition: all 0.2s ease;
     font-family: inherit;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
 }
 
 input:focus,
 select:focus {
     outline: none;
-    border-color: var(--primary-blue);
-    background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+    border-color: var(--accent-cyan);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
+}
+
+input::placeholder {
+    color: var(--text-muted);
 }
 
 /* Floating Notification Toasts */
@@ -237,7 +243,7 @@ select:focus {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: var(--text-main);
+    background: var(--gradient-primary);
     color: white;
     padding: 1rem 1.5rem;
     border-radius: 12px;

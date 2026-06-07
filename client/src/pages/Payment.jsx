@@ -360,10 +360,8 @@ const Payment = () => {
                     renderPaymentMethodSelection()
                 ) : paymentMethod === 'card' ? (
                     renderCardForm()
-                ) : paymentMethod === 'paypal' ? (
-                    renderQuickPay('PayPal')
                 ) : (
-                    renderQuickPay('Apple Pay')
+                    renderQuickPay(paymentMethod)
                 )}
             </div>
         </div>

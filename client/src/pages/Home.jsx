@@ -1,125 +1,187 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { PlaneTakeoff, ArrowRight, Sofa, Utensils, Coffee, Wifi, LogOut } from 'lucide-react';
+import { ShieldCheck, Smartphone, HeadphonesIcon, Gift } from 'lucide-react';
 
 const Home = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
 
-    const handleLogout = () => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
-
-    const featuredAddons = [
-        { title: "Seat Upgrades", icon: <Sofa size={32} color="var(--primary-blue)" />, desc: "Stretch out with premium legroom or upgrade to first class for ultimate comfort." },
-        { title: "Gourmet Meals", icon: <Utensils size={32} color="var(--secondary-accent)" />, desc: "Pre-book curated meals crafted by world-class chefs to enjoy at 35,000 feet." },
-        { title: "VIP Lounge", icon: <Coffee size={32} color="var(--warning)" />, desc: "Relax in exclusive airport lounges with complimentary drinks and spa services." },
-        { title: "High-Speed WiFi", icon: <Wifi size={32} color="var(--tertiary-accent)" />, desc: "Stay connected above the clouds with our blazing fast satellite internet." }
-    ];
-
     return (
-        <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
-            <Navbar />
-            
-            
-            
-            
+        <div className="page" style={{ 
+            position: 'relative', 
+            overflow: 'hidden',
+            background: 'url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop") center/cover no-repeat',
+        }}>
+            {/* Dark overlay for the background image */}
+            <div style={{
+                position: 'absolute',
+                top: 0, left: 0, right: 0, bottom: 0,
+                background: 'linear-gradient(180deg, rgba(6,11,19,0.8) 0%, rgba(6,11,19,0.95) 100%)',
+                zIndex: 0
+            }} />
 
-            {/* Hero Section */}
-            <div className="container" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '75vh', textAlign: 'center', paddingTop: '4rem' }}>
-                <div style={{
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    width: '120px', height: '120px', borderRadius: '50%', 
-                    background: 'rgba(0, 229, 255, 0.05)', border: '1px solid rgba(0, 229, 255, 0.2)',
-                    marginBottom: '2rem', boxShadow: 'var(--glow-cyan)',
-                    backdropFilter: 'blur(10px)'
+            <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
+                <Navbar />
+
+                {/* Hero Section */}
+                <div className="container" style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'space-between', 
+                    minHeight: '75vh', 
+                    paddingTop: '6rem',
+                    gap: '2rem'
                 }}>
-                    <PlaneTakeoff size={60} color="var(--primary-blue)" />
-                </div>
-                
-                <h1 className="title" style={{ fontSize: '5rem', marginBottom: '1.5rem', background: 'linear-gradient(90deg, #fff, #00e5ff, #b388ff, #fff)', backgroundSize: '300%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'shine 8s linear infinite' }}>
-                    Redefine Your Journey
-                </h1>
-                
-                <p style={{ color: 'var(--text-muted)', fontSize: '1.35rem', maxWidth: '700px', marginBottom: '3.5rem', lineHeight: '1.7' }}>
-                    Your flight should be as extraordinary as your destination. Personalize your travel experience with premium addons crafted for your absolute comfort.
-                </p>
-                
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-                    {user ? (
-                        <>
-                            <button 
-                                onClick={() => navigate(user.role === 'admin' ? '/admin' : '/catalogue')}
-                                style={{ 
-                                    padding: '1.2rem 3rem', 
-                                    fontSize: '1.2rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1rem',
-                                    boxShadow: '0 10px 30px rgba(0, 229, 255, 0.4)'
-                                }}
-                            >
-                                Go to Dashboard <ArrowRight size={22} />
-                            </button>
-                            <button 
-                                onClick={handleLogout}
-                                style={{ 
-                                    padding: '1.2rem 2.5rem', 
-                                    fontSize: '1.2rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1rem',
-                                    background: 'transparent',
-                                    border: '1px solid var(--border-light)',
-                                    
-                                    boxShadow: 'none'
-                                }}
-                            >
-                                Log Out <LogOut size={22} />
-                            </button>
-                        </>
-                    ) : (
-                        <button 
-                            onClick={() => navigate('/login')}
-                            style={{ 
-                                padding: '1.2rem 3rem', 
-                                fontSize: '1.2rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem',
-                                boxShadow: '0 10px 30px rgba(0, 229, 255, 0.4)'
-                            }}
-                        >
-                            Get Started <ArrowRight size={22} />
-                        </button>
-                    )}
-                </div>
-            </div>
-
-            {/* Features Section */}
-            <div className="container" style={{ paddingBottom: '6rem' }}>
-                <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '3rem', color: 'var(--text-muted)' }}>Experience Premium</h2>
-                
-                <div className="card-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-                    {featuredAddons.map((addon, index) => (
-                        <div key={index} className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '2.5rem 2rem' }}>
-                            <div style={{
-                                width: '70px', height: '70px', borderRadius: '20px', 
-                                background: 'var(--bg-card)', border: '1px solid var(--border-light)',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem'
-                            }}>
-                                {addon.icon}
-                            </div>
-                            <h3 style={{ fontSize: '1.4rem', marginBottom: '1rem' }}>{addon.title}</h3>
-                            <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.95rem', lineHeight: '1.6' }}>{addon.desc}</p>
+                    {/* Left Column: Text & Buttons */}
+                    <div style={{ flex: 1, maxWidth: '600px' }}>
+                        <h1 style={{ 
+                            fontSize: '4.5rem', 
+                            marginBottom: '1.5rem', 
+                            lineHeight: '1.1',
+                            color: '#ffffff'
+                        }}>
+                            Redefine Your Journey
+                        </h1>
+                        
+                        <p style={{ 
+                            color: 'var(--text-muted)', 
+                            fontSize: '1.2rem', 
+                            marginBottom: '3rem', 
+                            lineHeight: '1.7',
+                            maxWidth: '500px'
+                        }}>
+                            Your flight should be as extraordinary as your destination. Personalize your travel experience with premium addons crafted for your absolute comfort.
+                        </p>
+                        
+                        <div style={{ display: 'flex', gap: '1rem' }}>
+                            {user ? (
+                                <button 
+                                    onClick={() => navigate(user.role === 'admin' ? '/admin' : '/catalogue')}
+                                    style={{ 
+                                        padding: '1rem 2.5rem', 
+                                        fontSize: '1.1rem',
+                                        background: 'var(--gradient-primary)',
+                                        boxShadow: 'var(--glow-cyan)'
+                                    }}
+                                >
+                                    Explore Add-ons
+                                </button>
+                            ) : (
+                                <>
+                                    <button 
+                                        onClick={() => navigate('/login')}
+                                        style={{ 
+                                            padding: '1rem 2.5rem', 
+                                            fontSize: '1.1rem',
+                                            background: 'var(--gradient-primary)',
+                                            boxShadow: 'var(--glow-cyan)'
+                                        }}
+                                    >
+                                        Explore Add-ons
+                                    </button>
+                                    <button 
+                                        onClick={() => navigate('/signup')}
+                                        className="secondary"
+                                        style={{ 
+                                            padding: '1rem 2.5rem', 
+                                            fontSize: '1.1rem',
+                                            background: 'rgba(255,255,255,0.05)'
+                                        }}
+                                    >
+                                        View Bundles
+                                    </button>
+                                </>
+                            )}
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Right Column: Airplane Image */}
+                    <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', position: 'relative' }}>
+                        <img 
+                            src="https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1000&auto=format&fit=crop" 
+                            alt="Airplane" 
+                            style={{
+                                width: '100%',
+                                maxWidth: '600px',
+                                borderRadius: '24px',
+                                boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+                                opacity: 0.8,
+                                filter: 'brightness(0.9) contrast(1.1)',
+                                mixBlendMode: 'screen'
+                            }} 
+                        />
+                        {/* Optional subtle glow behind airplane */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '300px',
+                            height: '300px',
+                            background: 'rgba(0, 229, 255, 0.2)',
+                            filter: 'blur(100px)',
+                            zIndex: -1
+                        }} />
+                    </div>
+                </div>
+
+                {/* Features Section (Horizontal line of icons) */}
+                <div className="container" style={{ paddingBottom: '4rem' }}>
+                    <div style={{ 
+                        display: 'flex', 
+                        justifyContent: 'space-between', 
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: '2rem',
+                        padding: '2rem',
+                        background: 'rgba(255,255,255,0.03)',
+                        borderRadius: '16px',
+                        border: '1px solid var(--border-light)',
+                        backdropFilter: 'blur(10px)'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ padding: '12px', background: 'rgba(0, 229, 255, 0.1)', borderRadius: '12px' }}>
+                                <Gift size={24} color="var(--accent-cyan)" />
+                            </div>
+                            <div>
+                                <h4 style={{ margin: 0, fontSize: '1rem' }}>Premium Add-ons</h4>
+                                <p style={{ margin: 0, fontSize: '0.85rem' }}>Curated for you</p>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ padding: '12px', background: 'rgba(0, 229, 255, 0.1)', borderRadius: '12px' }}>
+                                <Smartphone size={24} color="var(--accent-cyan)" />
+                            </div>
+                            <div>
+                                <h4 style={{ margin: 0, fontSize: '1rem' }}>Seamless Booking</h4>
+                                <p style={{ margin: 0, fontSize: '0.85rem' }}>Hassle-free experience</p>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ padding: '12px', background: 'rgba(0, 229, 255, 0.1)', borderRadius: '12px' }}>
+                                <ShieldCheck size={24} color="var(--accent-cyan)" />
+                            </div>
+                            <div>
+                                <h4 style={{ margin: 0, fontSize: '1rem' }}>Secure Payments</h4>
+                                <p style={{ margin: 0, fontSize: '0.85rem' }}>Multiple payment options</p>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ padding: '12px', background: 'rgba(0, 229, 255, 0.1)', borderRadius: '12px' }}>
+                                <HeadphonesIcon size={24} color="var(--accent-cyan)" />
+                            </div>
+                            <div>
+                                <h4 style={{ margin: 0, fontSize: '1rem' }}>24/7 Support</h4>
+                                <p style={{ margin: 0, fontSize: '0.85rem' }}>We are here to help</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
         </div>
     );
 };

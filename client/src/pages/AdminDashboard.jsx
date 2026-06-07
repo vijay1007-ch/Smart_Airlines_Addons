@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import AdminSidebar from '../components/AdminSidebar';
 import { TrendingUp, IndianRupee, Users, Plane, CheckCircle2, XCircle, Clock } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -60,7 +60,6 @@ const AdminDashboard = () => {
             
             // Format orders for the table, taking the 10 most recent
             const formattedOrders = ordersData.reverse().slice(0, 10).map(o => {
-                // If it's a real order with items
                 let amount = "₹0.00";
                 let itemsStr = "Custom Order";
                 
@@ -78,7 +77,7 @@ const AdminDashboard = () => {
                     customer: o.customerName || o.customer || "User",
                     item: itemsStr,
                     amount: amount,
-                    status: o.status || "Approved" // Defaulting to approved if no status exists
+                    status: o.status || "Approved" 
                 };
             });
             
@@ -127,14 +126,12 @@ const AdminDashboard = () => {
     };
 
     const handlePaymentAction = async (orderId, action) => {
-        // action is 'approved' or 'declined'
         try {
             await fetch(`${getApiUrl()}/orders/pending/${orderId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: action })
             });
-            // Optimistically remove it from the UI
             setPendingPayments(prev => prev.filter(p => p.orderId !== orderId));
         } catch (err) {
             console.error("Failed to update payment action", err);
@@ -144,43 +141,38 @@ const AdminDashboard = () => {
     if (!user) return null;
 
     const stats = [
-        { title: "Total Revenue", value: analytics.revenue, trend: "+20.1%", icon: IndianRupee, color: "#00e5ff" },
-        { title: "Net Profit", value: analytics.profit, trend: "+15.3%", icon: TrendingUp, color: "#b388ff" },
-        { title: "Active Flights", value: analytics.activeFlights.toString(), trend: "+4.2%", icon: Plane, color: "#00e5ff" },
+        { title: "Total Revenue", value: analytics.revenue, trend: "+20.1%", icon: IndianRupee, color: "#2563eb" },
+        { title: "Net Profit", value: analytics.profit, trend: "+15.3%", icon: TrendingUp, color: "#10b981" },
+        { title: "Active Flights", value: analytics.activeFlights.toString(), trend: "+4.2%", icon: Plane, color: "#2563eb" },
         { title: "New Customers", value: analytics.customers.toString(), trend: "+11.4%", icon: Users, color: "#b388ff" }
     ];
 
-    const getStatusIcon = (status) => {
-        switch (status) {
-            case "Approved": return <CheckCircle2 size={16} color="#4ade80" />;
-            case "Pending": return <Clock size={16} color="#fbbf24" />;
-            case "Rejected": return <XCircle size={16} color="#ef4444" />;
-            default: return <CheckCircle2 size={16} color="#4ade80" />;
-        }
-    };
-
     return (
-        <div className="page" style={{ position: 'relative', minHeight: '100vh', paddingBottom: '3rem' }}>
-            <Navbar />
-
+        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
+            <AdminSidebar />
             
-            
-
-            <div className="container" style={{ marginTop: '2rem' }}>
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
                 
                 {/* Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
                     <div>
-                        <h1 className="title">
-                            Admin Dashboard
-                        </h1>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
+                        <h1 style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '0 0 0.5rem 0' }}>Admin Dashboard</h1>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0 }}>
                             Welcome back, {user.name}. Here's what's happening today.
                         </p>
                     </div>
                     <button 
                         onClick={() => navigate('/admin/catalogue')}
-                        style={{ padding: '0.75rem 1.5rem',   borderRadius: '8px', fontWeight: '600', border: 'none', cursor: 'pointer' }}
+                        style={{ 
+                            background: '#2563eb', 
+                            color: '#fff', 
+                            padding: '0.6rem 1.2rem',   
+                            borderRadius: '6px', 
+                            fontSize: '0.9rem',
+                            fontWeight: '600', 
+                            border: 'none', 
+                            cursor: 'pointer' 
+                        }}
                     >
                         Manage Catalogue
                     </button>
@@ -189,30 +181,36 @@ const AdminDashboard = () => {
                 {/* Stats Grid */}
                 <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
+                    gridTemplateColumns: 'repeat(4, 1fr)', 
                     gap: '1.5rem',
-                    marginBottom: '3rem'
+                    marginBottom: '2.5rem'
                 }}>
                     {stats.map((stat, idx) => (
-                        <div key={idx} className="card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        <div key={idx} style={{ 
+                            background: '#0f172a', 
+                            border: '1px solid #1e293b', 
+                            borderRadius: '12px', 
+                            padding: '1.5rem', 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            gap: '1rem' 
+                        }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: '500' }}>
-                                    {stat.title}
-                                </span>
+                                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{stat.title}</span>
                                 <div style={{ 
-                                    padding: '0.5rem', 
-                                    borderRadius: '12px', 
-                                    background: `rgba(${stat.color === '#00e5ff' ? '0,229,255' : '179,136,255'}, 0.1)`,
-                                    border: `1px solid ${stat.color}30`
+                                    padding: '0.4rem', 
+                                    borderRadius: '8px', 
+                                    background: `rgba(${stat.color === '#2563eb' ? '37,99,235' : stat.color === '#10b981' ? '16,185,129' : '179,136,255'}, 0.1)`,
+                                    color: stat.color
                                 }}>
-                                    <stat.icon size={20} color={stat.color} />
+                                    <stat.icon size={16} />
                                 </div>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem' }}>
-                                <h2 style={{ fontSize: '2rem', fontWeight: '700', margin: 0 }}>
+                                <h2 style={{ fontSize: '1.8rem', fontWeight: '700', margin: 0 }}>
                                     {isLoading ? '...' : stat.value}
                                 </h2>
-                                <span style={{ color: '#4ade80', fontSize: '0.9rem', fontWeight: '600', marginBottom: '0.25rem' }}>
+                                <span style={{ color: '#10b981', fontSize: '0.8rem', fontWeight: '600', marginBottom: '0.3rem' }}>
                                     {stat.trend}
                                 </span>
                             </div>
@@ -220,21 +218,15 @@ const AdminDashboard = () => {
                     ))}
                 </div>
 
-                {/* Main Content Grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
                     
                     {/* Recent Orders Table */}
-                    <div className="card" style={{ padding: '1.5rem' }}>
+                    <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                            <h3 style={{ fontSize: '1.25rem', fontWeight: '600', margin: 0 }}>Recent Add-on Orders</h3>
+                            <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>Recent Add-on Orders</h3>
                             <button style={{ 
-                                background: 'transparent', 
-                                border: '1px solid var(--primary-blue)', 
-                                color: 'var(--primary-blue)',
-                                padding: '0.5rem 1rem',
-                                borderRadius: '8px',
-                                fontSize: '0.9rem',
-                                cursor: 'pointer'
+                                background: 'transparent', border: '1px solid #334155', color: '#cbd5e1',
+                                padding: '0.4rem 1rem', borderRadius: '6px', fontSize: '0.85rem', cursor: 'pointer'
                             }}>
                                 View All
                             </button>
@@ -243,12 +235,12 @@ const AdminDashboard = () => {
                         <div style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                                 <thead>
-                                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Order ID</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Customer</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Add-on Item</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Amount</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Status</th>
+                                    <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                        <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Order ID</th>
+                                        <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Customer</th>
+                                        <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Add-on Item</th>
+                                        <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Amount</th>
+                                        <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -262,25 +254,20 @@ const AdminDashboard = () => {
                                         </tr>
                                     ) : (
                                         orders.map((order, idx) => (
-                                            <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                                <td style={{ padding: '1rem 0', fontWeight: '500' }}>{order.id}</td>
-                                                <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{order.customer}</td>
-                                                <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{order.item}</td>
-                                                <td style={{ padding: '1rem 0', fontWeight: '600' }}>{order.amount}</td>
-                                                <td style={{ padding: '1rem 0' }}>
-                                                    <div style={{ 
-                                                        display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                                                        padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '600',
-                                                        background: order.status === 'Approved' ? 'rgba(74, 222, 128, 0.1)' 
-                                                                : order.status === 'Pending' ? 'rgba(251, 191, 36, 0.1)' 
-                                                                : 'rgba(239, 68, 68, 0.1)',
-                                                        color: order.status === 'Approved' ? '#4ade80' 
-                                                                : order.status === 'Pending' ? '#fbbf24' 
-                                                                : '#ef4444'
+                                            <tr key={idx} style={{ borderBottom: '1px solid #1e293b', fontSize: '0.9rem' }}>
+                                                <td style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>{order.id}</td>
+                                                <td style={{ padding: '1rem 0.5rem', color: 'var(--text-muted)' }}>{order.customer}</td>
+                                                <td style={{ padding: '1rem 0.5rem', color: 'var(--text-muted)' }}>{order.item}</td>
+                                                <td style={{ padding: '1rem 0.5rem' }}>{order.amount}</td>
+                                                <td style={{ padding: '1rem 0.5rem' }}>
+                                                    <span style={{ 
+                                                        display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                                        padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600',
+                                                        border: `1px solid ${order.status === 'Approved' ? '#059669' : order.status === 'Pending' ? '#d97706' : '#dc2626'}`,
+                                                        color: order.status === 'Approved' ? '#10b981' : order.status === 'Pending' ? '#f59e0b' : '#ef4444'
                                                     }}>
-                                                        {getStatusIcon(order.status)}
-                                                        {order.status}
-                                                    </div>
+                                                        • {order.status}
+                                                    </span>
                                                 </td>
                                             </tr>
                                         ))
@@ -290,156 +277,131 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Pending Payments Table */}
-                    <div className="card" style={{ padding: '1.5rem', border: pendingPayments.length > 0 ? '1px solid #4ade80' : 'none', boxShadow: pendingPayments.length > 0 ? '0 0 15px rgba(74, 222, 128, 0.2)' : 'none' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                            <h3 style={{ fontSize: '1.25rem', fontWeight: '600', margin: 0 }}>
-                                Live Payment Authorizations 
-                                {pendingPayments.length > 0 && (
-                                    <span style={{ marginLeft: '10px', background: '#4ade80', color: '#ffffff', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8rem' }}>
-                                        {pendingPayments.length} Pending
-                                    </span>
-                                )}
-                            </h3>
-                        </div>
-                        
-                        <div style={{ overflowX: 'auto' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                                <thead>
-                                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Transaction ID</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Amount</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Time</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500', textAlign: 'right' }}>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {pendingPayments.length === 0 ? (
-                                        <tr>
-                                            <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>No pending payments to authorize.</td>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                        {/* Pending Payments Table */}
+                        <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                                <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>
+                                    Live Payment Authorizations 
+                                </h3>
+                            </div>
+                            
+                            <div style={{ overflowX: 'auto' }}>
+                                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                                    <thead>
+                                        <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Transaction ID</th>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Amount</th>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Time</th>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500', textAlign: 'right' }}>Action</th>
                                         </tr>
-                                    ) : (
-                                        pendingPayments.map((payment, idx) => (
-                                            <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                                <td style={{ padding: '1rem 0', fontWeight: '500' }}>{payment.orderId}</td>
-                                                <td style={{ padding: '1rem 0', fontWeight: '600', color: 'var(--accent-cyan)' }}>₹{payment.amount}</td>
-                                                <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{payment.date}</td>
-                                                <td style={{ padding: '1rem 0', textAlign: 'right' }}>
-                                                    <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                                                        <button 
-                                                            onClick={() => handlePaymentAction(payment.orderId, 'approved')} 
-                                                            style={{ background: 'linear-gradient(90deg, #2ed573, #2ecc71)', color: '#ffffff', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '20px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '5px' }}
-                                                        >
-                                                            <CheckCircle2 size={14} /> Accept
-                                                        </button>
-                                                        <button 
-                                                            onClick={() => handlePaymentAction(payment.orderId, 'declined')} 
-                                                            style={{ background: 'transparent', border: '1px solid #ff416c', color: '#ff416c', padding: '0.4rem 1rem', fontSize: '0.85rem', borderRadius: '20px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '5px' }}
-                                                        >
-                                                            <XCircle size={14} /> Decline
-                                                        </button>
-                                                    </div>
-                                                </td>
+                                    </thead>
+                                    <tbody>
+                                        {pendingPayments.length === 0 ? (
+                                            <tr>
+                                                <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>No pending payments to authorize.</td>
                                             </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
+                                        ) : (
+                                            pendingPayments.map((payment, idx) => (
+                                                <tr key={idx} style={{ borderBottom: '1px solid #1e293b', fontSize: '0.85rem' }}>
+                                                    <td style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>{payment.orderId}</td>
+                                                    <td style={{ padding: '1rem 0.5rem' }}>₹{payment.amount}</td>
+                                                    <td style={{ padding: '1rem 0.5rem', color: 'var(--text-muted)' }}>{payment.date}</td>
+                                                    <td style={{ padding: '1rem 0.5rem', textAlign: 'right' }}>
+                                                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                                                            <button 
+                                                                onClick={() => handlePaymentAction(payment.orderId, 'approved')} 
+                                                                style={{ background: '#2563eb', color: '#ffffff', padding: '0.3rem 0.6rem', fontSize: '0.75rem', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}
+                                                            >
+                                                                Accept
+                                                            </button>
+                                                            <button 
+                                                                onClick={() => handlePaymentAction(payment.orderId, 'declined')} 
+                                                                style={{ background: 'transparent', border: '1px solid #334155', color: '#94a3b8', padding: '0.3rem 0.6rem', fontSize: '0.75rem', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}
+                                                            >
+                                                                Decline
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Seat Upgrades Table */}
-                    <div className="card" style={{ padding: '1.5rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                            <h3 style={{ fontSize: '1.25rem', fontWeight: '600', margin: 0 }}>Seat Upgrade Requests</h3>
-                        </div>
-                        
-                        <div style={{ overflowX: 'auto' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                                <thead>
-                                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Request ID</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Customer</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Current Seat</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Requested</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500' }}>Status</th>
-                                        <th style={{ padding: '1rem 0', fontWeight: '500', textAlign: 'right' }}>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {isLoading ? (
-                                        <tr>
-                                            <td colSpan="6" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</td>
+                        {/* Seat Upgrades Table */}
+                        <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                                <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>Seat Upgrade Requests</h3>
+                            </div>
+                            
+                            <div style={{ overflowX: 'auto' }}>
+                                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                                    <thead>
+                                        <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Request ID</th>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Requested</th>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>Status</th>
+                                            <th style={{ padding: '1rem 0.5rem', fontWeight: '500', textAlign: 'right' }}>Actions</th>
                                         </tr>
-                                    ) : upgrades.length === 0 ? (
-                                        <tr>
-                                            <td colSpan="6" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>No upgrade requests found.</td>
-                                        </tr>
-                                    ) : (
-                                        upgrades.map((upg, idx) => (
-                                            <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                                <td style={{ padding: '1rem 0', fontWeight: '500' }}>{upg.id}</td>
-                                                <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{upg.customerName}</td>
-                                                <td style={{ padding: '1rem 0', color: 'var(--text-muted)' }}>{upg.currentSeat}</td>
-                                                <td style={{ padding: '1rem 0', fontWeight: '600', color: 'var(--accent-cyan)' }}>{upg.requestedClass}</td>
-                                                <td style={{ padding: '1rem 0' }}>
-                                                    <div style={{ 
-                                                        display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                                                        padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '600',
-                                                        background: upg.status === 'Approved' ? 'rgba(74, 222, 128, 0.1)' 
-                                                                : upg.status === 'Pending' ? 'rgba(251, 191, 36, 0.1)' 
-                                                                : 'rgba(239, 68, 68, 0.1)',
-                                                        color: upg.status === 'Approved' ? '#4ade80' 
-                                                                : upg.status === 'Pending' ? '#fbbf24' 
-                                                                : '#ef4444'
-                                                    }}>
-                                                        {getStatusIcon(upg.status)}
-                                                        {upg.status}
-                                                    </div>
-                                                </td>
-                                                <td style={{ padding: '1rem 0', textAlign: 'right' }}>
-                                                    {offeringId === upg.id ? (
-                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }}>
-                                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                                <input 
-                                                                    type="text" 
-                                                                    placeholder="Seat (e.g., 2A)" 
-                                                                    value={offerData.seat} 
-                                                                    onChange={e => setOfferData({...offerData, seat: e.target.value})}
-                                                                    style={{ padding: '0.5rem', width: '130px', marginBottom: 0, borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)',  fontSize: '0.85rem' }}
-                                                                    autoFocus
-                                                                />
-                                                                <input 
-                                                                    type="number" 
-                                                                    placeholder="Price (₹)" 
-                                                                    value={offerData.price} 
-                                                                    onChange={e => setOfferData({...offerData, price: e.target.value})}
-                                                                    style={{ padding: '0.5rem', width: '100px', marginBottom: 0, borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)',  fontSize: '0.85rem' }}
-                                                                />
-                                                            </div>
-                                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                                <button onClick={() => setOfferingId(null)} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '20px' }}>Cancel</button>
-                                                                <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.4rem 1rem', fontSize: '0.8rem',  color: '#ffffff', border: 'none', borderRadius: '20px', fontWeight: '600' }}>Send Offer</button>
-                                                            </div>
-                                                        </div>
-                                                    ) : upg.status === 'Pending' ? (
-                                                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                                                            <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{  color: '#ffffff', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '20px', fontWeight: '600' }}>Offer Seat</button>
-                                                            <button onClick={() => handleUpgradeReject(upg.id)} style={{ background: 'transparent', border: '1px solid #ef4444', color: '#ef4444', padding: '0.4rem 1rem', fontSize: '0.85rem', borderRadius: '20px', fontWeight: '600' }}>Reject</button>
-                                                        </div>
-                                                    ) : upg.status === 'Pending Payment' ? (
-                                                        <span style={{ color: '#fbbf24', fontSize: '0.85rem' }}>Awaiting User Payment (₹{upg.price})</span>
-                                                    ) : upg.status === 'Approved' ? (
-                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Assigned: {upg.newSeat}</span>
-                                                    ) : (
-                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>-</span>
-                                                    )}
-                                                </td>
+                                    </thead>
+                                    <tbody>
+                                        {isLoading ? (
+                                            <tr>
+                                                <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</td>
                                             </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
+                                        ) : upgrades.length === 0 ? (
+                                            <tr>
+                                                <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>No seat upgrade requests.</td>
+                                            </tr>
+                                        ) : (
+                                            upgrades.slice(0,5).map((upg, idx) => (
+                                                <tr key={idx} style={{ borderBottom: '1px solid #1e293b', fontSize: '0.85rem' }}>
+                                                    <td style={{ padding: '1rem 0.5rem', fontWeight: '500' }}>{upg.id}</td>
+                                                    <td style={{ padding: '1rem 0.5rem' }}>{upg.requestedClass}</td>
+                                                    <td style={{ padding: '1rem 0.5rem' }}>
+                                                        <span style={{ 
+                                                            display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                                            padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600',
+                                                            border: `1px solid ${upg.status === 'Approved' ? '#059669' : upg.status === 'Pending' ? '#d97706' : '#dc2626'}`,
+                                                            color: upg.status === 'Approved' ? '#10b981' : upg.status === 'Pending' ? '#f59e0b' : '#ef4444'
+                                                        }}>
+                                                            • {upg.status}
+                                                        </span>
+                                                    </td>
+                                                    <td style={{ padding: '1rem 0.5rem', textAlign: 'right' }}>
+                                                        {offeringId === upg.id ? (
+                                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end' }}>
+                                                                <div style={{ display: 'flex', gap: '4px' }}>
+                                                                    <input type="text" placeholder="Seat" value={offerData.seat} onChange={e => setOfferData({...offerData, seat: e.target.value})} style={{ padding: '0.3rem', width: '60px', background: '#060b13', border: '1px solid #1e293b', color: '#fff', fontSize: '0.75rem', borderRadius: '4px' }}/>
+                                                                    <input type="number" placeholder="₹" value={offerData.price} onChange={e => setOfferData({...offerData, price: e.target.value})} style={{ padding: '0.3rem', width: '60px', background: '#060b13', border: '1px solid #1e293b', color: '#fff', fontSize: '0.75rem', borderRadius: '4px' }}/>
+                                                                </div>
+                                                                <div style={{ display: 'flex', gap: '4px' }}>
+                                                                    <button onClick={() => setOfferingId(null)} style={{ padding: '0.2rem 0.5rem', fontSize: '0.7rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid #334155', borderRadius: '4px' }}>Cancel</button>
+                                                                    <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.2rem 0.5rem', fontSize: '0.7rem', background: '#2563eb', color: '#ffffff', border: 'none', borderRadius: '4px' }}>Send</button>
+                                                                </div>
+                                                            </div>
+                                                        ) : upg.status === 'Pending' ? (
+                                                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                                                                <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{ background: '#2563eb', color: '#ffffff', padding: '0.3rem 0.6rem', fontSize: '0.75rem', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}>Offer</button>
+                                                                <button onClick={() => handleUpgradeReject(upg.id)} style={{ background: 'transparent', border: '1px solid #334155', color: '#94a3b8', padding: '0.3rem 0.6rem', fontSize: '0.75rem', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}>Reject</button>
+                                                            </div>
+                                                        ) : upg.status === 'Pending Payment' ? (
+                                                            <span style={{ color: '#f59e0b', fontSize: '0.75rem' }}>Awaiting User</span>
+                                                        ) : upg.status === 'Approved' ? (
+                                                            <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{upg.newSeat}</span>
+                                                        ) : (
+                                                            <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>-</span>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 

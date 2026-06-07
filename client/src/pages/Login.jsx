@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getApiUrl, is2FAEnabled } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { Mail, Lock, ArrowRight, PlaneTakeoff, Smartphone, ShieldCheck, X, AlertCircle } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Plane, MapPin } from 'lucide-react';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -36,7 +36,7 @@ const Login = () => {
                 body: JSON.stringify({ 
                     email, 
                     password,
-                    twoFactorEnabled: is2FAEnabled() // Check if user turned on 2FA in settings
+                    twoFactorEnabled: is2FAEnabled() 
                 })
             });
 
@@ -44,10 +44,8 @@ const Login = () => {
 
             if (response.ok) {
                 if (data.twoFactorRequired) {
-                    // Transition to 2-Step Authentication view
                     setTwoFactorRequired(true);
                 } else {
-                    // Standard login (2FA disabled)
                     localStorage.setItem("user", JSON.stringify(data.user));
                     localStorage.setItem("token", data.token);
 
@@ -83,7 +81,6 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                // Success: save profile
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
 
@@ -103,42 +100,65 @@ const Login = () => {
     return (
         <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
             <Navbar />
-            
-            
-            
 
-            <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+            <div className="container" style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                minHeight: '80vh',
+                position: 'relative'
+            }}>
+                {/* Decorative Flight Path Background */}
+                <div style={{
+                    position: 'absolute',
+                    top: '50%', left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '100%', maxWidth: '800px',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                    opacity: 0.6
+                }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <Plane size={32} color="var(--accent-cyan)" style={{ transform: 'rotate(45deg)' }} />
+                        <h3 style={{ margin: '10px 0 0', color: '#fff' }}>JFK</h3>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>New York</p>
+                    </div>
+
+                    <div style={{
+                        flex: 1, height: '2px',
+                        background: 'repeating-linear-gradient(90deg, var(--text-muted) 0, var(--text-muted) 10px, transparent 10px, transparent 20px)',
+                        margin: '0 40px', opacity: 0.3
+                    }} />
+
+                    <div style={{ textAlign: 'center' }}>
+                        <MapPin size={32} color="var(--primary-blue)" />
+                        <h3 style={{ margin: '10px 0 0', color: '#fff' }}>LHR</h3>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>London</p>
+                    </div>
+                </div>
+
                 <div className="login-box" style={{ 
-                    maxWidth: '440px', 
+                    maxWidth: '400px', 
                     width: '100%', 
-                    padding: '3rem 2.5rem',
+                    padding: '2.5rem',
                     borderRadius: '24px',
-                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
-                    border: twoFactorRequired ? '1px solid rgba(179, 136, 255, 0.4)' : '1px solid var(--border-light)'
+                    zIndex: 1,
+                    background: 'rgba(15, 23, 42, 0.85)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                    boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)'
                 }}>
                     
                     {!twoFactorRequired ? (
                         <>
-                            {/* Standard Login Header */}
                             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                                <div style={{ 
-                                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                    width: '60px', height: '60px', borderRadius: '50%', 
-                                    background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--border-light)',
-                                    marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
-                                }}>
-                                    <PlaneTakeoff size={32} color="var(--primary-blue)" />
-                                </div>
-                                <h2 style={{ 
-                                    fontSize: '2rem', fontWeight: '800', 
-                                    
-                                    marginBottom: '0.5rem'
-                                }}>
+                                <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '0.5rem', color: '#ffffff' }}>
                                     Welcome Back
                                 </h2>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-                                    Enter your credentials to continue
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                                    Sign in to continue your journey
                                 </p>
                             </div>
 
@@ -155,34 +175,34 @@ const Login = () => {
                             )}
 
                             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                                <div style={{ position: 'relative' }}>
-                                    <Mail size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Email Address</label>
                                     <input 
                                         type="email" 
-                                        placeholder="Email Address" 
+                                        placeholder="Enter your email" 
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required 
-                                        style={{ paddingLeft: '48px', marginBottom: 0 }}
+                                        style={{ marginBottom: 0 }}
                                     />
                                 </div>
                                 
-                                <div style={{ position: 'relative' }}>
-                                    <Lock size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Password</label>
                                     <input 
                                         type="password" 
-                                        placeholder="Password" 
+                                        placeholder="Enter your password" 
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required 
-                                        style={{ paddingLeft: '48px', marginBottom: 0 }}
+                                        style={{ marginBottom: 0 }}
                                     />
                                 </div>
 
-                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-10px' }}>
                                     <span 
                                         onClick={() => navigate('/forgot-password')}
-                                        style={{ color: 'var(--primary-blue)', fontSize: '0.85rem', textDecoration: 'none', cursor: 'pointer' }}
+                                        style={{ color: 'var(--primary-blue)', fontSize: '0.8rem', cursor: 'pointer' }}
                                     >
                                         Forgot Password?
                                     </span>
@@ -191,33 +211,17 @@ const Login = () => {
                                 <button 
                                     type="submit" 
                                     disabled={isLoading}
-                                    style={{ 
-                                        width: '100%', 
-                                        padding: '1rem', 
-                                        marginTop: '1rem',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        fontSize: '1.05rem',
-                                        opacity: isLoading ? 0.7 : 1
-                                    }}
+                                    style={{ width: '100%', padding: '1rem', marginTop: '0.5rem', background: 'var(--gradient-primary)' }}
                                 >
                                     {isLoading ? 'Processing...' : 'Sign In'}
-                                    {!isLoading && <ArrowRight size={20} />}
                                 </button>
                             </form>
 
-                            <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                            <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                                 Don't have an account?{" "}
                                 <span 
                                     onClick={() => navigate('/signup')}
-                                    style={{ 
-                                        color: 'var(--primary-blue)', 
-                                        cursor: 'pointer', 
-                                        fontWeight: '600',
-                                        transition: 'color 0.3s ease'
-                                    }}
+                                    style={{ color: 'var(--primary-blue)', cursor: 'pointer' }}
                                 >
                                     Sign up
                                 </span>
@@ -227,22 +231,11 @@ const Login = () => {
                         <>
                             {/* 2-Step Authentication View */}
                             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                                <div style={{ 
-                                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                    width: '60px', height: '60px', borderRadius: '50%', 
-                                    background: 'rgba(179, 136, 255, 0.1)', border: '1px solid rgba(179, 136, 255, 0.3)',
-                                    marginBottom: '1rem' }}>
-                                    <ShieldCheck size={32} color="#b388ff" />
-                                </div>
-                                <h2 style={{ 
-                                    fontSize: '1.8rem', fontWeight: '800', 
-                                    
-                                    marginBottom: '0.5rem'
-                                }}>
+                                <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '0.5rem', color: '#ffffff' }}>
                                     2-Step Verification
                                 </h2>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.4' }}>
-                                    For security, we sent a 6-digit code to your **Email**.
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                    For security, we sent a code to your Email.
                                 </p>
                             </div>
 
@@ -259,72 +252,41 @@ const Login = () => {
                             )}
 
                             <form onSubmit={handleVerify2FA} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                                
-                                {/* Email OTP field */}
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 'bold' }}>
-                                        Email verification code
-                                    </label>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Email Code</label>
                                     <div style={{ position: 'relative' }}>
                                         <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                         <input 
                                             type="text" 
                                             maxLength="6"
-                                            placeholder="Enter 6-digit email code" 
+                                            placeholder="Enter 6-digit code" 
                                             value={emailOtp}
                                             onChange={(e) => setEmailOtp(e.target.value)}
                                             required 
                                             style={{ paddingLeft: '48px', marginBottom: 0, letterSpacing: '1px' }}
                                         />
                                     </div>
-                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block' }}>
-                                        Sent to {email} (Check your real mailbox!)
-                                    </span>
                                 </div>
 
                                 <button 
                                     type="submit" 
                                     disabled={isLoading}
-                                    style={{ 
-                                        width: '100%', 
-                                        padding: '1rem', 
-                                        marginTop: '1rem',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        fontSize: '1.05rem',
-                                        background: 'var(--gradient-primary)',
-                                        color: '#ffffff',
-                                        opacity: isLoading ? 0.7 : 1,
-                                        borderRadius: '30px'
-                                    }}
+                                    style={{ width: '100%', padding: '1rem', marginTop: '0.5rem' }}
                                 >
                                     {isLoading ? 'Verifying...' : 'Verify & Sign In'}
-                                    {!isLoading && <ArrowRight size={20} />}
                                 </button>
                                 
                                 <button 
                                     type="button" 
                                     onClick={() => setTwoFactorRequired(false)}
-                                style={{ 
-                                    width: '100%', 
-                                    background: 'var(--bg-main)',
-                                    color: 'var(--text-main)',
-                                    border: '1px solid var(--border-light)',
-                                    padding: '0.75rem',
-                                    fontSize: '0.9rem',
-                                    borderRadius: '30px',
-                                    boxShadow: 'none',
-                                    cursor: 'pointer'
-                                }}
+                                    className="secondary"
+                                    style={{ width: '100%', padding: '1rem' }}
                                 >
                                     Back to Login
                                 </button>
                             </form>
                         </>
                     )}
-
                 </div>
             </div>
         </div>

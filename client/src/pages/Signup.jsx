@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { Mail, Lock, User, Phone, ArrowRight, PlaneTakeoff, Smartphone, ShieldCheck, X, AlertCircle } from 'lucide-react';
+import { Mail, Lock, User, Phone, AlertCircle, Smartphone, ShieldCheck, X, Plane, MapPin } from 'lucide-react';
 import { getApiUrl } from '../services/apiService';
 
 const Signup = () => {
@@ -103,40 +103,64 @@ const Signup = () => {
     return (
         <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
             <Navbar />
-            
-            
-            
 
-            <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+            <div className="container" style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                minHeight: '80vh',
+                position: 'relative'
+            }}>
+                {/* Decorative Flight Path Background */}
+                <div style={{
+                    position: 'absolute',
+                    top: '50%', left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '100%', maxWidth: '800px',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                    opacity: 0.6
+                }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <Plane size={32} color="var(--accent-cyan)" style={{ transform: 'rotate(45deg)' }} />
+                        <h3 style={{ margin: '10px 0 0', color: '#fff' }}>JFK</h3>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>New York</p>
+                    </div>
+
+                    <div style={{
+                        flex: 1, height: '2px',
+                        background: 'repeating-linear-gradient(90deg, var(--text-muted) 0, var(--text-muted) 10px, transparent 10px, transparent 20px)',
+                        margin: '0 40px', opacity: 0.3
+                    }} />
+
+                    <div style={{ textAlign: 'center' }}>
+                        <MapPin size={32} color="var(--primary-blue)" />
+                        <h3 style={{ margin: '10px 0 0', color: '#fff' }}>LHR</h3>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>London</p>
+                    </div>
+                </div>
+
                 <div className="login-box" style={{ 
-                    maxWidth: '440px', 
+                    maxWidth: '400px', 
                     width: '100%', 
-                    padding: '3rem 2.5rem',
+                    padding: '2.5rem',
                     borderRadius: '24px',
-                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
-                    border: verificationRequired ? '1px solid rgba(179, 136, 255, 0.4)' : '1px solid var(--border-light)'
+                    zIndex: 1,
+                    background: 'rgba(15, 23, 42, 0.85)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                    boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)'
                 }}>
                     
                     {!verificationRequired ? (
                         <>
                             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                                <div style={{ 
-                                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                    width: '60px', height: '60px', borderRadius: '50%', 
-                                    background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--border-light)',
-                                    marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
-                                }}>
-                                    <PlaneTakeoff size={32} color="var(--primary-blue)" />
-                                </div>
-                                <h2 style={{ 
-                                    fontSize: '2rem', fontWeight: '800', 
-                                    
-                                    marginBottom: '0.5rem'
-                                }}>
+                                <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '0.5rem', color: '#ffffff' }}>
                                     Join the Journey
                                 </h2>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                                     Create an account to book your addons
                                 </p>
                             </div>
@@ -155,84 +179,68 @@ const Signup = () => {
 
                             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                                 
-                                <div style={{ position: 'relative' }}>
-                                    <User size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Full Name</label>
                                     <input 
                                         type="text" 
-                                        placeholder="Full Name" 
+                                        placeholder="Enter your full name" 
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         required
-                                        style={{ paddingLeft: '48px', marginBottom: 0 }}
+                                        style={{ marginBottom: 0 }}
                                     />
                                 </div>
 
-                                <div style={{ position: 'relative' }}>
-                                    <Mail size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Email Address</label>
                                     <input 
                                         type="email" 
-                                        placeholder="Email Address" 
+                                        placeholder="Enter your email" 
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required 
-                                        style={{ paddingLeft: '48px', marginBottom: 0 }}
+                                        style={{ marginBottom: 0 }}
                                     />
                                 </div>
 
-                                <div style={{ position: 'relative' }}>
-                                    <Phone size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Mobile Number</label>
                                     <input 
                                         type="tel" 
-                                        placeholder="Mobile Number" 
+                                        placeholder="Enter your mobile number" 
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                         required 
-                                        style={{ paddingLeft: '48px', marginBottom: 0 }}
+                                        style={{ marginBottom: 0 }}
                                     />
                                 </div>
                                 
-                                <div style={{ position: 'relative' }}>
-                                    <Lock size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Password</label>
                                     <input 
                                         type="password" 
-                                        placeholder="Password" 
+                                        placeholder="Create a password" 
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required 
-                                        style={{ paddingLeft: '48px', marginBottom: 0 }}
+                                        style={{ marginBottom: 0 }}
                                     />
                                 </div>
 
                                 <button 
                                     type="submit" 
                                     disabled={isLoading}
-                                    style={{ 
-                                        width: '100%', 
-                                        padding: '1rem', 
-                                        marginTop: '1rem',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        fontSize: '1.05rem',
-                                        opacity: isLoading ? 0.7 : 1
-                                    }}
+                                    style={{ width: '100%', padding: '1rem', marginTop: '0.5rem', background: 'var(--gradient-primary)' }}
                                 >
                                     {isLoading ? 'Processing...' : 'Create Account'}
-                                    {!isLoading && <ArrowRight size={20} />}
                                 </button>
                             </form>
 
-                            <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                            <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                                 Already have an account?{" "}
                                 <span 
                                     onClick={() => navigate('/login')}
-                                    style={{ 
-                                        color: 'var(--primary-blue)', 
-                                        cursor: 'pointer', 
-                                        fontWeight: '600',
-                                        transition: 'color 0.3s ease'
-                                    }}
+                                    style={{ color: 'var(--primary-blue)', cursor: 'pointer' }}
                                 >
                                     Log in
                                 </span>
@@ -241,22 +249,11 @@ const Signup = () => {
                     ) : (
                         <>
                             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                                <div style={{ 
-                                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                                    width: '60px', height: '60px', borderRadius: '50%', 
-                                    background: 'rgba(179, 136, 255, 0.1)', border: '1px solid rgba(179, 136, 255, 0.3)',
-                                    marginBottom: '1rem' }}>
-                                    <ShieldCheck size={32} color="#b388ff" />
-                                </div>
-                                <h2 style={{ 
-                                    fontSize: '1.8rem', fontWeight: '800', 
-                                    
-                                    marginBottom: '0.5rem'
-                                }}>
+                                <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '0.5rem', color: '#ffffff' }}>
                                     Verify Mobile
                                 </h2>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: '1.4' }}>
-                                    We sent a 6-digit verification code to your Mobile SMS.
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                    We sent a verification code to your SMS.
                                 </p>
                             </div>
 
@@ -274,11 +271,9 @@ const Signup = () => {
 
                             <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                                 <div>
-                                    <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 'bold' }}>
-                                        SMS verification code
-                                    </label>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>SMS verification code</label>
                                     <div style={{ position: 'relative' }}>
-                                        <Smartphone size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.4)' }} />
+                                        <Smartphone size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                         <input 
                                             type="text" 
                                             maxLength="6"
@@ -289,48 +284,24 @@ const Signup = () => {
                                             style={{ paddingLeft: '48px', marginBottom: 0, letterSpacing: '1px' }}
                                         />
                                     </div>
-                                    <span style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.4)', marginTop: '4px', display: 'block' }}>
-                                        Sent to {phone || 'your mobile number'} (Simulated below)
+                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block' }}>
+                                        Sent to {phone || 'your mobile number'}
                                     </span>
                                 </div>
 
                                 <button 
                                     type="submit" 
                                     disabled={isLoading}
-                                    style={{ 
-                                        width: '100%', 
-                                        padding: '1rem', 
-                                        marginTop: '1rem',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        fontSize: '1.05rem',
-                                        background: 'var(--gradient-primary)',
-                                        color: '#ffffff',
-                                        border: 'none',
-                                        opacity: isLoading ? 0.7 : 1,
-                                        borderRadius: '30px'
-                                    }}
+                                    style={{ width: '100%', padding: '1rem', marginTop: '0.5rem', background: 'var(--gradient-primary)' }}
                                 >
                                     {isLoading ? 'Verifying...' : 'Verify & Create Account'}
-                                    {!isLoading && <ArrowRight size={20} color="#ffffff" />}
                                 </button>
                                 
                                 <button 
                                     type="button" 
                                     onClick={() => setVerificationRequired(false)}
-                                    style={{ 
-                                        width: '100%', 
-                                        background: 'transparent',
-                                        color: 'var(--text-main)',
-                                        border: '1px solid var(--border-light)',
-                                        padding: '0.75rem',
-                                        fontSize: '0.9rem',
-                                        borderRadius: '30px',
-                                        boxShadow: 'none',
-                                        cursor: 'pointer'
-                                    }}
+                                    className="secondary"
+                                    style={{ width: '100%', padding: '1rem' }}
                                 >
                                     Back to Signup
                                 </button>
@@ -341,7 +312,7 @@ const Signup = () => {
                 </div>
             </div>
 
-            {/* Virtual SMS Toast Overlay (Mobile Phone Simulator) */}
+            {/* Virtual SMS Toast Overlay */}
             {showSmsNotification && (
                 <div style={{
                     position: 'fixed',
@@ -350,9 +321,9 @@ const Signup = () => {
                     width: '320px',
                     background: 'rgba(15, 23, 42, 0.95)',
                     backdropFilter: 'blur(20px)',
-                    border: '2px solid var(--accent-orange)',
-                    boxShadow: '0 0 30px rgba(255, 144, 0, 0.3)',
-                    borderRadius: '20px',
+                    border: '1px solid var(--accent-orange)',
+                    boxShadow: '0 0 30px rgba(255, 144, 0, 0.1)',
+                    borderRadius: '16px',
                     padding: '1.25rem',
                     zIndex: 99999,
                     animation: 'slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
@@ -365,8 +336,8 @@ const Signup = () => {
                         </div>
                         <X size={16} style={{ cursor: 'pointer', color: 'var(--text-muted)' }} onClick={() => setShowSmsNotification(false)} />
                     </div>
-                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '10px', fontSize: '0.85rem', lineHeight: '1.4', color: '#ffffff' }}>
-                        <strong style={{ color: 'var(--accent-orange)' }}>From:</strong> Smart Airline Security<br/>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '8px', fontSize: '0.85rem', lineHeight: '1.4', color: '#ffffff' }}>
+                        <strong style={{ color: 'var(--accent-orange)' }}>From:</strong> Smart Airline<br/>
                         Your Mobile Signup OTP is: <strong style={{ fontSize: '1.1rem',  letterSpacing: '1px', color: '#ffffff' }}>{simulatedMobileOtp}</strong>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
@@ -381,7 +352,7 @@ const Signup = () => {
                                 padding: '6px 12px',
                                 borderRadius: '8px',
                                 fontSize: '0.75rem',
-                                boxShadow: 'none',
+                                border: 'none',
                                 fontWeight: 'bold',
                                 cursor: 'pointer'
                             }}

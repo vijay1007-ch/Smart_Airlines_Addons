@@ -14,7 +14,7 @@ const SidebarRow = ({ icon, title, subtitle, onClick, color }) => (
             borderBottom: '1px solid var(--border-light)',
             cursor: 'pointer',
             transition: 'background 0.2s ease',
-            color: color || '#ffffff',
+            color: color || 'var(--text-main)',
             textDecoration: 'none'
         }}
         onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
@@ -23,7 +23,7 @@ const SidebarRow = ({ icon, title, subtitle, onClick, color }) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <div style={{ fontSize: '1.5rem' }}>{icon}</div>
             <div>
-                <div style={{ fontWeight: '600', fontSize: '1rem', color: color || '#ffffff' }}>{title}</div>
+                <div style={{ fontWeight: '600', fontSize: '1rem', color: color || 'var(--text-main)' }}>{title}</div>
                 {subtitle && <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{subtitle}</div>}
             </div>
         </div>
@@ -213,9 +213,9 @@ const Navbar = () => {
                             left: 0,
                             height: '100vh',
                             width: '320px',
-                            background: 'var(--gradient-sidebar)',
-                            backdropFilter: 'none',
-                            borderRight: 'none',
+                            background: 'var(--bg-card)',
+                            backdropFilter: 'blur(20px)',
+                            borderRight: '1px solid var(--border-light)',
                             boxShadow: '2px 0 20px rgba(0,0,0,0.5)',
                             transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
                             transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -226,9 +226,9 @@ const Navbar = () => {
                         }}
                     >
                         {/* Sidebar Header (Profile Info) */}
-                        <div style={{ padding: '30px 20px', borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.1)' }}>
+                        <div style={{ padding: '30px 20px', borderBottom: '1px solid var(--border-light)', background: 'var(--bg-main)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                <h2 style={{ margin: 0, fontSize: '1.5rem', color: '#ffffff' }}>My Profile</h2>
+                                <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-main)' }}>My Profile</h2>
                                 <X size={24} color="#94a3b8" style={{ cursor: 'pointer' }} onClick={() => setIsSidebarOpen(false)} />
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
@@ -236,8 +236,8 @@ const Navbar = () => {
                                     {user.name.charAt(0).toUpperCase()}
                                 </div>
                                 <div>
-                                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#ffffff' }}>{user.name}</div>
-                                    <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>{user.email}</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text-main)' }}>{user.name}</div>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{user.email}</div>
                                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                         <div style={{
                                             display: 'inline-block',
@@ -274,10 +274,10 @@ const Navbar = () => {
                             </div>
 
                             {user.role === 'user' && (
-                                <div style={{ marginTop: '20px', padding: '15px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                <div style={{ marginTop: '20px', padding: '15px', background: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                                        <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#38bdf8' }}>SKYPOINTS ({tier})</span>
-                                        <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#ffffff' }}>{earnedPoints} pts</span>
+                                        <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--primary-blue)' }}>SKYPOINTS ({tier})</span>
+                                        <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--text-main)' }}>{earnedPoints} pts</span>
                                     </div>
                                     <div style={{ width: '100%', height: '8px', background: 'rgba(0,0,0,0.2)', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
                                         <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #ff416c, #ff9000)', transition: 'width 1s ease' }} />
@@ -314,7 +314,7 @@ const Navbar = () => {
                         </div>
 
                         {/* Footer / Logout */}
-                        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '10px 0' }}>
+                        <div style={{ borderTop: '1px solid var(--border-light)', padding: '10px 0' }}>
                             <SidebarRow icon="✏️" title="Edit Profile" onClick={() => { setIsSidebarOpen(false); navigate('/edit-profile'); }} />
                             <SidebarRow icon="🔐" title="Reset Password" onClick={() => { setIsSidebarOpen(false); navigate('/forgot-password'); }} />
                             <SidebarRow icon="🚪" title="Logout" onClick={handleLogout} color="#ff416c" />

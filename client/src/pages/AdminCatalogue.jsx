@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import AdminSidebar from '../components/AdminSidebar';
 import { Edit2, Trash2, Plus, Save, X } from 'lucide-react';
 
 const AdminCatalogue = () => {
@@ -105,135 +105,142 @@ const AdminCatalogue = () => {
     if (!user) return null;
 
     return (
-        <div className="page" style={{ position: 'relative', minHeight: '100vh', paddingBottom: '3rem' }}>
-            <Navbar />
-
+        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
+            <AdminSidebar />
             
-            
-
-            <div className="container" style={{ marginTop: '2rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
                     <div>
-                        <h1 className="title">
-                            Manage Catalogue
-                        </h1>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
+                        <h1 style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '0 0 0.5rem 0' }}>Manage Catalogue</h1>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', margin: 0 }}>
                             Add, update, or remove items from the store catalogue.
                         </p>
                     </div>
                     <button 
                         onClick={() => setIsAdding(true)}
-                        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem' }}
+                        style={{ 
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            background: '#2563eb', color: '#fff',
+                            padding: '0.6rem 1.2rem', borderRadius: '6px',
+                            border: 'none', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600'
+                        }}
                     >
-                        <Plus size={18} /> Add New Item
+                        <Plus size={16} /> Add New Item
                     </button>
                 </div>
 
                 {isAdding && (
-                    <div className="card" style={{ padding: '1.5rem', marginBottom: '2rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <div style={{ background: '#0f172a', border: '1px solid #1e293b', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
                         <input 
                             type="text" 
                             placeholder="Item Name" 
                             value={addForm.name}
                             onChange={(e) => setAddForm({...addForm, name: e.target.value})}
-                            style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)' }}
+                            style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }}
                         />
                         <input 
                             type="number" 
                             placeholder="Price" 
                             value={addForm.price}
                             onChange={(e) => setAddForm({...addForm, price: e.target.value})}
-                            style={{ width: '150px', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)' }}
+                            style={{ width: '150px', padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }}
                         />
-                        <button onClick={handleAdd} style={{ background: '#4ade80', color: '#ffffff' }}>Save</button>
-                        <button onClick={() => setIsAdding(false)} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)' }}>Cancel</button>
+                        <button onClick={handleAdd} style={{ background: '#10b981', color: '#ffffff', padding: '0.75rem 1.5rem', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Save</button>
+                        <button onClick={() => setIsAdding(false)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid #334155', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
                     </div>
                 )}
 
-                <div className="card" style={{ padding: '1.5rem' }}>
-                    <div style={{ overflowX: 'auto' }}>
-                        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                            <thead>
-                                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                                    <th style={{ padding: '1rem 0', fontWeight: '500' }}>ID</th>
-                                    <th style={{ padding: '1rem 0', fontWeight: '500' }}>Name</th>
-                                    <th style={{ padding: '1rem 0', fontWeight: '500' }}>Price (₹)</th>
-                                    <th style={{ padding: '1rem 0', fontWeight: '500', textAlign: 'right' }}>Actions</th>
+                <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '0', overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                        <thead>
+                            <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>ID</th>
+                                <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Name</th>
+                                <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Price (₹)</th>
+                                <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500', textAlign: 'right' }}>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="4" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>Loading items...</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {loading ? (
-                                    <tr>
-                                        <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Loading items...</td>
+                            ) : addons.length === 0 ? (
+                                <tr>
+                                    <td colSpan="4" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>No items found.</td>
+                                </tr>
+                            ) : (
+                                addons.map((addon, index) => (
+                                    <tr key={addon.id} style={{ borderBottom: '1px solid #1e293b' }}>
+                                        <td style={{ padding: '1rem 1.5rem', fontWeight: '500', color: 'var(--text-main)', fontSize: '0.9rem' }}>
+                                            #{index + 1}
+                                        </td>
+                                        
+                                        <td style={{ padding: '1rem 1.5rem', fontSize: '0.9rem' }}>
+                                            {isEditing === addon.id ? (
+                                                <input 
+                                                    type="text" 
+                                                    value={editForm.name}
+                                                    onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                                                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.85rem', width: '100%' }}
+                                                />
+                                            ) : addon.name}
+                                        </td>
+                                        
+                                        <td style={{ padding: '1rem 1.5rem', fontSize: '0.9rem' }}>
+                                            {isEditing === addon.id ? (
+                                                <input 
+                                                    type="number" 
+                                                    value={editForm.price}
+                                                    onChange={(e) => setEditForm({...editForm, price: e.target.value})}
+                                                    style={{ width: '100px', padding: '0.5rem', borderRadius: '4px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.85rem' }}
+                                                />
+                                            ) : `₹${addon.price}`}
+                                        </td>
+                                        
+                                        <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
+                                            {isEditing === addon.id ? (
+                                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                                                    <button 
+                                                        onClick={() => handleUpdate(addon.id)}
+                                                        style={{ padding: '0.4rem', background: '#10b981', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                                        title="Save"
+                                                    ><Save size={16} /></button>
+                                                    <button 
+                                                        onClick={() => setIsEditing(null)}
+                                                        style={{ padding: '0.4rem', background: 'transparent', color: '#94a3b8', border: '1px solid #334155', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                                        title="Cancel"
+                                                    ><X size={16} /></button>
+                                                </div>
+                                            ) : (
+                                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                                                    <button 
+                                                        onClick={() => {
+                                                            setIsEditing(addon.id);
+                                                            setEditForm({ name: addon.name, price: addon.price });
+                                                        }}
+                                                        style={{ padding: '0.4rem', background: 'rgba(37, 99, 235, 0.1)', color: '#3b82f6', border: '1px solid rgba(37,99,235,0.3)', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                                        title="Edit"
+                                                    ><Edit2 size={16} /></button>
+                                                    <button 
+                                                        onClick={() => handleDelete(addon.id)}
+                                                        style={{ padding: '0.4rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                                        title="Delete"
+                                                    ><Trash2 size={16} /></button>
+                                                </div>
+                                            )}
+                                        </td>
                                     </tr>
-                                ) : addons.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>No items found.</td>
-                                    </tr>
-                                ) : (
-                                    addons.map((addon, index) => (
-                                        <tr key={addon.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                            <td style={{ padding: '1rem 0', fontWeight: '500', color: 'var(--text-muted)' }}>#{index + 1}</td>
-                                            
-                                            <td style={{ padding: '1rem 0' }}>
-                                                {isEditing === addon.id ? (
-                                                    <input 
-                                                        type="text" 
-                                                        value={editForm.name}
-                                                        onChange={(e) => setEditForm({...editForm, name: e.target.value})}
-                                                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.3)' }}
-                                                    />
-                                                ) : addon.name}
-                                            </td>
-                                            
-                                            <td style={{ padding: '1rem 0', fontWeight: '600', color: 'var(--accent-cyan)' }}>
-                                                {isEditing === addon.id ? (
-                                                    <input 
-                                                        type="number" 
-                                                        value={editForm.price}
-                                                        onChange={(e) => setEditForm({...editForm, price: e.target.value})}
-                                                        style={{ width: '100px', padding: '0.5rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(0,0,0,0.3)' }}
-                                                    />
-                                                ) : `₹${addon.price}`}
-                                            </td>
-                                            
-                                            <td style={{ padding: '1rem 0', textAlign: 'right' }}>
-                                                {isEditing === addon.id ? (
-                                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
-                                                        <button 
-                                                            onClick={() => handleUpdate(addon.id)}
-                                                            style={{ padding: '0.5rem', background: 'rgba(74, 222, 128, 0.1)', color: '#4ade80', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                                                            title="Save"
-                                                        ><Save size={16} /></button>
-                                                        <button 
-                                                            onClick={() => setIsEditing(null)}
-                                                            style={{ padding: '0.5rem', background: 'rgba(255,255,255,0.05)',  border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                                                            title="Cancel"
-                                                        ><X size={16} /></button>
-                                                    </div>
-                                                ) : (
-                                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
-                                                        <button 
-                                                            onClick={() => {
-                                                                setIsEditing(addon.id);
-                                                                setEditForm({ name: addon.name, price: addon.price });
-                                                            }}
-                                                            style={{ padding: '0.5rem', background: 'var(--bg-main)',  border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                                                            title="Edit"
-                                                        ><Edit2 size={16} /></button>
-                                                        <button 
-                                                            onClick={() => handleDelete(addon.id)}
-                                                            style={{ padding: '0.5rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                                                            title="Delete"
-                                                        ><Trash2 size={16} /></button>
-                                                    </div>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 1.5rem', borderTop: '1px solid #1e293b' }}>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                            Showing 1 to {addons.length} of {addons.length} items
+                        </span>
                     </div>
                 </div>
             </div>

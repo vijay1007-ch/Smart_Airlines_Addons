@@ -24,7 +24,7 @@ const UserDashboard = () => {
         toCity: "London",
         departureDate: "Oct 24, 2026",
         departureTime: "18:45 PM",
-        seat: "12A (Economy)",
+        seat: "14B (Economy)",
         status: "On Time"
     });
 
@@ -91,202 +91,184 @@ const UserDashboard = () => {
     return (
         <div className="page" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
             <Navbar />
-            
-            
-            
 
-            <div className="container" style={{ paddingTop: '2rem', paddingBottom: '100px' }}>
+            <div className="container" style={{ paddingTop: '2rem', paddingBottom: '100px', maxWidth: '1000px' }}>
                 
-                <h1 className="title">
-                    User Dashboard
+                <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '0.2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    Welcome back, {userName}! <Plane size={24} color="var(--accent-cyan)" style={{ transform: 'rotate(45deg)' }} />
                 </h1>
-                <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: '3rem' }}>
-                    Welcome back, <span style={{ color: 'var(--accent-cyan)' }}>{userName}</span>. Here is your itinerary.
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '2.5rem' }}>
+                    Here's your itinerary and account overview.
                 </p>
 
                 {/* Flight Details Section */}
+                <h2 style={{ fontSize: '1.2rem', marginBottom: '1rem', fontWeight: '600', color: 'var(--text-muted)' }}>Upcoming Flight</h2>
                 <div className="card" style={{ 
                     display: 'flex', 
                     justifyContent: 'space-between', 
                     alignItems: 'center', 
-                    padding: '2.5rem',
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))',
-                    borderLeft: '4px solid var(--accent-cyan)',
-                    flexWrap: 'wrap',
-                    gap: '2rem',
-                    marginBottom: '3rem'
+                    padding: '2rem',
+                    marginBottom: '2.5rem',
+                    border: '1px solid var(--border-light)'
                 }}>
                     <div style={{ display: 'flex', gap: '3rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <div style={{ textAlign: 'center' }}>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '0.2rem' }}>Flight</p>
-                            <h3 style={{ margin: 0, color: 'var(--primary-blue)', fontSize: '1.4rem' }}>{flightDetails.flightNumber}</h3>
+                        <div style={{ padding: '0.5rem 1rem', background: 'rgba(0, 112, 243, 0.1)', borderRadius: '12px', border: '1px solid rgba(0, 112, 243, 0.3)' }}>
+                            <h3 style={{ margin: 0, color: 'var(--accent-cyan)', fontSize: '1.2rem' }}>{flightDetails.flightNumber}</h3>
                         </div>
                         
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                             <div style={{ textAlign: 'right' }}>
-                                <h2 style={{ margin: 0, fontSize: '2rem' }}>{flightDetails.from}</h2>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>{flightDetails.fromCity}</p>
+                                <h2 style={{ margin: 0, fontSize: '1.8rem' }}>{flightDetails.from}</h2>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: 0 }}>{flightDetails.fromCity}</p>
                             </div>
                             
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 1rem' }}>
-                                <Plane size={28} color="var(--accent-cyan)" style={{ marginBottom: '5px' }} />
-                                <div style={{ width: '80px', height: '2px', background: 'rgba(0, 229, 255, 0.3)', position: 'relative' }}>
-                                    <div style={{ position: 'absolute', right: 0, top: '-4px', width: '10px', height: '10px', borderRadius: '50%', background: 'var(--accent-cyan)' }}></div>
-                                </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 0.5rem' }}>
+                                <ArrowRight size={24} color="var(--text-muted)" />
                             </div>
 
                             <div>
-                                <h2 style={{ margin: 0, fontSize: '2rem' }}>{flightDetails.to}</h2>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>{flightDetails.toCity}</p>
+                                <h2 style={{ margin: 0, fontSize: '1.8rem' }}>{flightDetails.to}</h2>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: 0 }}>{flightDetails.toCity}</p>
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', gap: '2rem', borderLeft: '1px solid rgba(255,255,255,0.1)', paddingLeft: '2rem' }}>
+                        <div style={{ display: 'flex', gap: '2rem' }}>
                             <div>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.3rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                    <Calendar size={16} color="var(--primary-blue)" /> Date
-                                </p>
-                                <p style={{ margin: 0, fontWeight: '600', fontSize: '1.05rem' }}>{flightDetails.departureDate}</p>
-                            </div>
-                            <div>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.3rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                    <Clock size={16} color="var(--primary-blue)" /> Time
-                                </p>
-                                <p style={{ margin: 0, fontWeight: '600', fontSize: '1.05rem' }}>{flightDetails.departureTime}</p>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '0.2rem' }}>{flightDetails.departureDate}</p>
+                                <p style={{ margin: 0, fontWeight: '600', fontSize: '0.9rem' }}>{flightDetails.departureTime}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div style={{ flex: 1, minWidth: '280px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.8rem' }}>
-                            <div style={{ 
-                                display: 'inline-block', 
-                                padding: '0.4rem 1rem', 
-                                borderRadius: '20px', 
-                                background: 'rgba(74, 222, 128, 0.1)', 
-                                border: '1px solid rgba(74, 222, 128, 0.2)',
-                                color: '#4ade80', 
-                                fontWeight: 'bold',
-                                fontSize: '0.9rem'
-                            }}>
-                                {flightDetails.status}
-                            </div>
-                            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '1rem' }}>Seat: <strong style={{ color: upgradeStatus?.status === 'Approved' ? 'var(--primary-blue)' : 'var(--text-main)' }}>{flightDetails.seat}</strong></p>
-                        
-                            <div style={{ marginTop: '0.5rem', width: '100%' }}>
-                                {!upgradeStatus || upgradeStatus.status === 'Rejected' ? (
-                                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                        <select 
-                                            value={selectedClass} 
-                                            onChange={(e) => setSelectedClass(e.target.value)}
-                                            style={{
-                                                background: 'var(--bg-main)',
-                                                
-                                                border: '1px solid var(--border-light)',
-                                                padding: '0.6rem 1rem',
-                                                borderRadius: '20px',
-                                                outline: 'none',
-                                                cursor: 'pointer',
-                                                fontSize: '0.9rem',
-                                                backdropFilter: 'blur(10px)',
-                                                transition: 'all 0.3s ease',
-                                                fontFamily: 'inherit',
-                                                width: '100%',
-                                                maxWidth: '200px'
-                                            }}
-                                            onFocus={(e) => e.target.style.borderColor = 'var(--accent-cyan)'}
-                                            onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'}
-                                        >
-                                            <option value="Business Class" style={{color: 'var(--text-main)'}}>Business Class</option>
-                                            <option value="First Class" style={{color: 'var(--text-main)'}}>First Class</option>
-                                            <option value="Premium Economy" style={{color: 'var(--text-main)'}}>Premium Economy</option>
-                                        </select>
-                                        <button 
-                                            onClick={requestUpgrade}
-                                            disabled={isRequesting}
-                                            style={{ 
-                                                background: 'var(--gradient-primary)', 
-                                                border: 'none', 
-                                                color: '#ffffff',
-                                                padding: '0.6rem 1.5rem',
-                                                fontSize: '0.9rem',
-                                                fontWeight: '600',
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                gap: '8px',
-                                                cursor: 'pointer',
-                                                borderRadius: '20px',
-                                                boxShadow: '0 4px 15px rgba(255, 75, 43, 0.4)',
-                                                transition: 'all 0.3s ease',
-                                                whiteSpace: 'nowrap'
-                                            }}
-                                            onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                                            onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                                        >
-                                            <ArrowUpCircle size={18} />
-                                            {isRequesting ? 'Requesting...' : 'Request'}
-                                        </button>
-                                    </div>
-                            ) : upgradeStatus.status === 'Pending' ? (
-                                <span style={{ color: '#fbbf24', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end' }}>
-                                    <Clock size={16} /> Upgrade Request Sent to Admin
-                                </span>
-                            ) : upgradeStatus.status === 'Pending Payment' ? (
-                                <div style={{ textAlign: 'right' }}>
-                                    <span style={{ color: '#fbbf24', fontSize: '0.9rem', display: 'block', marginBottom: '8px' }}>
-                                        Admin offered: {upgradeStatus.newSeat} (₹{upgradeStatus.price})
-                                    </span>
-                                    <button 
-                                        onClick={handlePayUpgrade}
-                                        style={{ 
-                                            background: 'var(--accent-cyan)', 
-                                            color: '#ffffff',
-                                            padding: '0.4rem 1rem',
-                                            fontSize: '0.85rem',
-                                            border: 'none',
-                                            display: 'inline-flex',
-                                            alignItems: 'center',
-                                            gap: '5px'
+                    <div style={{ flex: 1, minWidth: '200px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.8rem' }}>
+                        <div style={{ 
+                            display: 'inline-block', 
+                            padding: '0.3rem 0.8rem', 
+                            borderRadius: '20px', 
+                            background: 'rgba(16, 185, 129, 0.1)', 
+                            border: '1px solid rgba(16, 185, 129, 0.2)',
+                            color: '#10b981', 
+                            fontWeight: 'bold',
+                            fontSize: '0.75rem'
+                        }}>
+                            {flightDetails.status}
+                        </div>
+                        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.85rem' }}>Seat: <strong style={{ color: upgradeStatus?.status === 'Approved' ? 'var(--accent-cyan)' : 'var(--text-main)' }}>{flightDetails.seat}</strong></p>
+                    
+                        <div style={{ marginTop: '0.5rem', width: '100%' }}>
+                            {!upgradeStatus || upgradeStatus.status === 'Rejected' ? (
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                    <select 
+                                        value={selectedClass} 
+                                        onChange={(e) => setSelectedClass(e.target.value)}
+                                        style={{
+                                            background: 'rgba(0,0,0,0.2)',
+                                            border: '1px solid var(--border-light)',
+                                            padding: '0.4rem 0.8rem',
+                                            borderRadius: '8px',
+                                            outline: 'none',
+                                            cursor: 'pointer',
+                                            fontSize: '0.8rem',
+                                            fontFamily: 'inherit',
+                                            color: 'var(--text-main)',
+                                            width: 'auto'
                                         }}
                                     >
-                                        <ShoppingBag size={14} /> Pay ₹{upgradeStatus.price} Now
+                                        <option value="Business Class" style={{color: 'var(--text-main)', background: 'var(--bg-main)'}}>Business Class</option>
+                                        <option value="First Class" style={{color: 'var(--text-main)', background: 'var(--bg-main)'}}>First Class</option>
+                                        <option value="Premium Economy" style={{color: 'var(--text-main)', background: 'var(--bg-main)'}}>Premium Economy</option>
+                                    </select>
+                                    <button 
+                                        onClick={requestUpgrade}
+                                        disabled={isRequesting}
+                                        style={{ 
+                                            background: 'var(--gradient-primary)', 
+                                            border: 'none', 
+                                            color: '#ffffff',
+                                            padding: '0.4rem 1rem',
+                                            fontSize: '0.8rem',
+                                            fontWeight: '600',
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '6px',
+                                            cursor: 'pointer',
+                                            borderRadius: '8px'
+                                        }}
+                                    >
+                                        <ArrowUpCircle size={14} />
+                                        {isRequesting ? 'Req...' : 'Upgrade'}
                                     </button>
                                 </div>
-                            ) : (
-                                <span style={{ color: '#00e5ff', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end', fontWeight: 'bold' }}>
-                                    <CheckCircle size={16} /> Upgrade Approved
+                        ) : upgradeStatus.status === 'Pending' ? (
+                            <span style={{ color: '#f59e0b', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end' }}>
+                                <Clock size={14} /> Upgrade Pending
+                            </span>
+                        ) : upgradeStatus.status === 'Pending Payment' ? (
+                            <div style={{ textAlign: 'right' }}>
+                                <span style={{ color: '#f59e0b', fontSize: '0.8rem', display: 'block', marginBottom: '8px' }}>
+                                    Offered: {upgradeStatus.newSeat} (₹{upgradeStatus.price})
                                 </span>
-                            )}
-                            {upgradeStatus?.status === 'Rejected' && (
-                                <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '5px' }}>Request Rejected</div>
-                            )}
+                                <button 
+                                    onClick={handlePayUpgrade}
+                                    style={{ background: 'var(--accent-cyan)', color: '#060b13', padding: '0.3rem 0.8rem', fontSize: '0.8rem', border: 'none', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                                >
+                                    <ShoppingBag size={12} /> Pay ₹{upgradeStatus.price}
+                                </button>
+                            </div>
+                        ) : (
+                            <span style={{ color: '#00e5ff', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end', fontWeight: 'bold' }}>
+                                <CheckCircle size={14} /> Upgrade Approved
+                            </span>
+                        )}
                         </div>
                     </div>
                 </div>
 
                 {/* Quick Actions */}
-                <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Quick Actions</h2>
-                <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-                    <div className="card" onClick={() => navigate('/catalogue')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2rem', transition: 'all 0.3s ease', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <div style={{ width: '60px', height: '60px', borderRadius: '15px', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
-                            <ShoppingBag size={28} color="var(--accent-cyan)" />
+                <h2 style={{ fontSize: '1.2rem', marginBottom: '1rem', fontWeight: '600', color: 'var(--text-muted)' }}>Quick Actions</h2>
+                <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
+                    <div className="card" onClick={() => navigate('/catalogue')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '1.5rem 2rem', border: '1px solid var(--border-light)' }}>
+                        <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'rgba(0, 112, 243, 0.1)', border: '1px solid rgba(0, 112, 243, 0.2)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
+                            <ShoppingBag size={24} color="var(--primary-blue)" />
                         </div>
                         <div>
-                            <h3 style={{ margin: '0 0 0.5rem 0' }}>Browse Catalogue</h3>
-                            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>Add premium meals, wifi, and more</p>
+                            <h3 style={{ margin: '0 0 0.3rem 0', fontSize: '1rem' }}>Browse Catalogue</h3>
+                            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.85rem' }}>Explore add ons</p>
                         </div>
-                        <ArrowRight style={{ marginLeft: 'auto', color: 'var(--text-muted)' }} />
                     </div>
 
-                    <div className="card" onClick={() => navigate('/history')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2rem', transition: 'all 0.3s ease', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <div style={{ width: '60px', height: '60px', borderRadius: '15px', background: 'rgba(179, 136, 255, 0.1)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
-                            <Clock size={28} color="#b388ff" />
+                    <div className="card" onClick={() => navigate('/history')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '1.5rem 2rem', border: '1px solid var(--border-light)' }}>
+                        <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'rgba(14, 165, 233, 0.1)', border: '1px solid rgba(14, 165, 233, 0.2)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
+                            <Clock size={24} color="var(--tertiary-accent)" />
                         </div>
                         <div>
-                            <h3 style={{ margin: '0 0 0.5rem 0' }}>Purchase History</h3>
-                            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>View your past add-on orders</p>
+                            <h3 style={{ margin: '0 0 0.3rem 0', fontSize: '1rem' }}>My Orders</h3>
+                            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.85rem' }}>View your past add-on orders</p>
                         </div>
-                        <ArrowRight style={{ marginLeft: 'auto', color: 'var(--text-muted)' }} />
+                    </div>
+                </div>
+
+                {/* Dashboard Stats Panel */}
+                <div className="card" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '2rem', border: '1px solid var(--border-light)' }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '1px' }}>SkyPoints</p>
+                        <h2 style={{ fontSize: '2rem', margin: 0, color: 'var(--text-main)' }}>2,450</h2>
+                    </div>
+                    <div style={{ width: '1px', height: '40px', background: 'var(--border-light)' }} />
+                    <div style={{ textAlign: 'center' }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Trips</p>
+                        <h2 style={{ fontSize: '2rem', margin: 0, color: 'var(--text-main)' }}>12</h2>
+                    </div>
+                    <div style={{ width: '1px', height: '40px', background: 'var(--border-light)' }} />
+                    <div style={{ textAlign: 'center' }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Add-ons Used</p>
+                        <h2 style={{ fontSize: '2rem', margin: 0, color: 'var(--text-main)' }}>18</h2>
+                    </div>
+                    <div style={{ width: '1px', height: '40px', background: 'var(--border-light)' }} />
+                    <div style={{ textAlign: 'center' }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Bundles</p>
+                        <h2 style={{ fontSize: '2rem', margin: 0, color: 'var(--text-main)' }}>3</h2>
                     </div>
                 </div>
 
