@@ -6,6 +6,8 @@ const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
 
+console.log("Has BREVO_API_KEY:", !!process.env.BREVO_API_KEY);
+
 const router = express.Router();
 const USERS_FILE = path.join(__dirname, "users.json");
 
@@ -47,6 +49,9 @@ const writeUsers = (users) => {
 const sendEmail = async ({ to, subject, html, from }) => {
   const apiKey = process.env.BREVO_API_KEY;
   const senderEmail = from || "bikkinavijay0@gmail.com"; // your verified Brevo sender
+
+  console.log("Sending via Brevo to:", to);
+  console.log("First 5 chars of key:", apiKey?.slice(0, 5));
 
   const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
