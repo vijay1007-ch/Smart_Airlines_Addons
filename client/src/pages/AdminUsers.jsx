@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { Users, Phone, Mail, Calendar, Shield, CreditCard, Search } from 'lucide-react';
+import { Users, Phone, Mail, Calendar, Shield, CreditCard, Search, Download, File, FileSpreadsheet, FileText } from 'lucide-react';
 
 const AdminUsers = () => {
     const navigate = useNavigate();
@@ -10,6 +10,7 @@ const AdminUsers = () => {
     const [usersList, setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [showDownloadMenu, setShowDownloadMenu] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -99,24 +100,76 @@ const AdminUsers = () => {
                         </p>
                     </div>
 
-                    {/* Search Bar */}
-                    <div style={{ position: 'relative', width: '300px' }}>
-                        <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                        <input 
-                            type="text" 
-                            placeholder="Search by name, email, phone..." 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            style={{ 
-                                width: '100%', 
-                                padding: '0.8rem 1rem 0.8rem 2.5rem', 
-                                borderRadius: '12px', 
-                                background: 'rgba(0,0,0,0.3)', 
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                color: '#fff',
-                                marginBottom: 0
-                            }}
-                        />
+                    {/* Search and Export */}
+                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                        {/* Search Bar */}
+                        <div style={{ position: 'relative', width: '300px' }}>
+                            <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                            <input 
+                                type="text" 
+                                placeholder="Search by name, email, phone..." 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{ 
+                                    width: '100%', 
+                                    padding: '0.8rem 1rem 0.8rem 2.5rem', 
+                                    borderRadius: '12px', 
+                                    background: 'rgba(0,0,0,0.3)', 
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    color: '#fff',
+                                    marginBottom: 0
+                                }}
+                            />
+                        </div>
+
+                        {/* Export Button */}
+                        <div style={{ position: 'relative' }}>
+                            <button 
+                                onClick={() => setShowDownloadMenu(!showDownloadMenu)}
+                                style={{
+                                    display: 'flex', alignItems: 'center', gap: '8px',
+                                    background: 'var(--primary-blue)', color: '#fff',
+                                    padding: '0.8rem 1.2rem', borderRadius: '12px',
+                                    border: 'none', cursor: 'pointer', fontWeight: 'bold'
+                                }}
+                            >
+                                <Download size={18} /> Export
+                            </button>
+                            
+                            {showDownloadMenu && (
+                                <div style={{
+                                    position: 'absolute', top: '100%', right: 0, marginTop: '10px',
+                                    background: 'var(--bg-secondary)', border: '1px solid var(--border-light)',
+                                    borderRadius: '12px', padding: '10px', minWidth: '200px',
+                                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)', zIndex: 100
+                                }}>
+                                    <div 
+                                        onClick={() => { alert('Downloading user data as PDF...'); setShowDownloadMenu(false); }}
+                                        style={{ padding: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', borderRadius: '8px', color: '#fff', transition: '0.2s' }}
+                                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                                    >
+                                        <File size={16} color="#ff4d4f" /> PDF Document
+                                    </div>
+                                    <div 
+                                        onClick={() => { alert('Downloading user data as Excel...'); setShowDownloadMenu(false); }}
+                                        style={{ padding: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', borderRadius: '8px', color: '#fff', transition: '0.2s' }}
+                                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                                    >
+                                        <FileSpreadsheet size={16} color="#52c41a" /> Excel Spreadsheet
+                                    </div>
+                                    <div 
+                                        onClick={() => { alert('Downloading user data as DOCX...'); setShowDownloadMenu(false); }}
+                                        style={{ padding: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', borderRadius: '8px', color: '#fff', transition: '0.2s' }}
+                                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                                    >
+                                        <FileText size={16} color="#1890ff" /> Word Document
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 

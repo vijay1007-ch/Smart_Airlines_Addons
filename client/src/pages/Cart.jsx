@@ -6,7 +6,7 @@ const Cart = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     const [cartItems, setCartItems] = useState([]);
-    const [flightType, setFlightType] = useState('domestic');
+    const [flightSelection, setFlightSelection] = useState('upcoming');
     const [couponInput, setCouponInput] = useState('');
     const [couponDiscount, setCouponDiscount] = useState(0);
     const [couponError, setCouponError] = useState('');
@@ -55,7 +55,7 @@ const Cart = () => {
     
     let shuuDiscountPercent = 0;
     if (isShuuPassActive) {
-        shuuDiscountPercent = flightType === 'international' ? 44 : 22;
+        shuuDiscountPercent = 22;
     }
 
     const shuuDiscountAmount = (discountableAmount * shuuDiscountPercent) / 100;
@@ -151,35 +151,30 @@ const Cart = () => {
                             ))}
                         </div>
 
-                        {/* Flight Type Selection */}
-                        <div className="card" style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        {/* Flight Selection */}
+                        <div className="card" style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
                             <div>
-                                <h3 style={{ margin: 0 }}>Flight Type</h3>
-                                <p style={{ margin: '5px 0 0 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Select your flight type for applicable discounts.</p>
+                                <h3 style={{ margin: 0 }}>Select Flight</h3>
+                                <p style={{ margin: '5px 0 0 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Select the flight for these addons.</p>
                             </div>
                             <div style={{ display: 'flex', gap: '10px' }}>
-                                <button 
-                                    onClick={() => setFlightType('domestic')}
+                                <select 
+                                    value={flightSelection}
+                                    onChange={(e) => setFlightSelection(e.target.value)}
                                     style={{ 
-                                        background: flightType === 'domestic' ? 'var(--gradient-primary)' : 'var(--bg-main)', 
-                                        color: flightType === 'domestic' ? '#ffffff' : 'var(--text-main)', 
-                                        border: flightType === 'domestic' ? 'none' : '1px solid var(--border-light)',
-                                        padding: '8px 20px', width: 'auto' 
+                                        padding: '10px 15px', 
+                                        background: 'var(--bg-main)', 
+                                        color: 'var(--text-main)', 
+                                        border: '1px solid var(--border-light)',
+                                        borderRadius: '8px',
+                                        outline: 'none',
+                                        cursor: 'pointer',
+                                        fontSize: '0.95rem'
                                     }}
                                 >
-                                    Domestic
-                                </button>
-                                <button 
-                                    onClick={() => setFlightType('international')}
-                                    style={{ 
-                                        background: flightType === 'international' ? '#ff9000' : 'var(--bg-main)', 
-                                        color: flightType === 'international' ? '#ffffff' : 'var(--text-main)', 
-                                        border: flightType === 'international' ? 'none' : '1px solid var(--border-light)',
-                                        padding: '8px 20px', width: 'auto' 
-                                    }}
-                                >
-                                    International
-                                </button>
+                                    <option value="upcoming">Upcoming Flight (AI-202)</option>
+                                    <option value="ongoing">Ongoing Flight (AI-105)</option>
+                                </select>
                             </div>
                         </div>
 

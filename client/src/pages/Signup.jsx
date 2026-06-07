@@ -306,13 +306,15 @@ const Signup = () => {
                                         alignItems: 'center',
                                         gap: '0.5rem',
                                         fontSize: '1.05rem',
-                                        background: 'var(--gradient-purple)',
+                                        background: 'var(--gradient-primary)',
+                                        color: '#ffffff',
+                                        border: 'none',
                                         opacity: isLoading ? 0.7 : 1,
                                         borderRadius: '30px'
                                     }}
                                 >
                                     {isLoading ? 'Verifying...' : 'Verify & Create Account'}
-                                    {!isLoading && <ArrowRight size={20} />}
+                                    {!isLoading && <ArrowRight size={20} color="#ffffff" />}
                                 </button>
                                 
                                 <button 
@@ -321,7 +323,7 @@ const Signup = () => {
                                     style={{ 
                                         width: '100%', 
                                         background: 'transparent',
-                                        color: 'rgba(255, 255, 255, 0.6)',
+                                        color: 'var(--text-main)',
                                         border: '1px solid var(--border-light)',
                                         padding: '0.75rem',
                                         fontSize: '0.9rem',
@@ -363,9 +365,9 @@ const Signup = () => {
                         </div>
                         <X size={16} style={{ cursor: 'pointer', color: 'var(--text-muted)' }} onClick={() => setShowSmsNotification(false)} />
                     </div>
-                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '10px', fontSize: '0.85rem', lineHeight: '1.4' }}>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '10px', fontSize: '0.85rem', lineHeight: '1.4', color: '#ffffff' }}>
                         <strong style={{ color: 'var(--accent-orange)' }}>From:</strong> Smart Airline Security<br/>
-                        Your Mobile Signup OTP is: <strong style={{ fontSize: '1.1rem',  letterSpacing: '1px' }}>{simulatedMobileOtp}</strong>
+                        Your Mobile Signup OTP is: <strong style={{ fontSize: '1.1rem',  letterSpacing: '1px', color: '#ffffff' }}>{simulatedMobileOtp}</strong>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
                         <button 
