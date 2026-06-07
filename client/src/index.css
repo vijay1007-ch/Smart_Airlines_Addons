@@ -18,15 +18,15 @@
     --border-hover: rgba(255, 255, 255, 0.2);
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #0070f3, #00e5ff);
+    --gradient-primary: #0066FF; /* Solid blue instead of gradient */
     --gradient-hot: linear-gradient(135deg, #f43f5e, #f97316);
     --gradient-sidebar: linear-gradient(180deg, rgba(6, 11, 19, 0.95), rgba(15, 23, 42, 0.95));
 
     /* Colorful, Soft Shadows */
     --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 20px 25px -5px rgba(0, 229, 255, 0.15), 0 8px 10px -6px rgba(0, 229, 255, 0.1);
-    --glow-cyan: 0 0 20px rgba(0, 229, 255, 0.4);
+    --shadow-hover: 0 20px 25px -5px rgba(0, 102, 255, 0.15), 0 8px 10px -6px rgba(0, 102, 255, 0.1);
+    --glow-cyan: 0 0 20px rgba(0, 102, 255, 0.4); /* Glow Blue */
 }
 
 * {

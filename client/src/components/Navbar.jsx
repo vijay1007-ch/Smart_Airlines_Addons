@@ -130,7 +130,7 @@ const Navbar = () => {
         navigate('/login');
     };
 
-    const showLinks = location.pathname !== '/' && location.pathname !== '/login';
+    const showSidebarTrigger = location.pathname !== '/' && location.pathname !== '/login';
 
     return (
         <>
@@ -139,7 +139,7 @@ const Navbar = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2rem', width: '100%', maxWidth: '1200px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                         {/* Hamburger Area (triggers sidebar on hover) */}
-                    {showLinks && user && (
+                    {showSidebarTrigger && user && (
                         <div
                             onMouseEnter={() => setIsSidebarOpen(true)}
                             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '10px 10px 10px 0' }}
@@ -148,6 +148,27 @@ const Navbar = () => {
                         </div>
                     )}
                     <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer', margin: 0 }}>✈️ Smart Airline</div>
+                </div>
+
+                {/* Central Links */}
+                <div style={{ display: 'none', '@media (minWidth: 768px)': { display: 'flex' }, display: 'flex', alignItems: 'center', gap: '2rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/')}>
+                        Home
+                        {location.pathname === '/' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
+                    </div>
+                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/catalogue' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/catalogue')}>
+                        Catalogue
+                        {location.pathname === '/catalogue' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
+                    </div>
+                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/travelled' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/travelled')}>
+                        My Trips
+                        {location.pathname === '/travelled' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
+                    </div>
+                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/bundles' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/bundles')}>
+                        Bundles
+                        {location.pathname === '/bundles' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
+                    </div>
+                    <div style={{ cursor: 'pointer' }}>Support</div>
                 </div>
 
                 <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -181,13 +202,31 @@ const Navbar = () => {
                         <Settings size={20} />
                     </div>
 
-                    {showLinks && !user && <Link to="/login" style={{ color: 'var(--text-main)', textDecoration: 'none', fontWeight: '600' }}>Login</Link>}
+                    {!user && (
+                        <button 
+                            onClick={() => navigate('/login')}
+                            style={{ 
+                                background: 'transparent',
+                                border: '1px solid rgba(255,255,255,0.2)',
+                                color: '#ffffff',
+                                padding: '8px 24px',
+                                borderRadius: '8px',
+                                fontSize: '0.9rem',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease'
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--gradient-primary)'; e.currentTarget.style.color = 'var(--gradient-primary)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = '#ffffff'; }}
+                        >
+                            Login
+                        </button>
+                    )}
                 </div>
             </div>
             </div>
 
             {/* The Sidebar Drawer */}
-            {showLinks && user && (
+            {showSidebarTrigger && user && (
                 <>
                     {/* Backdrop for auto-hide effect */}
                     <div

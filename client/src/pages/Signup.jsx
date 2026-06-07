@@ -103,7 +103,12 @@ const Signup = () => {
     };
 
     return (
-        <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="page" style={{ 
+            position: 'relative', 
+            overflow: 'hidden',
+            backgroundColor: 'var(--bg-main)',
+            backgroundImage: 'radial-gradient(circle at center, rgba(0, 102, 255, 0.05) 0%, transparent 70%)'
+        }}>
             <Navbar />
 
             <div className="container" style={{ 
@@ -113,45 +118,43 @@ const Signup = () => {
                 minHeight: '80vh',
                 position: 'relative'
             }}>
-                {/* Decorative Flight Path Background */}
+                {/* Decorative Elements */}
                 <div style={{
                     position: 'absolute',
-                    top: '50%', left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '100%', maxWidth: '800px',
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    top: '50%', left: '10%',
+                    transform: 'translateY(-50%)',
+                    textAlign: 'center',
                     pointerEvents: 'none',
                     zIndex: 0,
-                    opacity: 0.6
+                    opacity: 0.5
                 }}>
-                    <div style={{ textAlign: 'center' }}>
-                        <Plane size={32} color="var(--accent-cyan)" style={{ transform: 'rotate(45deg)' }} />
-                        <h3 style={{ margin: '10px 0 0', color: '#fff' }}>JFK</h3>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>New York</p>
-                    </div>
+                    <Plane size={32} color="#ffffff" style={{ transform: 'rotate(-45deg)' }} />
+                    <h3 style={{ margin: '10px 0 0', color: '#fff', fontSize: '1.5rem', letterSpacing: '2px' }}>JFK</h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>New York</p>
+                </div>
 
-                    <div style={{
-                        flex: 1, height: '2px',
-                        background: 'repeating-linear-gradient(90deg, var(--text-muted) 0, var(--text-muted) 10px, transparent 10px, transparent 20px)',
-                        margin: '0 40px', opacity: 0.3
-                    }} />
-
-                    <div style={{ textAlign: 'center' }}>
-                        <MapPin size={32} color="var(--primary-blue)" />
-                        <h3 style={{ margin: '10px 0 0', color: '#fff' }}>LHR</h3>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>London</p>
-                    </div>
+                <div style={{
+                    position: 'absolute',
+                    top: '50%', right: '10%',
+                    transform: 'translateY(-50%)',
+                    textAlign: 'center',
+                    pointerEvents: 'none',
+                    zIndex: 0,
+                    opacity: 0.5
+                }}>
+                    <MapPin size={32} color="#ffffff" />
+                    <h3 style={{ margin: '10px 0 0', color: '#fff', fontSize: '1.5rem', letterSpacing: '2px' }}>LHR</h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>London</p>
                 </div>
 
                 <div className="login-box" style={{ 
                     maxWidth: '400px', 
                     width: '100%', 
                     padding: '2.5rem',
-                    borderRadius: '24px',
+                    borderRadius: '16px',
                     position: 'relative',
                     zIndex: 1,
-                    background: 'rgba(15, 23, 42, 0.85)',
-                    backdropFilter: 'blur(20px)',
+                    background: '#0f172a', /* Dark solid color */
                     border: '1px solid rgba(255,255,255,0.05)',
                     boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)'
                 }}>
@@ -189,7 +192,7 @@ const Signup = () => {
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         required
-                                        style={{ marginBottom: 0 }}
+                                        style={{ marginBottom: 0, paddingLeft: '1rem', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
                                     />
                                 </div>
 
@@ -201,7 +204,7 @@ const Signup = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required 
-                                        style={{ marginBottom: 0 }}
+                                        style={{ marginBottom: 0, paddingLeft: '1rem', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
                                     />
                                 </div>
 
@@ -213,7 +216,7 @@ const Signup = () => {
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                         required 
-                                        style={{ marginBottom: 0 }}
+                                        style={{ marginBottom: 0, paddingLeft: '1rem', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
                                     />
                                 </div>
                                 
@@ -225,14 +228,14 @@ const Signup = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required 
-                                        style={{ marginBottom: 0 }}
+                                        style={{ marginBottom: 0, paddingLeft: '1rem', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
                                     />
                                 </div>
 
                                 <button 
                                     type="submit" 
                                     disabled={isLoading}
-                                    style={{ width: '100%', padding: '1rem', marginTop: '0.5rem', background: 'var(--gradient-primary)' }}
+                                    style={{ width: '100%', padding: '12px', marginTop: '1rem', background: 'var(--gradient-primary)', borderRadius: '8px', fontWeight: '600' }}
                                 >
                                     {isLoading ? 'Processing...' : 'Create Account'}
                                 </button>
@@ -242,7 +245,7 @@ const Signup = () => {
                                 Already have an account?{" "}
                                 <span 
                                     onClick={() => navigate('/login')}
-                                    style={{ color: 'var(--primary-blue)', cursor: 'pointer' }}
+                                    style={{ color: 'var(--gradient-primary)', cursor: 'pointer' }}
                                 >
                                     Log in
                                 </span>

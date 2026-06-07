@@ -236,9 +236,11 @@ router.post("/login", async (req, res) => {
 
         if (is2faActive) {
             const emailOtp = generateOtp();
+            const mobileOtp = generateOtp();
 
             pendingOtps[normalizedEmail] = {
                 emailOtp,
+                mobileOtp,
                 expires: Date.now() + 5 * 60 * 1000,
             };
 
@@ -265,6 +267,7 @@ router.post("/login", async (req, res) => {
             return res.json({
                 twoFactorRequired: true,
                 email: normalizedEmail,
+                simulatedMobileOtp: mobileOtp
             });
         }
 
@@ -280,10 +283,10 @@ router.post("/login", async (req, res) => {
 
 router.post("/verify-2fa", async (req, res) => {
     try {
-        const { email, emailOtp } = req.body;
+        const { email, emailOtp, mobileOtp } = req.body;
 
-        if (!email || !emailOtp) {
-            return res.status(400).json({ message: "Verification code is required" });
+        if (!email || !emailOtp || !mobileOtp) {
+            return res.status(400).json({ message: "Email and SMS verification codes are required" });
         }
 
         const normalizedEmail = email.trim().toLowerCase();
@@ -300,6 +303,10 @@ router.post("/verify-2fa", async (req, res) => {
 
         if (pending.emailOtp !== emailOtp.trim()) {
             return res.status(400).json({ message: "Incorrect Email verification code." });
+        }
+
+        if (pending.mobileOtp !== mobileOtp.trim()) {
+            return res.status(400).json({ message: "Incorrect Mobile SMS verification code." });
         }
 
         delete pendingOtps[normalizedEmail];
