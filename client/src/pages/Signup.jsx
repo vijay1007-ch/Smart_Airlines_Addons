@@ -14,6 +14,7 @@ const Signup = () => {
     // OTP verification states
     const [verificationRequired, setVerificationRequired] = useState(false);
     const [mobileOtp, setMobileOtp] = useState('');
+    const [emailOtp, setEmailOtp] = useState('');
     const [simulatedMobileOtp, setSimulatedMobileOtp] = useState('');
     const [showSmsNotification, setShowSmsNotification] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
@@ -73,6 +74,7 @@ const Signup = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email,
+                    emailOtp,
                     mobileOtp
                 })
             });
@@ -250,10 +252,10 @@ const Signup = () => {
                         <>
                             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                                 <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '0.5rem', color: '#ffffff' }}>
-                                    Verify Mobile
+                                    2-Step Verification
                                 </h2>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                                    We sent a verification code to your SMS.
+                                    Please enter the codes sent to your Email and SMS.
                                 </p>
                             </div>
 
@@ -271,6 +273,20 @@ const Signup = () => {
 
                             <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                                 <div>
+                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>Email verification code</label>
+                                    <div style={{ position: 'relative', marginBottom: '1rem' }}>
+                                        <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                        <input 
+                                            type="text" 
+                                            maxLength="6"
+                                            placeholder="Enter 6-digit Email code" 
+                                            value={emailOtp}
+                                            onChange={(e) => setEmailOtp(e.target.value)}
+                                            required 
+                                            style={{ paddingLeft: '48px', marginBottom: 0, letterSpacing: '1px' }}
+                                        />
+                                    </div>
+
                                     <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>SMS verification code</label>
                                     <div style={{ position: 'relative' }}>
                                         <Smartphone size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
