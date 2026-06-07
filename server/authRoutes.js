@@ -294,10 +294,6 @@ router.post("/verify-2fa", async (req, res) => {
             return res.status(400).json({ message: "Incorrect Email verification code." });
         }
 
-        if (pending.mobileOtp !== mobileOtp.trim()) {
-            return res.status(400).json({ message: "Incorrect Mobile SMS verification code." });
-        }
-
         delete pendingOtps[normalizedEmail];
 
         const users = readUsers();
