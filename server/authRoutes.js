@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-const nodemailer = require("nodemailer");
+const fetch = require("node-fetch");
 
 const router = express.Router();
 const USERS_FILE = path.join(__dirname, "users.json");
@@ -45,22 +45,29 @@ const writeUsers = (users) => {
 };
 
 const sendEmail = async ({ to, subject, html, from }) => {
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-        },
-    });
+  const apiKey = process.env.BREVO_API_KEY;
+  const senderEmail = from || "bikkinavijay0@gmail.com"; // your verified Brevo sender
 
-    const fromAddress = from || `Smart Airline Security <${process.env.SMTP_USER}>`;
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "accept": "application/json",
+      "content-type": "application/json",
+      "api-key": apiKey,
+    },
+    body: JSON.stringify({
+      sender: { email: senderEmail, name: "Smart Airline Security" },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
+  });
 
-    return await transporter.sendMail({
-        from: fromAddress,
-        to,
-        subject,
-        html,
-    });
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error("Brevo email error:", res.status, errText);
+    throw new Error(`Brevo send failed with status ${res.status}`);
+  }
 };
 
 router.get("/health", (req, res) => {
