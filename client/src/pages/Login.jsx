@@ -12,9 +12,6 @@ const Login = () => {
     // 2FA Flow states
     const [twoFactorRequired, setTwoFactorRequired] = useState(false);
     const [emailOtp, setEmailOtp] = useState('');
-    const [mobileOtp, setMobileOtp] = useState('');
-    const [simulatedMobileOtp, setSimulatedMobileOtp] = useState('');
-    const [showSmsNotification, setShowSmsNotification] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     
     const navigate = useNavigate();
@@ -48,10 +45,6 @@ const Login = () => {
             if (response.ok) {
                 if (data.twoFactorRequired) {
                     setTwoFactorRequired(true);
-                    setSimulatedMobileOtp(data.simulatedMobileOtp);
-                    setTimeout(() => {
-                        setShowSmsNotification(true);
-                    }, 1200);
                 } else {
                     localStorage.setItem("user", JSON.stringify(data.user));
                     localStorage.setItem("token", data.token);
@@ -81,15 +74,13 @@ const Login = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email,
-                    emailOtp,
-                    mobileOtp
+                    emailOtp
                 })
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                setShowSmsNotification(false);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
 
@@ -245,7 +236,7 @@ const Login = () => {
                                     2-Step Verification
                                 </h2>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                                    For security, we sent codes to your Email and SMS.
+                                    For security, we sent a code to your Email.
                                 </p>
                             </div>
 
@@ -269,25 +260,9 @@ const Login = () => {
                                         <input 
                                             type="text" 
                                             maxLength="6"
-                                            placeholder="Enter 6-digit Email code" 
+                                            placeholder="Enter 6-digit code" 
                                             value={emailOtp}
                                             onChange={(e) => setEmailOtp(e.target.value)}
-                                            required 
-                                            style={{ paddingLeft: '48px', marginBottom: 0, letterSpacing: '1px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block' }}>SMS Code</label>
-                                    <div style={{ position: 'relative' }}>
-                                        <Smartphone size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                                        <input 
-                                            type="text" 
-                                            maxLength="6"
-                                            placeholder="Enter 6-digit SMS code" 
-                                            value={mobileOtp}
-                                            onChange={(e) => setMobileOtp(e.target.value)}
                                             required 
                                             style={{ paddingLeft: '48px', marginBottom: 0, letterSpacing: '1px', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
                                         />
@@ -315,63 +290,6 @@ const Login = () => {
                     )}
                 </div>
             </div>
-
-            {/* Virtual SMS Toast Overlay */}
-            {showSmsNotification && (
-                <div style={{
-                    position: 'fixed',
-                    bottom: '30px',
-                    right: '30px',
-                    width: '320px',
-                    background: 'rgba(15, 23, 42, 0.95)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid var(--accent-orange)',
-                    boxShadow: '0 0 30px rgba(255, 144, 0, 0.1)',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
-                    zIndex: 99999,
-                    animation: 'slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Smartphone size={18} color="var(--accent-orange)" />
-                            <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-orange)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                                SMS Simulator
-                            </span>
-                        </div>
-                        <X size={16} style={{ cursor: 'pointer', color: 'var(--text-muted)' }} onClick={() => setShowSmsNotification(false)} />
-                    </div>
-                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '10px 12px', borderRadius: '8px', fontSize: '0.85rem', lineHeight: '1.4', color: '#ffffff' }}>
-                        <strong style={{ color: 'var(--accent-orange)' }}>From:</strong> Smart Airline<br/>
-                        Your Login OTP is: <strong style={{ fontSize: '1.1rem',  letterSpacing: '1px', color: '#ffffff' }}>{simulatedMobileOtp}</strong>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-                        <button 
-                            onClick={() => {
-                                setMobileOtp(simulatedMobileOtp);
-                                setShowSmsNotification(false);
-                            }}
-                            style={{
-                                background: 'var(--accent-orange)',
-                                color: '#ffffff',
-                                padding: '6px 12px',
-                                borderRadius: '8px',
-                                fontSize: '0.75rem',
-                                border: 'none',
-                                fontWeight: 'bold',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            Auto-Fill SMS
-                        </button>
-                    </div>
-                    <style>{`
-                        @keyframes slideUp {
-                            from { transform: translateY(100px); opacity: 0; }
-                            to { transform: translateY(0); opacity: 1; }
-                        }
-                    `}</style>
-                </div>
-            )}
         </div>
     );
 };
