@@ -135,9 +135,10 @@ const Navbar = () => {
     return (
         <>
             {/* The actual top navbar */}
-            <div className="navbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                    {/* Hamburger Area (triggers sidebar on hover) */}
+            <div className="navbar" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2rem', width: '100%', maxWidth: '1200px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                        {/* Hamburger Area (triggers sidebar on hover) */}
                     {showLinks && user && (
                         <div
                             onMouseEnter={() => setIsSidebarOpen(true)}
@@ -180,8 +181,9 @@ const Navbar = () => {
                         <Settings size={20} />
                     </div>
 
-                    {showLinks && !user && <Link to="/login">Login</Link>}
+                    {showLinks && !user && <Link to="/login" style={{ color: 'var(--text-main)', textDecoration: 'none', fontWeight: '600' }}>Login</Link>}
                 </div>
+            </div>
             </div>
 
             {/* The Sidebar Drawer */}

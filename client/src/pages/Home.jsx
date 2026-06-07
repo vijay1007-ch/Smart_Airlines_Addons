@@ -54,16 +54,24 @@ const Home = () => {
                             Your flight should be as extraordinary as your destination. Personalize your travel experience with premium addons crafted for your absolute comfort.
                         </p>
                         
-                        <div style={{ display: 'flex', gap: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
                             {user ? (
                                 <button 
                                     onClick={() => navigate(user.role === 'admin' ? '/admin' : '/catalogue')}
                                     style={{ 
-                                        padding: '1rem 2.5rem', 
+                                        padding: '1.2rem 3rem', 
                                         fontSize: '1.1rem',
+                                        fontWeight: 'bold',
                                         background: 'var(--gradient-primary)',
-                                        boxShadow: 'var(--glow-cyan)'
+                                        boxShadow: 'var(--glow-cyan)',
+                                        borderRadius: '30px',
+                                        color: '#fff',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease'
                                     }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                                 >
                                     Explore Add-ons
                                 </button>
@@ -71,13 +79,21 @@ const Home = () => {
                                 <button 
                                     onClick={() => navigate('/login')}
                                     style={{ 
-                                        padding: '1rem 2.5rem', 
+                                        padding: '1.2rem 3rem', 
                                         fontSize: '1.1rem',
+                                        fontWeight: 'bold',
                                         background: 'var(--gradient-primary)',
-                                        boxShadow: 'var(--glow-cyan)'
+                                        boxShadow: 'var(--glow-cyan)',
+                                        borderRadius: '30px',
+                                        color: '#fff',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease'
                                     }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                                 >
-                                    Login
+                                    Login to Continue
                                 </button>
                             )}
                         </div>
@@ -85,19 +101,31 @@ const Home = () => {
 
                     {/* Right Column: Airplane Image */}
                     <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', position: 'relative' }}>
-                        <img 
-                            src="https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1000&auto=format&fit=crop" 
-                            alt="Airplane" 
-                            style={{
-                                width: '100%',
-                                maxWidth: '600px',
-                                borderRadius: '24px',
-                                boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
-                                opacity: 0.8,
-                                filter: 'brightness(0.9) contrast(1.1)',
-                                mixBlendMode: 'screen'
-                            }} 
-                        />
+                        <div style={{ position: 'relative', width: '100%', maxWidth: '600px' }}>
+                            <div style={{
+                                position: 'absolute',
+                                top: '-20px', left: '-20px', right: '-20px', bottom: '-20px',
+                                background: 'linear-gradient(135deg, rgba(0,229,255,0.4), rgba(0,112,243,0.4))',
+                                borderRadius: '32px',
+                                filter: 'blur(30px)',
+                                zIndex: -1
+                            }} />
+                            <img 
+                                src="https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1000&auto=format&fit=crop" 
+                                alt="Airplane" 
+                                style={{
+                                    width: '100%',
+                                    borderRadius: '24px',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    boxShadow: '0 30px 60px rgba(0,0,0,0.8)',
+                                    opacity: 1,
+                                    transform: 'perspective(1000px) rotateY(-5deg)',
+                                    transition: 'transform 0.5s ease'
+                                }} 
+                                onMouseEnter={(e) => e.currentTarget.style.transform = 'perspective(1000px) rotateY(0deg)'}
+                                onMouseLeave={(e) => e.currentTarget.style.transform = 'perspective(1000px) rotateY(-5deg)'}
+                            />
+                        </div>
                         {/* Optional subtle glow behind airplane */}
                         <div style={{
                             position: 'absolute',
@@ -114,7 +142,7 @@ const Home = () => {
                 </div>
 
                 {/* About the Site Section */}
-                <div className="container" style={{ paddingBottom: '4rem' }}>
+                <div className="container" style={{ paddingBottom: '4rem', marginTop: '3rem' }}>
                     <div style={{
                         background: 'rgba(15, 23, 42, 0.6)',
                         border: '1px solid var(--border-light)',
