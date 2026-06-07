@@ -19,7 +19,10 @@ const ForgotPassword = () => {
             const response = await fetch(`${getApiUrl()}/auth/forgot-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({ 
+                    email,
+                    clientOrigin: window.location.origin 
+                })
             });
 
             const data = await response.json();

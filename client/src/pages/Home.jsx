@@ -15,9 +15,9 @@ const Home = () => {
 
     const featuredAddons = [
         { title: "Seat Upgrades", icon: <Sofa size={32} color="var(--primary-blue)" />, desc: "Stretch out with premium legroom or upgrade to first class for ultimate comfort." },
-        { title: "Gourmet Meals", icon: <Utensils size={32} color="var(--accent-pink)" />, desc: "Pre-book curated meals crafted by world-class chefs to enjoy at 35,000 feet." },
-        { title: "VIP Lounge", icon: <Coffee size={32} color="var(--accent-orange)" />, desc: "Relax in exclusive airport lounges with complimentary drinks and spa services." },
-        { title: "High-Speed WiFi", icon: <Wifi size={32} color="var(--secondary-blue)" />, desc: "Stay connected above the clouds with our blazing fast satellite internet." }
+        { title: "Gourmet Meals", icon: <Utensils size={32} color="var(--secondary-accent)" />, desc: "Pre-book curated meals crafted by world-class chefs to enjoy at 35,000 feet." },
+        { title: "VIP Lounge", icon: <Coffee size={32} color="var(--warning)" />, desc: "Relax in exclusive airport lounges with complimentary drinks and spa services." },
+        { title: "High-Speed WiFi", icon: <Wifi size={32} color="var(--tertiary-accent)" />, desc: "Stay connected above the clouds with our blazing fast satellite internet." }
     ];
 
     return (
