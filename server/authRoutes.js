@@ -96,7 +96,6 @@ router.post("/register", async (req, res) => {
         }
 
         const emailOtp = generateOtp();
-        const mobileOtp = generateOtp();
 
         pendingRegistrations[normalizedEmail] = {
             email: normalizedEmail,
@@ -104,7 +103,6 @@ router.post("/register", async (req, res) => {
             name,
             phone: phone || "",
             emailOtp,
-            mobileOtp,
             expires: Date.now() + 5 * 60 * 1000,
         };
 
@@ -129,15 +127,13 @@ router.post("/register", async (req, res) => {
         });
 
         console.log(`\n======================================================`);
-        console.log(`[SMS SIMULATOR] Sent Registration OTP to mobile: ${phone || "+1 *******23"}`);
-        console.log(`REGISTRATION MOBILE OTP: ${mobileOtp}`);
+        console.log(`Sent Registration Email OTP to: ${normalizedEmail}`);
         console.log(`======================================================\n`);
 
         return res.json({
             verificationRequired: true,
             email: normalizedEmail,
-            mobileNumber: phone || "+1 *******23",
-            message: "Email OTP sent successfully and mobile OTP generated.",
+            message: "Email OTP sent successfully.",
         });
     } catch (error) {
         console.error("Registration email error:", error);
@@ -147,10 +143,10 @@ router.post("/register", async (req, res) => {
 
 router.post("/register/verify", async (req, res) => {
     try {
-        const { email, emailOtp, mobileOtp } = req.body;
+        const { email, emailOtp } = req.body;
 
-        if (!email || !emailOtp || !mobileOtp) {
-            return res.status(400).json({ message: "Email OTP and Mobile OTP are required" });
+        if (!email || !emailOtp) {
+            return res.status(400).json({ message: "Email and Email OTP are required" });
         }
 
         const normalizedEmail = email.trim().toLowerCase();
@@ -167,10 +163,6 @@ router.post("/register/verify", async (req, res) => {
 
         if (pending.emailOtp !== emailOtp.trim()) {
             return res.status(400).json({ message: "Incorrect Email verification code." });
-        }
-
-        if (pending.mobileOtp !== mobileOtp.trim()) {
-            return res.status(400).json({ message: "Incorrect Mobile SMS verification code." });
         }
 
         const users = readUsers();
@@ -236,11 +228,9 @@ router.post("/login", async (req, res) => {
 
         if (is2faActive) {
             const emailOtp = generateOtp();
-            const mobileOtp = generateOtp();
 
             pendingOtps[normalizedEmail] = {
                 emailOtp,
-                mobileOtp,
                 expires: Date.now() + 5 * 60 * 1000,
             };
 
@@ -267,7 +257,6 @@ router.post("/login", async (req, res) => {
             return res.json({
                 twoFactorRequired: true,
                 email: normalizedEmail,
-                simulatedMobileOtp: mobileOtp
             });
         }
 
@@ -283,10 +272,10 @@ router.post("/login", async (req, res) => {
 
 router.post("/verify-2fa", async (req, res) => {
     try {
-        const { email, emailOtp, mobileOtp } = req.body;
+        const { email, emailOtp } = req.body;
 
-        if (!email || !emailOtp || !mobileOtp) {
-            return res.status(400).json({ message: "Email and SMS verification codes are required" });
+        if (!email || !emailOtp) {
+            return res.status(400).json({ message: "Email verification code is required" });
         }
 
         const normalizedEmail = email.trim().toLowerCase();
