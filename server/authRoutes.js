@@ -342,7 +342,6 @@ router.post("/forgot-password", async (req, res) => {
 
         await sendEmail({
             to: normalizedEmail,
-            from: "Smart Airline Support <onboarding@resend.dev>",
             subject: "Password Reset Request",
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #0b0710; color: #fff;">
