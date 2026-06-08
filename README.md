@@ -25,7 +25,7 @@ Upon successful checkout, the system generates a highly realistic, downloadable 
 
 ###  Cross-Network Connectivity & 2-Step Authentication (2FA)
 - **Settings Gear Widget:** A glassmorphic configurator accessible on the top right of all pages to dynamically configure the API server URL.
-- **Live Connection Ping Indicator:** Automatically pings the configured backend host to display `Connected 🟢` or `Offline 🔴` in real-time, validating cross-device/mobile network connections.
+- **Live Connection Ping Indicator:** Automatically pings the configured backend host to display `Connected ` or `Offline ` in real-time, validating cross-device/mobile network connections.
 - **Dynamic Link Origin Mappings:** Resolves password reset links dynamically based on the client's hostname origin (`clientOrigin`), ensuring mobile/remote users can click reset links and access the app from any network.
 - **Email & Mobile 2FA Verification:** Secures logins and password resets with an OTP challenge, sending real codes via Nodemailer (Gmail SMTP) and outputting simulated Mobile OTP codes.
 - **Browser SMS Notification Simulator:** Slides up a premium virtual phone toast popup overlay with an **Auto-Fill SMS** feature for effortless developer testing.
