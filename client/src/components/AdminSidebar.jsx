@@ -30,8 +30,7 @@ const AdminSidebar = () => {
         { name: 'User Data', path: '/admin/users', icon: Users },
         { name: 'Catalogue', path: '/admin/catalogue', icon: ShoppingCart },
         { name: 'Bundles', path: '/admin/bundles', icon: Package },
-        { name: 'Reports', path: '#', icon: BarChart3 },
-        { name: 'Settings', path: '#', icon: Settings }
+        { name: 'Reports', path: '/admin/reports', icon: BarChart3 }
     ];
 
     return (

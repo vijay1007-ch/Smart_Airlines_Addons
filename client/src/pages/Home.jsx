@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+
 import { ShieldCheck, Smartphone, HeadphonesIcon, Gift } from 'lucide-react';
 
 const Home = () => {
@@ -23,7 +23,6 @@ const Home = () => {
             }} />
 
             <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-                <Navbar />
 
                 {/* Hero Section */}
                 <div className="container" style={{ 

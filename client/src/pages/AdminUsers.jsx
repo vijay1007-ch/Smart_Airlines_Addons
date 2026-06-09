@@ -42,6 +42,17 @@ const AdminUsers = () => {
         }
     };
 
+    const handleDownloadCSV = () => {
+        const headers = 'Name,Email,Phone,DOB,Passport,Role,ShuuPass\n';
+        const rows = usersList.map(u => `${u.name || ''},${u.email || ''},${u.phone || ''},${u.dob || ''},${u.passport || ''},${u.role || ''},${u.hasShuuPass ? 'Yes' : 'No'}`).join('\n');
+        const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'users_export.csv';
+        link.click();
+        setShowDownloadMenu(false);
+    };
+
     if (!user) return null;
 
     const filteredUsers = usersList.filter(u => 
@@ -144,14 +155,8 @@ const AdminUsers = () => {
                                     borderRadius: '8px', padding: '8px', minWidth: '180px',
                                     boxShadow: '0 10px 25px rgba(0,0,0,0.5)', zIndex: 100
                                 }}>
-                                    <div onClick={() => { alert('Downloading PDF...'); setShowDownloadMenu(false); }} style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '4px', color: '#fff', fontSize: '0.85rem' }} onMouseEnter={e => e.currentTarget.style.background = '#1e293b'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'} >
-                                        <File size={14} color="#ef4444" /> PDF Document
-                                    </div>
-                                    <div onClick={() => { alert('Downloading Excel...'); setShowDownloadMenu(false); }} style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '4px', color: '#fff', fontSize: '0.85rem' }} onMouseEnter={e => e.currentTarget.style.background = '#1e293b'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'} >
-                                        <FileSpreadsheet size={14} color="#10b981" /> Excel Spreadsheet
-                                    </div>
-                                    <div onClick={() => { alert('Downloading DOCX...'); setShowDownloadMenu(false); }} style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '4px', color: '#fff', fontSize: '0.85rem' }} onMouseEnter={e => e.currentTarget.style.background = '#1e293b'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'} >
-                                        <FileText size={14} color="#3b82f6" /> Word Document
+                                    <div onClick={handleDownloadCSV} style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '4px', color: '#fff', fontSize: '0.85rem' }} onMouseEnter={e => e.currentTarget.style.background = '#1e293b'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'} >
+                                        <FileSpreadsheet size={14} color="#10b981" /> Download CSV
                                     </div>
                                 </div>
                             )}

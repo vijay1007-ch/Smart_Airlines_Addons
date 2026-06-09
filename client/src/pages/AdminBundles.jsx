@@ -216,44 +216,30 @@ const AdminBundles = () => {
                                             </td>
                                             
                                             <td style={{ padding: '1rem 1.5rem', fontSize: '0.9rem' }}>
-                                                {isEditing === bundle.id ? (
-                                                    <input type="text" value={editForm.name} onChange={(e) => setEditForm({...editForm, name: e.target.value})} style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.85rem', width: '100%' }} />
-                                                ) : bundle.name}
+                                                {bundle.name}
                                             </td>
                                             
                                             <td style={{ padding: '1rem 1.5rem', fontSize: '0.9rem' }}>
-                                                {isEditing === bundle.id ? (
-                                                    <input type="number" value={editForm.price} onChange={(e) => setEditForm({...editForm, price: e.target.value})} style={{ width: '80px', padding: '0.5rem', borderRadius: '4px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.85rem' }} />
-                                                ) : `₹${bundle.price}`}
+                                                ₹{bundle.price}
                                             </td>
 
                                             <td style={{ padding: '1rem 1.5rem', fontSize: '0.9rem', color: '#f59e0b' }}>
-                                                {isEditing === bundle.id ? (
-                                                    <input type="number" value={editForm.shuuPassPrice} onChange={(e) => setEditForm({...editForm, shuuPassPrice: e.target.value})} style={{ width: '80px', padding: '0.5rem', borderRadius: '4px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.85rem' }} />
-                                                ) : bundle.shuuPassPrice ? `₹${bundle.shuuPassPrice}` : '-'}
+                                                {bundle.shuuPassPrice ? `₹${bundle.shuuPassPrice}` : '-'}
                                             </td>
                                             
                                             <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                                                {isEditing === bundle.id ? (
-                                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                                                        {/* Features edit handled below or in a modal in a real app, keeping it simple here since they edit via details panel usually */}
-                                                        <button onClick={(e) => { e.stopPropagation(); handleUpdate(bundle.id); }} style={{ padding: '0.4rem', background: '#10b981', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }} title="Save"><Save size={16} /></button>
-                                                        <button onClick={(e) => { e.stopPropagation(); setIsEditing(null); }} style={{ padding: '0.4rem', background: 'transparent', color: '#94a3b8', border: '1px solid #334155', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }} title="Cancel"><X size={16} /></button>
-                                                    </div>
-                                                ) : (
-                                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                                                        <button 
-                                                            onClick={(e) => { e.stopPropagation(); beginEdit(bundle); }}
-                                                            style={{ padding: '0.4rem', background: 'rgba(37, 99, 235, 0.1)', color: '#3b82f6', border: '1px solid rgba(37,99,235,0.3)', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-                                                            title="Edit"
-                                                        ><Edit2 size={16} /></button>
-                                                        <button 
-                                                            onClick={(e) => { e.stopPropagation(); handleDelete(bundle.id); }}
-                                                            style={{ padding: '0.4rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-                                                            title="Delete"
-                                                        ><Trash2 size={16} /></button>
-                                                    </div>
-                                                )}
+                                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                                                    <button 
+                                                        onClick={(e) => { e.stopPropagation(); beginEdit(bundle); }}
+                                                        style={{ padding: '0.4rem', background: 'rgba(37, 99, 235, 0.1)', color: '#3b82f6', border: '1px solid rgba(37,99,235,0.3)', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                                                        title="Edit"
+                                                    ><Edit2 size={16} /></button>
+                                                    <button 
+                                                        onClick={(e) => { e.stopPropagation(); handleDelete(bundle.id); }}
+                                                        style={{ padding: '0.4rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                                                        title="Delete"
+                                                    ><Trash2 size={16} /></button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
@@ -295,77 +281,96 @@ const AdminBundles = () => {
                         </div>
 
                         {selectedBundle ? (
-                            <>
-                                <div style={{ color: 'var(--primary-blue)', fontSize: '0.85rem', marginBottom: '2rem' }}>
-                                    Bundles &gt; {selectedBundle.name.toUpperCase()}
+                            isEditing === selectedBundle.id ? (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+                                    <input type="text" placeholder="Bundle Name" value={editForm.name} onChange={(e) => setEditForm({...editForm, name: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem', width: '100%' }} />
+                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                        <input type="number" placeholder="Price (₹)" value={editForm.price} onChange={(e) => setEditForm({...editForm, price: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
+                                        <input type="number" placeholder="Shuu Pass Price (₹)" value={editForm.shuuPassPrice} onChange={(e) => setEditForm({...editForm, shuuPassPrice: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
+                                    </div>
+                                    <textarea placeholder="Description" value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem', minHeight: '60px', width: '100%' }} />
+                                    <div>
+                                        <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>Included Add-ons (One per line)</label>
+                                        <textarea placeholder="Feature 1&#10;Feature 2" value={editForm.features} onChange={(e) => setEditForm({...editForm, features: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem', minHeight: '120px', width: '100%' }} />
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                                        <button onClick={() => setIsEditing(null)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid #334155', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
+                                        <button onClick={() => handleUpdate(selectedBundle.id)} style={{ background: '#10b981', color: '#ffffff', padding: '0.75rem 1.5rem', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Save Changes</button>
+                                    </div>
                                 </div>
-
-                                <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem' }}>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
-                                            <div style={{ background: 'rgba(255, 65, 108, 0.1)', padding: '0.8rem', borderRadius: '12px' }}>
-                                                <Diamond size={24} color="#ff416c" />
-                                            </div>
-                                            <h2 style={{ fontSize: '1.4rem', fontWeight: 'bold', margin: 0 }}>
-                                                {selectedBundle.name.toUpperCase()}
-                                            </h2>
-                                        </div>
-                                        
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginLeft: '3.5rem' }}>
-                                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                                                <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>₹{selectedBundle.price}</span>
-                                                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(Domestic)</span>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                                                <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>₹{Math.floor(selectedBundle.price * 1.5)}</span>
-                                                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(International)</span>
-                                            </div>
-                                            {selectedBundle.shuuPassPrice && (
-                                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', color: '#f59e0b', marginTop: '0.5rem' }}>
-                                                    <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>₹{selectedBundle.shuuPassPrice}</span>
-                                                    <span style={{ fontSize: '0.85rem' }}>for Shuu Pass members</span>
-                                                </div>
-                                            )}
-                                        </div>
+                            ) : (
+                                <>
+                                    <div style={{ color: 'var(--primary-blue)', fontSize: '0.85rem', marginBottom: '2rem' }}>
+                                        Bundles &gt; {selectedBundle.name.toUpperCase()}
                                     </div>
 
-                                    <div style={{ flex: 1 }}>
-                                        <h4 style={{ margin: '0 0 1rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Included Add-ons</h4>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                                            {selectedBundle.features?.map((f, i) => (
-                                                <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                                                    <div style={{ background: 'rgba(16, 185, 129, 0.1)', borderRadius: '50%', padding: '2px', marginTop: '2px' }}>
-                                                        <Check size={12} color="#10b981" />
+                                    <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem' }}>
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
+                                                <div style={{ background: 'rgba(255, 65, 108, 0.1)', padding: '0.8rem', borderRadius: '12px' }}>
+                                                    <Diamond size={24} color="#ff416c" />
+                                                </div>
+                                                <h2 style={{ fontSize: '1.4rem', fontWeight: 'bold', margin: 0 }}>
+                                                    {selectedBundle.name.toUpperCase()}
+                                                </h2>
+                                            </div>
+                                            
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginLeft: '3.5rem' }}>
+                                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                                                    <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>₹{selectedBundle.price}</span>
+                                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(Domestic)</span>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                                                    <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>₹{Math.floor(selectedBundle.price * 1.5)}</span>
+                                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>(International)</span>
+                                                </div>
+                                                {selectedBundle.shuuPassPrice && (
+                                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', color: '#f59e0b', marginTop: '0.5rem' }}>
+                                                        <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>₹{selectedBundle.shuuPassPrice}</span>
+                                                        <span style={{ fontSize: '0.85rem' }}>for Shuu Pass members</span>
                                                     </div>
-                                                    <span style={{ fontSize: '0.85rem', color: '#e2e8f0', lineHeight: '1.4' }}>{f.text}</span>
-                                                </div>
-                                            ))}
-                                            {(!selectedBundle.features || selectedBundle.features.length === 0) && (
-                                                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No features listed.</span>
-                                            )}
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div style={{ flex: 1 }}>
+                                            <h4 style={{ margin: '0 0 1rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Included Add-ons</h4>
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                                {selectedBundle.features?.map((f, i) => (
+                                                    <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                                                        <div style={{ background: 'rgba(16, 185, 129, 0.1)', borderRadius: '50%', padding: '2px', marginTop: '2px' }}>
+                                                            <Check size={12} color="#10b981" />
+                                                        </div>
+                                                        <span style={{ fontSize: '0.85rem', color: '#e2e8f0', lineHeight: '1.4' }}>{f.text}</span>
+                                                    </div>
+                                                ))}
+                                                {(!selectedBundle.features || selectedBundle.features.length === 0) && (
+                                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No features listed.</span>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', borderTop: '1px solid #1e293b', paddingTop: '1.5rem' }}>
-                                    <div>
-                                        <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Created At</div>
-                                        <div style={{ fontSize: '0.85rem' }}>20 Oct, 2026</div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', borderTop: '1px solid #1e293b', paddingTop: '1.5rem' }}>
+                                        <div>
+                                            <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Created At</div>
+                                            <div style={{ fontSize: '0.85rem' }}>20 Oct, 2026</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Updated At</div>
+                                            <div style={{ fontSize: '0.85rem' }}>20 Oct, 2026</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Bundle Type</div>
+                                            <div style={{ fontSize: '0.85rem' }}>Premium</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Status</div>
+                                            <div style={{ color: '#10b981', fontSize: '0.85rem', fontWeight: '600' }}>Active</div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Updated At</div>
-                                        <div style={{ fontSize: '0.85rem' }}>20 Oct, 2026</div>
-                                    </div>
-                                    <div>
-                                        <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Bundle Type</div>
-                                        <div style={{ fontSize: '0.85rem' }}>Premium</div>
-                                    </div>
-                                    <div>
-                                        <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Status</div>
-                                        <div style={{ color: '#10b981', fontSize: '0.85rem', fontWeight: '600' }}>Active</div>
-                                    </div>
-                                </div>
-                            </>
+                                </>
+                            )
                         ) : (
                             <div style={{ height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--text-muted)' }}>
                                 Select a bundle to view details
