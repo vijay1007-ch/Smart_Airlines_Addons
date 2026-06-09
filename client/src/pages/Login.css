@@ -1,0 +1,130 @@
+.login-page {
+  min-height: 100vh;
+  background: url("https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad")
+    center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+}
+
+.login-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+}
+
+.logo-section {
+  color: white;
+  align-self: center;
+}
+
+.logo-section h2 {
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+}
+
+.logo-section p {
+  color: #8ef7f2;
+  letter-spacing: 6px;
+}
+
+.login-card {
+  width: 420px;
+  padding: 40px;
+  border-radius: 20px;
+
+  background: rgba(0,0,0,0.35);
+
+  backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 0 25px rgba(0,255,255,0.15);
+}
+
+.login-card h1 {
+  color: white;
+  text-align: center;
+}
+
+.login-card p {
+  text-align: center;
+  color: #ccc;
+}
+
+.input-field {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+
+  background: rgba(255,255,255,0.05);
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  border-radius: 10px;
+
+  color: white;
+}
+
+.input-field::placeholder {
+  color: #aaa;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 22px;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #00d9ff,
+    #34f5c5
+  );
+
+  color: black;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+}
+
+.bottom-links {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.bottom-links a {
+  color: #34f5c5;
+  text-decoration: none;
+}
+
+.signup-text {
+  margin-top: 20px;
+}
+
+.signup-text a {
+  color: #34f5c5;
+  text-decoration: none;
+}
