@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getApiUrl } from '../services/apiService';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
 import { useNavigate } from 'react-router-dom';
 import { Star, Diamond, CheckCircle, X } from 'lucide-react';
 import axios from 'axios';
@@ -56,9 +56,9 @@ const Bundles = () => {
     };
 
     return (
-        <div className="page">
-            <Navbar />
-            <div className="container" style={{ paddingBottom: '100px' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            <UserSidebar />
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
                 <h1 className="title" style={{ marginBottom: '1rem' }}>Premium Bundles</h1>
                 <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '3rem' }}>Upgrade your journey with our curated value packs.</p>
                 

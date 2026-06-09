@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
@@ -103,10 +103,11 @@ const Cart = () => {
     };
 
     return (
-        <div className="page">
-            <Navbar />
-            <div className="container" style={{ paddingBottom: '100px', maxWidth: '800px', margin: '0 auto' }}>
-                <h1 className="title" style={{ textAlign: 'center' }}>Your Cart</h1>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            <UserSidebar />
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
+                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                    <h1 className="title" style={{ textAlign: 'center' }}>Your Cart</h1>
                 
                 {cartItems.length === 0 ? (
                     <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
@@ -247,6 +248,7 @@ const Cart = () => {
                         </div>
                     </>
                 )}
+                </div>
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 // Force reload
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
 import { useNavigate } from 'react-router-dom';
 import { Plane, Calendar, Clock, ArrowRight, ShoppingBag, ArrowUpCircle, CheckCircle, XCircle } from 'lucide-react';
 import axios from 'axios';
@@ -86,10 +86,10 @@ const UserDashboard = () => {
     };
 
     return (
-        <div className="page" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
-            <Navbar />
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            <UserSidebar />
 
-            <div className="container" style={{ paddingTop: '2rem', paddingBottom: '100px', maxWidth: '1000px' }}>
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem', maxWidth: '1200px' }}>
                 
                 <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '0.2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
                     Welcome back, {userName}! <Plane size={24} color="var(--accent-cyan)" style={{ transform: 'rotate(45deg)' }} />

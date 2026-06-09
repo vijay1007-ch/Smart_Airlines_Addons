@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
+import AdminSidebar from '../components/AdminSidebar';
 import { useNavigate } from 'react-router-dom';
 
 const ProfileRow = ({ icon, title, subtitle, onClick, color }) => (
@@ -59,10 +60,11 @@ const Profile = () => {
     if (!user) return null;
 
     return (
-        <div className="page">
-            <Navbar />
-            <div className="container" style={{ paddingBottom: '100px', maxWidth: '900px', margin: '0 auto' }}>
-                <h1 className="title" style={{ textAlign: 'center', marginBottom: '2rem' }}>My Account</h1>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            {user.role === 'admin' ? <AdminSidebar /> : <UserSidebar />}
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
+                <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+                    <h1 className="title" style={{ textAlign: 'center', marginBottom: '2rem' }}>My Account</h1>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
                     {/* Left Column: Personal Details */}

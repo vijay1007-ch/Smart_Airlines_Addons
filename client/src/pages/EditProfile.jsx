@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getApiUrl } from '../services/apiService';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
+import AdminSidebar from '../components/AdminSidebar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -76,10 +77,10 @@ const EditProfile = () => {
     if (!user) return null;
 
     return (
-        <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
-            <Navbar />
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            {user.role === 'admin' ? <AdminSidebar /> : <UserSidebar />}
             
-            <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', paddingBottom: '100px' }}>
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div className="card" style={{ maxWidth: '500px', width: '100%', borderTop: '4px solid var(--accent-cyan)' }}>
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                         <h2 style={{ fontSize: '2rem', color: 'var(--accent-cyan)', marginBottom: '0.5rem' }}>Edit Profile</h2>

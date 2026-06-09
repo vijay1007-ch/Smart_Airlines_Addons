@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
 import { Plane, Calendar, MapPin, CheckCircle, Link as LinkIcon, Loader2 } from 'lucide-react';
 
 const Travelled = () => {
@@ -36,10 +36,10 @@ const Travelled = () => {
     };
 
     return (
-        <div className="page" style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-            <Navbar />
-
-            <div className="container" style={{ paddingTop: '2rem', paddingBottom: '100px' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            <UserSidebar />
+            
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', margin: 0 }}>
                         My Trips

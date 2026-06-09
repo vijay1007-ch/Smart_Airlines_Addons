@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getApiUrl } from '../services/apiService';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, Utensils, Wine, Wifi, Star, ShoppingBag, Plus } from 'lucide-react';
 import axios from 'axios';
@@ -88,9 +88,9 @@ const Catalogue = () => {
     };
 
     return (
-        <div className="page" style={{ minHeight: '100vh', background: 'var(--bg-main)' }}>
-            <Navbar />
-            <div className="container" style={{ paddingBottom: '100px', paddingTop: '2rem' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            <UserSidebar />
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                     <div>
                         <h1 style={{ fontSize: '1.8rem', fontWeight: '800', margin: 0, color: 'var(--text-main)' }}>Individual Add-ons</h1>

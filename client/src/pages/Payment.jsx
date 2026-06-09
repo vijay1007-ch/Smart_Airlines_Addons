@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getApiUrl } from '../services/apiService';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -323,9 +323,9 @@ const Payment = () => {
     );
 
     return (
-        <div className="page">
-            <Navbar />
-            <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            <UserSidebar />
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 
                 {isSuccess ? (
                     <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem', maxWidth: '500px' }}>

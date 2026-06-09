@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import UserSidebar from '../components/UserSidebar';
 import BoardingPassModal from '../components/BoardingPassModal';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,9 +22,9 @@ const History = () => {
     };
 
     return (
-        <div className="page">
-            <Navbar />
-            <div className="container" style={{ paddingBottom: '100px', maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)' }}>
+            <UserSidebar />
+            <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h1 className="title" style={{ margin: 0 }}>Purchase History</h1>
                     {history.length > 0 && (
