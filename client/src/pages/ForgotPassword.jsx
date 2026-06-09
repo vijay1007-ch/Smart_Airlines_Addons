@@ -4,22 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, ArrowRight, PlaneTakeoff, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
+import './ForgotPassword.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        
+
         try {
             const response = await axios.post(`${getApiUrl()}/auth/forgot-password`, {
                 email,
-                clientOrigin: window.location.origin 
+                clientOrigin: window.location.origin
             });
 
             if (response.status === 200 || response.status === 201) {
@@ -43,57 +44,57 @@ const ForgotPassword = () => {
             <div className="aurora-overlay"></div>
             <Navbar />
             <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-                <div className="login-box glass-panel" style={{ 
-                    maxWidth: '440px', 
-                    width: '100%', 
+                <div className="login-box glass-panel" style={{
+                    maxWidth: '440px',
+                    width: '100%',
                     padding: '3rem 2.5rem',
                     position: 'relative'
                 }}>
-                    
+
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                        <div style={{ 
+                        <div style={{
                             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                            width: '60px', height: '60px', borderRadius: '50%', 
+                            width: '60px', height: '60px', borderRadius: '50%',
                             background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--border-light)',
                             marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
                         }}>
                             <PlaneTakeoff size={32} color="var(--primary-blue)" />
                         </div>
-                        <h2 style={{ 
-                            fontSize: '2rem', fontWeight: '800', 
-                            
+                        <h2 style={{
+                            fontSize: '2rem', fontWeight: '800',
+
                             marginBottom: '0.5rem'
                         }}>
                             Reset Password
                         </h2>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-                            {!isSubmitted 
-                                ? "Enter your email address and we'll send you a link to reset your password." 
+                            {!isSubmitted
+                                ? "Enter your email address and we'll send you a link to reset your password."
                                 : "Email sent successfully!"}
                         </p>
                     </div>
 
                     {!isSubmitted ? (
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                            
+
                             <div style={{ position: 'relative' }}>
                                 <Mail size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
-                                <input 
-                                    type="email" 
-                                    placeholder="Email Address" 
+                                <input
+                                    type="email"
+                                    placeholder="Email Address"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    required 
+                                    required
                                     style={{ paddingLeft: '48px', marginBottom: 0 }}
                                 />
                             </div>
 
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 disabled={isLoading}
-                                style={{ 
-                                    width: '100%', 
-                                    padding: '1rem', 
+                                style={{
+                                    width: '100%',
+                                    padding: '1rem',
                                     marginTop: '1rem',
                                     display: 'flex',
                                     justifyContent: 'center',
@@ -123,11 +124,11 @@ const ForgotPassword = () => {
 
                     <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                         Remember your password?{" "}
-                        <span 
+                        <span
                             onClick={() => navigate('/login')}
-                            style={{ 
-                                color: 'var(--primary-blue)', 
-                                cursor: 'pointer', 
+                            style={{
+                                color: 'var(--primary-blue)',
+                                cursor: 'pointer',
                                 fontWeight: '600',
                                 transition: 'color 0.3s ease'
                             }}
