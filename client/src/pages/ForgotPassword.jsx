@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, ArrowRight, PlaneTakeoff, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
+import './ForgotPassword.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -38,104 +39,63 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className="page" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
-            <div className="aurora-bg"></div>
-            <div className="aurora-overlay"></div>
+        <div className="forgot-page">
             <Navbar />
-            <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-                <div className="login-box glass-panel" style={{
-                    maxWidth: '440px',
-                    width: '100%',
-                    padding: '3rem 2.5rem',
-                    position: 'relative'
-                }}>
+            <div className="forgot-card">
+                <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                    <div style={{
+                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                        width: '56px', height: '56px', borderRadius: '50%',
+                        background: 'rgba(53, 215, 211, 0.12)', border: '1px solid rgba(53, 215, 211, 0.24)',
+                        marginBottom: '1rem'
+                    }}>
+                        <PlaneTakeoff size={28} color="#35d7d3" />
+                    </div>
+                    <h2>Reset Password</h2>
+                    <p>
+                        {!isSubmitted
+                            ? "Enter your email address and we'll send you a link to reset your password."
+                            : "Email sent successfully!"}
+                    </p>
+                </div>
 
-                    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                        <div style={{
-                            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                            width: '60px', height: '60px', borderRadius: '50%',
-                            background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--border-light)',
-                            marginBottom: '1rem', boxShadow: 'var(--glow-cyan)'
-                        }}>
-                            <PlaneTakeoff size={32} color="var(--primary-blue)" />
+                {!isSubmitted ? (
+                    <form onSubmit={handleSubmit}>
+                        <div className="input-group">
+                            <Mail size={18} className="input-icon" />
+                            <input
+                                type="email"
+                                placeholder="Email Address"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
                         </div>
-                        <h2 style={{
-                            fontSize: '2rem', fontWeight: '800',
 
-                            marginBottom: '0.5rem'
-                        }}>
-                            Reset Password
-                        </h2>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-                            {!isSubmitted
-                                ? "Enter your email address and we'll send you a link to reset your password."
-                                : "Email sent successfully!"}
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="forgot-btn"
+                            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}
+                        >
+                            {isLoading ? 'Sending...' : 'Send Reset Link'}
+                            {!isLoading && <ArrowRight size={18} />}
+                        </button>
+                    </form>
+                ) : (
+                    <div className="success-box">
+                        <CheckCircle2 size={56} color="#35d7d3" style={{ margin: '0 auto 1rem auto' }} />
+                        <p>
+                            We've sent a real password reset link to <strong>{email}</strong>. Please check your personal inbox!
                         </p>
                     </div>
+                )}
 
-                    {!isSubmitted ? (
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-
-                            <div style={{ position: 'relative' }}>
-                                <Mail size={20} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.5)' }} />
-                                <input
-                                    type="email"
-                                    placeholder="Email Address"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    style={{ paddingLeft: '48px', marginBottom: 0 }}
-                                />
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={isLoading}
-                                style={{
-                                    width: '100%',
-                                    padding: '1rem',
-                                    marginTop: '1rem',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    gap: '0.5rem',
-                                    fontSize: '1.05rem',
-                                    background: 'var(--accent-teal)',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    fontWeight: '600',
-                                    opacity: isLoading ? 0.7 : 1
-                                }}
-                            >
-                                {isLoading ? 'Sending...' : 'Send Reset Link'}
-                                {!isLoading && <ArrowRight size={20} />}
-                            </button>
-                        </form>
-                    ) : (
-                        <div style={{ textAlign: 'center', padding: '1rem 0' }}>
-                            <CheckCircle2 size={64} color="var(--primary-blue)" style={{ margin: '0 auto 1.5rem auto' }} />
-                            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: '1.5' }}>
-                                We've sent a real password reset link to <strong>{email}</strong>. Please check your personal inbox!
-                            </p>
-                        </div>
-                    )}
-
-                    <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                        Remember your password?{" "}
-                        <span
-                            onClick={() => navigate('/login')}
-                            style={{
-                                color: 'var(--primary-blue)',
-                                cursor: 'pointer',
-                                fontWeight: '600',
-                                transition: 'color 0.3s ease'
-                            }}
-                        >
-                            Log in
-                        </span>
-                    </div>
-
+                <div className="bottom-link">
+                    Remember your password?{" "}
+                    <span onClick={() => navigate('/login')}>
+                        Log in
+                    </span>
                 </div>
             </div>
         </div>
