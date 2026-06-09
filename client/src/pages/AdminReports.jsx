@@ -34,11 +34,11 @@ const AdminReports = () => {
 
     const fetchOrders = async () => {
         try {
-            const res = await axios.get(`${getApiUrl()}/orders`, { headers: { "Authorization": localStorage.getItem("token") }});
+            const res = await axios.get(`${getApiUrl()}/orders`, { headers: { "Authorization": localStorage.getItem("token") } });
             if (res.status === 200) {
                 const fetchedOrders = res.data;
                 setOrders(fetchedOrders);
-                
+
                 const totalSales = fetchedOrders.reduce((sum, order) => sum + (Number(order.amount) || 0), 0);
                 setMetrics({
                     count: fetchedOrders.length,
@@ -115,7 +115,7 @@ const AdminReports = () => {
     if (!user) return null;
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
             <AdminSidebar />
             <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
                 <div style={{ marginBottom: '2.5rem' }}>
@@ -126,15 +126,15 @@ const AdminReports = () => {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '3rem' }}>
-                    <div className="card glass-panel" style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-light)', boxShadow: 'var(--shadow-card)' }}>
+                    <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '12px', border: '1px solid #1e293b' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#3b82f6', marginBottom: '10px' }}>
                             <TrendingUp size={20} />
                             <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--text-muted)' }}>Total Orders</h3>
                         </div>
                         <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>{metrics.count}</div>
                     </div>
-                    
-                    <div className="card glass-panel" style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-light)', boxShadow: 'var(--shadow-card)' }}>
+
+                    <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '12px', border: '1px solid #1e293b' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#10b981', marginBottom: '10px' }}>
                             <IndianRupee size={20} />
                             <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--text-muted)' }}>Total Sales</h3>
@@ -142,7 +142,7 @@ const AdminReports = () => {
                         <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>₹{metrics.sales.toLocaleString()}</div>
                     </div>
 
-                    <div className="card glass-panel" style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-light)', boxShadow: 'var(--shadow-card)' }}>
+                    <div style={{ background: '#0f172a', padding: '1.5rem', borderRadius: '12px', border: '1px solid #1e293b' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#f59e0b', marginBottom: '10px' }}>
                             <BarChart2 size={20} />
                             <h3 style={{ margin: 0, fontSize: '1rem', color: 'var(--text-muted)' }}>Estimated Profit</h3>
@@ -151,39 +151,39 @@ const AdminReports = () => {
                     </div>
                 </div>
 
-                <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', padding: '2rem', borderRadius: '12px', maxWidth: '600px', boxShadow: 'var(--shadow-card)' }}>
+                <div style={{ background: '#0f172a', border: '1px solid #1e293b', padding: '2rem', borderRadius: '12px', maxWidth: '600px' }}>
                     <h2 style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>Download Custom Report</h2>
-                    
+
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Start Date</label>
-                                <input 
-                                    type="date" 
-                                    value={startDate} 
+                                <input
+                                    type="date"
+                                    value={startDate}
                                     min={minDate}
                                     max={maxDate}
                                     onChange={(e) => setStartDate(e.target.value)}
-                                    style={{ width: '100%', padding: '0.8rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', colorScheme: 'dark' }} 
+                                    style={{ width: '100%', padding: '0.8rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', colorScheme: 'dark' }}
                                 />
                             </div>
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>End Date</label>
-                                <input 
-                                    type="date" 
-                                    value={endDate} 
+                                <input
+                                    type="date"
+                                    value={endDate}
                                     min={minDate}
                                     max={maxDate}
                                     onChange={(e) => setEndDate(e.target.value)}
-                                    style={{ width: '100%', padding: '0.8rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', colorScheme: 'dark' }} 
+                                    style={{ width: '100%', padding: '0.8rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', colorScheme: 'dark' }}
                                 />
                             </div>
                         </div>
 
                         <div>
                             <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Report Format</label>
-                            <select 
-                                value={format} 
+                            <select
+                                value={format}
                                 onChange={(e) => setFormat(e.target.value)}
                                 style={{ width: '100%', padding: '0.8rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff' }}
                             >
@@ -192,11 +192,11 @@ const AdminReports = () => {
                             </select>
                         </div>
 
-                        <button 
+                        <button
                             onClick={handleDownload}
-                            style={{ 
+                            style={{
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                                background: 'var(--accent-teal)', color: '#fff', padding: '1rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold', marginTop: '1rem'
+                                background: '#2563eb', color: '#fff', padding: '1rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold', marginTop: '1rem'
                             }}
                         >
                             <Download size={20} /> Download Report Data

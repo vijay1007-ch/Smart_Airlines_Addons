@@ -93,29 +93,29 @@ const Login = () => {
 
     return (
         <div className="login-page">
-            <Navbar />
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 10 }}>
+                <Navbar />
+            </div>
 
-            <div className="login-wrapper">
+            <div className="hero-section">
+                <h1>4. AURORA NIGHT</h1>
+                <p>Modern, Sleek & Premium</p>
 
-                <div className="brand-section">
-                    <h4>4. AURORA NIGHT</h4>
-                    <p>Modern, Sleek & Premium</p>
-
-                    <div className="airline-logo">
-                        <h2>SMART AIRLINES</h2>
-                        <span>ADDONS</span>
-                    </div>
-
-                    <div className="theme-colors">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                <div className="logo-box">
+                    <h2>SMART AIRLINES</h2>
+                    <span>ADDONS</span>
                 </div>
+            </div>
 
-                <div className="login-card">
+            <div className="theme-colors">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div className="login-card">
                     
                     {!twoFactorRequired ? (
                         <>
@@ -135,23 +135,25 @@ const Login = () => {
                             )}
 
                             <form onSubmit={handleSubmit}>
-                                <input 
-                                    type="email" 
-                                    placeholder="Email" 
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required 
-                                    className="login-input"
-                                />
+                                <div className="input-group">
+                                    <input 
+                                        type="email" 
+                                        placeholder="Email" 
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required 
+                                    />
+                                </div>
                                 
-                                <input 
-                                    type="password" 
-                                    placeholder="Password" 
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required 
-                                    className="login-input"
-                                />
+                                <div className="input-group">
+                                    <input 
+                                        type="password" 
+                                        placeholder="Password" 
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required 
+                                    />
+                                </div>
 
                                 <div style={{ textAlign: 'right', marginBottom: '15px' }}>
                                     <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }} style={{ color: '#b8c1cc', fontSize: '13px', textDecoration: 'none' }}>Forgot Password?</a>
@@ -166,7 +168,7 @@ const Login = () => {
                                 </button>
                             </form>
 
-                            <div className="signup-text">
+                            <div className="bottom-links">
                                 Don't have an account?
                                 <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}> Sign Up</a>
                             </div>
@@ -190,7 +192,7 @@ const Login = () => {
                             )}
 
                             <form onSubmit={handleVerify2FA}>
-                                <div style={{ position: 'relative' }}>
+                                <div className="input-group" style={{ position: 'relative' }}>
                                     <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: '#9ca3af' }} />
                                     <input 
                                         type="text" 
@@ -199,7 +201,6 @@ const Login = () => {
                                         value={emailOtp}
                                         onChange={(e) => setEmailOtp(e.target.value)}
                                         required 
-                                        className="login-input"
                                         style={{ paddingLeft: '48px' }}
                                     />
                                 </div>
@@ -225,7 +226,6 @@ const Login = () => {
                     )}
                 </div>
             </div>
-        </div>
     );
 };
 

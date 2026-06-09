@@ -1,236 +1,259 @@
-/* LOGIN PAGE */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-.login-page {
-  min-height: 100vh;
-
-  background:
-    linear-gradient(
-      rgba(0, 8, 25, 0.25),
-      rgba(0, 8, 25, 0.25)
-    ),
-    url("https://images.unsplash.com/photo-1579033462043-0f11a7862f7d?auto=format&fit=crop&w=1920&q=80");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 40px;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-/* MAIN CONTAINER */
+body{
+  overflow:hidden;
+}
 
-.login-wrapper {
-  width: 100%;
-  max-width: 1200px;
+.login-page{
+  width:100%;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 8%;
+  position:relative;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background:
+  linear-gradient(
+    rgba(0,0,0,0.25),
+    rgba(0,0,0,0.25)
+  ),
+  url("/aurora-bg.jpg");
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
 }
 
 /* LEFT SIDE */
 
-.brand-section {
-  color: white;
+.hero-section{
+  color:white;
+  max-width:500px;
 }
 
-.brand-section h4 {
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: #ffffff;
+.hero-section h1{
+  font-size:4rem;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:10px;
 }
 
-.brand-section h1 {
-  font-size: 42px;
-  margin-top: 15px;
-  font-weight: 700;
+.hero-section p{
+  font-size:1.4rem;
+  color:#d9e4f5;
+  margin-bottom:50px;
 }
 
-.brand-section p {
-  margin-top: 10px;
-  color: #d1d5db;
+.logo-box{
+  margin-top:30px;
 }
 
-.airline-logo {
-  margin-top: 40px;
+.logo-box img{
+  width:90px;
+  margin-bottom:15px;
 }
 
-.airline-logo h2 {
-  font-size: 30px;
-  letter-spacing: 2px;
+.logo-box h2{
+  font-size:2rem;
+  font-weight:700;
+  letter-spacing:3px;
 }
 
-.airline-logo span {
-  color: #8ff8e8;
-  letter-spacing: 6px;
-  font-size: 14px;
+.logo-box span{
+  display:block;
+  margin-top:10px;
+  color:#39e6ff;
+  letter-spacing:10px;
+  font-size:1rem;
+}
+
+/* COLOR DOTS */
+
+.theme-colors{
+  position:absolute;
+  bottom:50px;
+  left:8%;
+  display:flex;
+  gap:18px;
+}
+
+.theme-colors div{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.4);
+  cursor:pointer;
+}
+
+.theme-colors div:nth-child(1){
+  background:#25316d;
+}
+
+.theme-colors div:nth-child(2){
+  background:#7267ff;
+}
+
+.theme-colors div:nth-child(3){
+  background:#21d4fd;
+}
+
+.theme-colors div:nth-child(4){
+  background:#b8fff9;
+}
+
+.theme-colors div:nth-child(5){
+  background:#ffffff;
 }
 
 /* LOGIN CARD */
 
-.login-card {
-  width: 420px;
+.login-card{
+  width:480px;
+  padding:55px 45px;
 
-  padding: 40px;
+  background:rgba(5,15,35,0.45);
 
-  border-radius: 18px;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 
-  background: rgba(0, 0, 0, 0.35);
+  border:1px solid rgba(255,255,255,0.12);
 
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  border: 1px solid rgba(255,255,255,0.12);
+  border-radius:30px;
 
   box-shadow:
-    0 0 30px rgba(0,255,255,0.08),
-    inset 0 0 0 1px rgba(255,255,255,0.03);
+  0 0 20px rgba(57,230,255,0.15),
+  0 0 60px rgba(57,230,255,0.08),
+  inset 0 0 1px rgba(255,255,255,0.2);
 }
 
-/* TITLE */
-
-.login-card h2 {
-  color: white;
-  text-align: center;
-  font-size: 28px;
+.login-card h2{
+  color:white;
+  text-align:center;
+  font-size:2.7rem;
+  margin-bottom:10px;
 }
 
-.login-card p {
-  text-align: center;
-  color: #b8c1cc;
-  margin-top: 6px;
-  margin-bottom: 25px;
+.login-card p{
+  text-align:center;
+  color:#d0d8e6;
+  margin-bottom:35px;
 }
 
 /* INPUTS */
 
-.login-input {
-  width: 100%;
-  height: 50px;
-
-  margin-bottom: 15px;
-
-  background: rgba(255,255,255,0.05);
-
-  border: 1px solid rgba(255,255,255,0.1);
-
-  border-radius: 10px;
-
-  padding: 0 15px;
-
-  color: white;
-  font-size: 15px;
-
-  outline: none;
-
-  transition: 0.3s;
+.input-group{
+  margin-bottom:25px;
 }
 
-.login-input::placeholder {
-  color: #9ca3af;
+.input-group input{
+  width:100%;
+  height:65px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.15);
+
+  border-radius:15px;
+
+  outline:none;
+
+  color:white;
+
+  padding:0 20px;
+
+  font-size:1rem;
 }
 
-.login-input:focus {
-  border-color: #27e8e5;
+.input-group input::placeholder{
+  color:#cfd9e8;
+}
+
+.input-group input:focus{
+  border-color:#39e6ff;
 
   box-shadow:
-    0 0 10px rgba(39,232,229,0.3);
+  0 0 12px rgba(57,230,255,0.4);
 }
 
 /* BUTTON */
 
-.login-btn {
-  width: 100%;
-  height: 50px;
+.login-btn{
+  width:100%;
+  height:65px;
 
-  border: none;
+  border:none;
 
-  border-radius: 10px;
+  border-radius:15px;
 
-  background: linear-gradient(
-    90deg,
-    #21d4fd,
-    #26f0c6
+  font-size:1.2rem;
+  font-weight:700;
+
+  cursor:pointer;
+
+  background:linear-gradient(
+      90deg,
+      #53f3ff,
+      #35d6e7
   );
 
-  color: #001018;
+  color:#00121f;
 
-  font-size: 16px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition: all 0.3s ease;
+  transition:0.3s;
 }
 
-.login-btn:hover {
-  transform: translateY(-2px);
+.login-btn:hover{
+  transform:translateY(-2px);
 
   box-shadow:
-    0 0 20px rgba(38,240,198,0.4);
+  0 0 25px rgba(83,243,255,0.5);
 }
 
-/* SIGNUP */
+/* LINKS */
 
-.signup-text {
-  text-align: center;
-
-  margin-top: 18px;
-
-  color: #cbd5e1;
-
-  font-size: 14px;
+.bottom-links{
+  margin-top:30px;
+  text-align:center;
+  color:white;
 }
 
-.signup-text a {
-  color: #27e8e5;
-  text-decoration: none;
-  font-weight: 600;
+.bottom-links a{
+  color:#39e6ff;
+  text-decoration:none;
+  font-weight:600;
 }
 
-.signup-text a:hover {
-  color: white;
+.bottom-links a:hover{
+  text-decoration:underline;
 }
 
-/* COLOR SELECTOR */
+/* RESPONSIVE */
 
-.theme-colors {
-  display: flex;
-  gap: 12px;
-  margin-top: 35px;
-}
+@media(max-width:992px){
 
-.theme-colors span {
-  width: 26px;
-  height: 26px;
+  .login-page{
+    justify-content:center;
+    padding:20px;
+  }
 
-  border-radius: 50%;
+  .hero-section{
+    display:none;
+  }
 
-  border: 2px solid rgba(255,255,255,0.15);
+  .login-card{
+    width:100%;
+    max-width:500px;
+  }
 
-  cursor: pointer;
-}
-
-.theme-colors span:nth-child(1) {
-  background: #081a45;
-}
-
-.theme-colors span:nth-child(2) {
-  background: #312e81;
-}
-
-.theme-colors span:nth-child(3) {
-  background: #14b8a6;
-}
-
-.theme-colors span:nth-child(4) {
-  background: #8ff8e8;
-}
-
-.theme-colors span:nth-child(5) {
-  background: white;
-}
+  .theme-colors{
+    left:50%;
+    transform:translateX(-50%);
+  }
+} 
