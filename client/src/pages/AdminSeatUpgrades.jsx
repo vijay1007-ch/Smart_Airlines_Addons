@@ -68,7 +68,7 @@ const AdminSeatUpgrades = () => {
     if (!user) return null;
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)' }}>
             <AdminSidebar />
             
             <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
@@ -81,10 +81,10 @@ const AdminSeatUpgrades = () => {
                     </div>
                 </div>
 
-                <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '0', overflowX: 'auto' }}>
+                <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '0', overflowX: 'auto', boxShadow: 'var(--shadow-card)' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
-                            <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                            <tr style={{ borderBottom: '1px solid var(--border-light)', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Request ID</th>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Requested Class</th>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Status</th>
@@ -102,7 +102,7 @@ const AdminSeatUpgrades = () => {
                                 </tr>
                             ) : (
                                 upgrades.map((upg, idx) => (
-                                    <tr key={idx} style={{ borderBottom: '1px solid #1e293b', fontSize: '0.9rem' }}>
+                                    <tr key={idx} style={{ borderBottom: '1px solid var(--border-light)', fontSize: '0.9rem' }}>
                                         <td style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>{upg.id}</td>
                                         <td style={{ padding: '1.2rem 1.5rem' }}>{upg.requestedClass}</td>
                                         <td style={{ padding: '1.2rem 1.5rem' }}>
@@ -119,18 +119,18 @@ const AdminSeatUpgrades = () => {
                                             {offeringId === upg.id ? (
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-end' }}>
                                                     <div style={{ display: 'flex', gap: '6px' }}>
-                                                        <input type="text" placeholder="Seat" value={offerData.seat} onChange={e => setOfferData({...offerData, seat: e.target.value})} style={{ padding: '0.4rem', width: '80px', background: '#060b13', border: '1px solid #1e293b', color: '#fff', fontSize: '0.85rem', borderRadius: '4px' }}/>
-                                                        <input type="number" placeholder="₹ Price" value={offerData.price} onChange={e => setOfferData({...offerData, price: e.target.value})} style={{ padding: '0.4rem', width: '90px', background: '#060b13', border: '1px solid #1e293b', color: '#fff', fontSize: '0.85rem', borderRadius: '4px' }}/>
+                                                        <input type="text" placeholder="Seat" value={offerData.seat} onChange={e => setOfferData({...offerData, seat: e.target.value})} style={{ padding: '0.4rem', width: '80px', background: 'var(--bg-main)', border: '1px solid var(--border-light)', color: '#fff', fontSize: '0.85rem', borderRadius: '4px' }}/>
+                                                        <input type="number" placeholder="₹ Price" value={offerData.price} onChange={e => setOfferData({...offerData, price: e.target.value})} style={{ padding: '0.4rem', width: '90px', background: 'var(--bg-main)', border: '1px solid var(--border-light)', color: '#fff', fontSize: '0.85rem', borderRadius: '4px' }}/>
                                                     </div>
                                                     <div style={{ display: 'flex', gap: '6px' }}>
-                                                        <button onClick={() => setOfferingId(null)} style={{ padding: '0.3rem 0.8rem', fontSize: '0.8rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid #334155', borderRadius: '4px', cursor: 'pointer' }}>Cancel</button>
-                                                        <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.3rem 0.8rem', fontSize: '0.8rem', background: '#2563eb', color: '#ffffff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '600' }}>Send Offer</button>
+                                                        <button onClick={() => setOfferingId(null)} style={{ padding: '0.3rem 0.8rem', fontSize: '0.8rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid var(--border-light)', borderRadius: '4px', cursor: 'pointer' }}>Cancel</button>
+                                                        <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.3rem 0.8rem', fontSize: '0.8rem', background: 'var(--accent-teal)', color: '#ffffff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '600' }}>Send Offer</button>
                                                     </div>
                                                 </div>
                                             ) : upg.status === 'Pending' ? (
                                                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                                                    <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{ background: '#2563eb', color: '#ffffff', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Offer</button>
-                                                    <button onClick={() => handleUpgradeReject(upg.id)} style={{ background: 'transparent', border: '1px solid #334155', color: '#94a3b8', padding: '0.4rem 1rem', fontSize: '0.85rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Reject</button>
+                                                    <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{ background: 'var(--accent-teal)', color: '#ffffff', padding: '0.4rem 1rem', fontSize: '0.85rem', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Offer</button>
+                                                    <button onClick={() => handleUpgradeReject(upg.id)} style={{ background: 'transparent', border: '1px solid var(--border-light)', color: '#94a3b8', padding: '0.4rem 1rem', fontSize: '0.85rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Reject</button>
                                                 </div>
                                             ) : upg.status === 'Pending Payment' ? (
                                                 <span style={{ color: '#f59e0b', fontSize: '0.85rem', fontWeight: '500' }}>Awaiting User Payment</span>

@@ -99,7 +99,7 @@ const AdminCatalogue = () => {
     if (!user) return null;
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)' }}>
             <AdminSidebar />
             
             <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
@@ -115,7 +115,7 @@ const AdminCatalogue = () => {
                         onClick={() => setIsAdding(true)}
                         style={{ 
                             display: 'flex', alignItems: 'center', gap: '6px',
-                            background: '#2563eb', color: '#fff',
+                            background: 'var(--accent-teal)', color: '#fff',
                             padding: '0.6rem 1.2rem', borderRadius: '6px',
                             border: 'none', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600'
                         }}
@@ -125,30 +125,30 @@ const AdminCatalogue = () => {
                 </div>
 
                 {isAdding && (
-                    <div style={{ background: '#0f172a', border: '1px solid #1e293b', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', display: 'flex', gap: '1rem', alignItems: 'center', boxShadow: 'var(--shadow-card)' }}>
                         <input 
                             type="text" 
                             placeholder="Item Name" 
                             value={addForm.name}
                             onChange={(e) => setAddForm({...addForm, name: e.target.value})}
-                            style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }}
+                            style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }}
                         />
                         <input 
                             type="number" 
                             placeholder="Price" 
                             value={addForm.price}
                             onChange={(e) => setAddForm({...addForm, price: e.target.value})}
-                            style={{ width: '150px', padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }}
+                            style={{ width: '150px', padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }}
                         />
                         <button onClick={handleAdd} style={{ background: '#10b981', color: '#ffffff', padding: '0.75rem 1.5rem', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Save</button>
-                        <button onClick={() => setIsAdding(false)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid #334155', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
+                        <button onClick={() => setIsAdding(false)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid var(--border-light)', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
                     </div>
                 )}
 
-                <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '0', overflowX: 'auto' }}>
+                <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '0', overflowX: 'auto', boxShadow: 'var(--shadow-card)' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
-                            <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                            <tr style={{ borderBottom: '1px solid var(--border-light)', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>ID</th>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Name</th>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Price (₹)</th>
@@ -166,7 +166,7 @@ const AdminCatalogue = () => {
                                 </tr>
                             ) : (
                                 addons.map((addon, index) => (
-                                    <tr key={addon.id} style={{ borderBottom: '1px solid #1e293b' }}>
+                                    <tr key={addon.id} style={{ borderBottom: '1px solid var(--border-light)' }}>
                                         <td style={{ padding: '1rem 1.5rem', fontWeight: '500', color: 'var(--text-main)', fontSize: '0.9rem' }}>
                                             #{index + 1}
                                         </td>
@@ -177,7 +177,7 @@ const AdminCatalogue = () => {
                                                     type="text" 
                                                     value={editForm.name}
                                                     onChange={(e) => setEditForm({...editForm, name: e.target.value})}
-                                                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.85rem', width: '100%' }}
+                                                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.85rem', width: '100%' }}
                                                 />
                                             ) : addon.name}
                                         </td>
@@ -188,7 +188,7 @@ const AdminCatalogue = () => {
                                                     type="number" 
                                                     value={editForm.price}
                                                     onChange={(e) => setEditForm({...editForm, price: e.target.value})}
-                                                    style={{ width: '100px', padding: '0.5rem', borderRadius: '4px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.85rem' }}
+                                                    style={{ width: '100px', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.85rem' }}
                                                 />
                                             ) : `₹${addon.price}`}
                                         </td>
@@ -231,7 +231,7 @@ const AdminCatalogue = () => {
                         </tbody>
                     </table>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 1.5rem', borderTop: '1px solid #1e293b' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 1.5rem', borderTop: '1px solid var(--border-light)' }}>
                         <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                             Showing 1 to {addons.length} of {addons.length} items
                         </span>

@@ -143,7 +143,7 @@ const AdminDashboard = () => {
     ];
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)' }}>
             <AdminSidebar />
             
             <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
                     <button 
                         onClick={() => navigate('/admin/catalogue')}
                         style={{ 
-                            background: '#2563eb', 
+                            background: 'var(--accent-teal)', 
                             color: '#fff', 
                             padding: '0.6rem 1.2rem',   
                             borderRadius: '6px', 
@@ -182,13 +182,15 @@ const AdminDashboard = () => {
                 }}>
                     {stats.map((stat, idx) => (
                         <div key={idx} style={{ 
-                            background: '#0f172a', 
-                            border: '1px solid #1e293b', 
+                            background: 'var(--bg-card)', 
+                            backdropFilter: 'blur(12px)',
+                            border: '1px solid var(--border-light)', 
                             borderRadius: '12px', 
                             padding: '1.5rem', 
                             display: 'flex', 
                             flexDirection: 'column', 
-                            gap: '1rem' 
+                            gap: '1rem',
+                            boxShadow: 'var(--shadow-card)'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{stat.title}</span>
@@ -216,7 +218,7 @@ const AdminDashboard = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
                     
                     {/* Recent Orders Table */}
-                    <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem' }}>
+                    <div style={{ background: 'var(--bg-card)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '1.5rem', boxShadow: 'var(--shadow-card)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>Recent Add-on Orders</h3>
                             <button style={{ 
@@ -274,7 +276,7 @@ const AdminDashboard = () => {
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
                         {/* Pending Payments Table */}
-                        <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem' }}>
+                        <div style={{ background: 'var(--bg-card)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '1.5rem', boxShadow: 'var(--shadow-card)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                                 <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>
                                     Live Payment Authorizations 
@@ -306,7 +308,7 @@ const AdminDashboard = () => {
                                                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                                                             <button 
                                                                 onClick={() => handlePaymentAction(payment.orderId, 'approved')} 
-                                                                style={{ background: '#2563eb', color: '#ffffff', padding: '0.3rem 0.6rem', fontSize: '0.75rem', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}
+                                                                style={{ background: 'var(--accent-teal)', color: '#ffffff', padding: '0.3rem 0.6rem', fontSize: '0.75rem', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}
                                                             >
                                                                 Accept
                                                             </button>
@@ -327,7 +329,7 @@ const AdminDashboard = () => {
                         </div>
 
                         {/* Seat Upgrades Table */}
-                        <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem' }}>
+                        <div style={{ background: 'var(--bg-card)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '1.5rem', boxShadow: 'var(--shadow-card)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                                 <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>Seat Upgrade Requests</h3>
                                 <button 
@@ -383,14 +385,14 @@ const AdminDashboard = () => {
                                                                     <input type="number" placeholder="₹" value={offerData.price} onChange={e => setOfferData({...offerData, price: e.target.value})} style={{ padding: '0.3rem', width: '60px', background: '#060b13', border: '1px solid #1e293b', color: '#fff', fontSize: '0.75rem', borderRadius: '4px' }}/>
                                                                 </div>
                                                                 <div style={{ display: 'flex', gap: '4px' }}>
-                                                                    <button onClick={() => setOfferingId(null)} style={{ padding: '0.2rem 0.5rem', fontSize: '0.7rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid #334155', borderRadius: '4px' }}>Cancel</button>
-                                                                    <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.2rem 0.5rem', fontSize: '0.7rem', background: '#2563eb', color: '#ffffff', border: 'none', borderRadius: '4px' }}>Send</button>
+                                                                    <button onClick={() => setOfferingId(null)} style={{ padding: '0.2rem 0.5rem', fontSize: '0.7rem', background: 'transparent', color: 'var(--text-muted)', border: '1px solid var(--border-light)', borderRadius: '4px' }}>Cancel</button>
+                                                                    <button onClick={() => submitOffer(upg.id)} style={{ padding: '0.2rem 0.5rem', fontSize: '0.7rem', background: 'var(--accent-teal)', color: '#ffffff', border: 'none', borderRadius: '4px' }}>Send</button>
                                                                 </div>
                                                             </div>
                                                         ) : upg.status === 'Pending' ? (
                                                             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                                                                <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{ background: '#2563eb', color: '#ffffff', padding: '0.3rem 0.6rem', fontSize: '0.75rem', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}>Offer</button>
-                                                                <button onClick={() => handleUpgradeReject(upg.id)} style={{ background: 'transparent', border: '1px solid #334155', color: '#94a3b8', padding: '0.3rem 0.6rem', fontSize: '0.75rem', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}>Reject</button>
+                                                                <button onClick={() => { setOfferingId(upg.id); setOfferData({ seat: '', price: '' }); }} style={{ background: 'var(--accent-teal)', color: '#ffffff', padding: '0.3rem 0.6rem', fontSize: '0.75rem', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}>Offer</button>
+                                                                <button onClick={() => handleUpgradeReject(upg.id)} style={{ background: 'transparent', border: '1px solid var(--border-light)', color: '#94a3b8', padding: '0.3rem 0.6rem', fontSize: '0.75rem', borderRadius: '4px', fontWeight: '600', cursor: 'pointer' }}>Reject</button>
                                                             </div>
                                                         ) : upg.status === 'Pending Payment' ? (
                                                             <span style={{ color: '#f59e0b', fontSize: '0.75rem' }}>Awaiting User</span>

@@ -98,7 +98,7 @@ const AdminUsers = () => {
     };
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)' }}>
             <AdminSidebar />
             
             <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem' }}>
@@ -124,8 +124,8 @@ const AdminUsers = () => {
                                     width: '100%', 
                                     padding: '0.6rem 1rem 0.6rem 2.2rem', 
                                     borderRadius: '6px', 
-                                    background: '#0f172a', 
-                                    border: '1px solid #1e293b',
+                                    background: 'var(--bg-card)', 
+                                    border: '1px solid var(--border-light)',
                                     color: '#fff',
                                     fontSize: '0.85rem',
                                     outline: 'none',
@@ -140,7 +140,7 @@ const AdminUsers = () => {
                                 onClick={() => setShowDownloadMenu(!showDownloadMenu)}
                                 style={{
                                     display: 'flex', alignItems: 'center', gap: '6px',
-                                    background: '#2563eb', color: '#fff',
+                                    background: 'var(--accent-teal)', color: '#fff',
                                     padding: '0.6rem 1rem', borderRadius: '6px',
                                     border: 'none', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600'
                                 }}
@@ -151,7 +151,7 @@ const AdminUsers = () => {
                             {showDownloadMenu && (
                                 <div style={{
                                     position: 'absolute', top: '100%', right: 0, marginTop: '8px',
-                                    background: '#0f172a', border: '1px solid #1e293b',
+                                    background: 'var(--bg-card)', border: '1px solid var(--border-light)',
                                     borderRadius: '8px', padding: '8px', minWidth: '180px',
                                     boxShadow: '0 10px 25px rgba(0,0,0,0.5)', zIndex: 100
                                 }}>
@@ -164,10 +164,10 @@ const AdminUsers = () => {
                     </div>
                 </div>
 
-                <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '0', overflowX: 'auto' }}>
+                <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '0', overflowX: 'auto', boxShadow: 'var(--shadow-card)' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
-                            <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                            <tr style={{ borderBottom: '1px solid var(--border-light)', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Name</th>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Contact Info</th>
                                 <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Personal Details</th>
@@ -186,12 +186,12 @@ const AdminUsers = () => {
                                 </tr>
                             ) : (
                                 filteredUsers.map((u, idx) => (
-                                    <tr key={idx} style={{ borderBottom: '1px solid #1e293b' }}>
+                                    <tr key={idx} style={{ borderBottom: '1px solid var(--border-light)' }}>
                                         <td style={{ padding: '1rem 1.5rem' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                                 <div style={{ 
                                                     width: '32px', height: '32px', borderRadius: '50%', 
-                                                    background: '#2563eb', 
+                                                    background: 'var(--accent-teal)',
                                                     display: 'flex', justifyContent: 'center', alignItems: 'center', 
                                                     fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' 
                                                 }}>
@@ -233,10 +233,10 @@ const AdminUsers = () => {
                     </table>
                     
                     {/* Pagination Footer */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.5rem', borderTop: '1px solid #1e293b' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.5rem', borderTop: '1px solid var(--border-light)' }}>
                         <div style={{ display: 'flex', gap: '4px' }}>
                             <button style={{ width: '28px', height: '28px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}><ChevronLeft size={16}/></button>
-                            <button style={{ width: '28px', height: '28px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#2563eb', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>1</button>
+                            <button style={{ width: '28px', height: '28px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'var(--accent-teal)', border: 'none', color: '#fff', borderRadius: '4px', fontSize: '0.85rem', cursor: 'pointer' }}>1</button>
                             <button style={{ width: '28px', height: '28px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'transparent', border: 'none', color: 'var(--text-muted)', fontSize: '0.85rem', cursor: 'pointer' }}>2</button>
                             <button style={{ width: '28px', height: '28px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}><ChevronRight size={16}/></button>
                         </div>

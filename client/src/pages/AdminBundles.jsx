@@ -133,7 +133,7 @@ const AdminBundles = () => {
     if (!user) return null;
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: '#060b13', color: 'var(--text-main)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-main)' }}>
             <AdminSidebar />
             
             <div style={{ flex: 1, marginLeft: '260px', padding: '2rem 3rem', display: 'flex', gap: '2rem' }}>
@@ -151,7 +151,7 @@ const AdminBundles = () => {
                             onClick={() => setIsAdding(true)}
                             style={{ 
                                 display: 'flex', alignItems: 'center', gap: '6px',
-                                background: '#2563eb', color: '#fff',
+                                background: 'var(--accent-teal)', color: '#fff',
                                 padding: '0.6rem 1.2rem', borderRadius: '6px',
                                 border: 'none', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600'
                             }}
@@ -161,29 +161,29 @@ const AdminBundles = () => {
                     </div>
 
                     {isAdding && (
-                        <div style={{ background: '#0f172a', border: '1px solid #1e293b', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem', boxShadow: 'var(--shadow-card)' }}>
                             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                <input type="text" placeholder="Bundle Name" value={addForm.name} onChange={(e) => setAddForm({...addForm, name: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
-                                <input type="number" placeholder="Price" value={addForm.price} onChange={(e) => setAddForm({...addForm, price: e.target.value})} style={{ width: '120px', padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
-                                <input type="number" placeholder="shuuPass Price" value={addForm.shuuPassPrice} onChange={(e) => setAddForm({...addForm, shuuPassPrice: e.target.value})} style={{ width: '140px', padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
+                                <input type="text" placeholder="Bundle Name" value={addForm.name} onChange={(e) => setAddForm({...addForm, name: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }} />
+                                <input type="number" placeholder="Price" value={addForm.price} onChange={(e) => setAddForm({...addForm, price: e.target.value})} style={{ width: '120px', padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }} />
+                                <input type="number" placeholder="shuuPass Price" value={addForm.shuuPassPrice} onChange={(e) => setAddForm({...addForm, shuuPassPrice: e.target.value})} style={{ width: '140px', padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }} />
                             </div>
                             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                <input type="text" placeholder="Description (e.g., Domestic & International)" value={addForm.description} onChange={(e) => setAddForm({...addForm, description: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
+                                <input type="text" placeholder="Description (e.g., Domestic & International)" value={addForm.description} onChange={(e) => setAddForm({...addForm, description: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }} />
                             </div>
                             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                <textarea placeholder="Bundle Features (One feature per line)" value={addForm.features} onChange={(e) => setAddForm({...addForm, features: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem', minHeight: '80px' }} />
+                                <textarea placeholder="Bundle Features (One feature per line)" value={addForm.features} onChange={(e) => setAddForm({...addForm, features: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem', minHeight: '80px' }} />
                             </div>
                             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
-                                <button onClick={() => setIsAdding(false)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid #334155', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
+                                <button onClick={() => setIsAdding(false)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid var(--border-light)', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
                                 <button onClick={handleAdd} style={{ background: '#10b981', color: '#ffffff', padding: '0.75rem 1.5rem', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Save Bundle</button>
                             </div>
                         </div>
                     )}
 
-                    <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '0', overflowX: 'auto' }}>
+                    <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '0', overflowX: 'auto', boxShadow: 'var(--shadow-card)' }}>
                         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                             <thead>
-                                <tr style={{ borderBottom: '1px solid #1e293b', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                <tr style={{ borderBottom: '1px solid var(--border-light)', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                                     <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>ID</th>
                                     <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Bundle Name</th>
                                     <th style={{ padding: '1.2rem 1.5rem', fontWeight: '500' }}>Price (₹)</th>
@@ -205,9 +205,9 @@ const AdminBundles = () => {
                                         <tr 
                                             key={bundle.id} 
                                             style={{ 
-                                                borderBottom: '1px solid #1e293b',
+                                                borderBottom: '1px solid var(--border-light)',
                                                 cursor: 'pointer',
-                                                background: selectedBundle?.id === bundle.id ? 'rgba(37, 99, 235, 0.05)' : 'transparent'
+                                                background: selectedBundle?.id === bundle.id ? 'rgba(6, 182, 212, 0.1)' : 'transparent'
                                             }}
                                             onClick={() => { if (isEditing !== bundle.id) setSelectedBundle(bundle); }}
                                         >
@@ -247,7 +247,7 @@ const AdminBundles = () => {
                             </tbody>
                         </table>
                         
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 1.5rem', borderTop: '1px solid #1e293b' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '1rem 1.5rem', borderTop: '1px solid var(--border-light)' }}>
                             <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                                 Showing 1 to {bundles.length} of {bundles.length} bundles
                             </span>
@@ -263,14 +263,14 @@ const AdminBundles = () => {
                         <button style={{ padding: '0.6rem 1.2rem' }}>Spacer</button>
                     </div>
 
-                    <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem', flex: 1 }}>
+                    <div className="card glass-panel" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '1.5rem', flex: 1, boxShadow: 'var(--shadow-card)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                             <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>Bundle Details</h3>
                             {selectedBundle && (
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button 
                                         onClick={() => beginEdit(selectedBundle)}
-                                        style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#2563eb', color: '#fff', padding: '0.4rem 0.8rem', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '600' }}
+                                        style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'var(--accent-teal)', color: '#fff', padding: '0.4rem 0.8rem', borderRadius: '4px', border: 'none', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '600' }}
                                     ><Edit2 size={12} /> Edit Bundle</button>
                                     <button 
                                         onClick={() => handleDelete(selectedBundle.id)}
@@ -283,18 +283,18 @@ const AdminBundles = () => {
                         {selectedBundle ? (
                             isEditing === selectedBundle.id ? (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
-                                    <input type="text" placeholder="Bundle Name" value={editForm.name} onChange={(e) => setEditForm({...editForm, name: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem', width: '100%' }} />
+                                    <input type="text" placeholder="Bundle Name" value={editForm.name} onChange={(e) => setEditForm({...editForm, name: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem', width: '100%' }} />
                                     <div style={{ display: 'flex', gap: '1rem' }}>
-                                        <input type="number" placeholder="Price (₹)" value={editForm.price} onChange={(e) => setEditForm({...editForm, price: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
-                                        <input type="number" placeholder="Shuu Pass Price (₹)" value={editForm.shuuPassPrice} onChange={(e) => setEditForm({...editForm, shuuPassPrice: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem' }} />
+                                        <input type="number" placeholder="Price (₹)" value={editForm.price} onChange={(e) => setEditForm({...editForm, price: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }} />
+                                        <input type="number" placeholder="Shuu Pass Price (₹)" value={editForm.shuuPassPrice} onChange={(e) => setEditForm({...editForm, shuuPassPrice: e.target.value})} style={{ flex: 1, padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem' }} />
                                     </div>
-                                    <textarea placeholder="Description" value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem', minHeight: '60px', width: '100%' }} />
+                                    <textarea placeholder="Description" value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem', minHeight: '60px', width: '100%' }} />
                                     <div>
                                         <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>Included Add-ons (One per line)</label>
-                                        <textarea placeholder="Feature 1&#10;Feature 2" value={editForm.features} onChange={(e) => setEditForm({...editForm, features: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid #1e293b', background: '#060b13', color: '#fff', fontSize: '0.9rem', minHeight: '120px', width: '100%' }} />
+                                        <textarea placeholder="Feature 1&#10;Feature 2" value={editForm.features} onChange={(e) => setEditForm({...editForm, features: e.target.value})} style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--border-light)', background: 'var(--bg-main)', color: '#fff', fontSize: '0.9rem', minHeight: '120px', width: '100%' }} />
                                     </div>
                                     <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', marginTop: '1rem' }}>
-                                        <button onClick={() => setIsEditing(null)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid #334155', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
+                                        <button onClick={() => setIsEditing(null)} style={{ background: 'transparent', color: '#94a3b8', border: '1px solid var(--border-light)', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
                                         <button onClick={() => handleUpdate(selectedBundle.id)} style={{ background: '#10b981', color: '#ffffff', padding: '0.75rem 1.5rem', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Save Changes</button>
                                     </div>
                                 </div>
@@ -351,7 +351,7 @@ const AdminBundles = () => {
                                         </div>
                                     </div>
 
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', borderTop: '1px solid #1e293b', paddingTop: '1.5rem' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', borderTop: '1px solid var(--border-light)', paddingTop: '1.5rem' }}>
                                         <div>
                                             <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.3rem' }}>Created At</div>
                                             <div style={{ fontSize: '0.85rem' }}>20 Oct, 2026</div>
