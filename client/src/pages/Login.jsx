@@ -93,12 +93,9 @@ const Login = () => {
 
     return (
         <div className="login-page">
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 10 }}>
-                <Navbar />
-            </div>
 
             <div className="hero-section">
-                <h1>SMART AIRLINE ADD-ONS PLATFORM</h1>
+                <h1>SMART AIRLINE ADD-ONS PLATFORM</h1><br></br>
                 <p>A Modern, Sleek, and Professional Airline Addon Platform</p>
 
                 <div className="logo-box">
