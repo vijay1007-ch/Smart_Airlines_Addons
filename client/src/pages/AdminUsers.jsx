@@ -3,6 +3,7 @@ import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 import { Search, Download, File, FileSpreadsheet, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import axios from 'axios';
 
 const AdminUsers = () => {
     const navigate = useNavigate();
@@ -29,9 +30,9 @@ const AdminUsers = () => {
 
     const fetchUsersData = async () => {
         try {
-            const res = await fetch(`${getApiUrl()}/auth/users`);
-            if (res.ok) {
-                const data = await res.json();
+            const res = await axios.get(`${getApiUrl()}/auth/users`);
+            if (res.status === 200 || res.status === 201) {
+                const data = res.data;
                 setUsersList(data);
             }
         } catch (error) {

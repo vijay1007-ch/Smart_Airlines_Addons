@@ -3,6 +3,7 @@ import { getApiUrl, is2FAEnabled } from '../services/apiService';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Lock, ArrowRight, PlaneTakeoff, CheckCircle2, ShieldCheck, Smartphone, X, AlertCircle, RefreshCw } from 'lucide-react';
+import axios from 'axios';
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
@@ -34,20 +35,18 @@ const ResetPassword = () => {
         setOtpLoading(true);
         setError('');
         try {
-            const res = await fetch(`${getApiUrl()}/auth/forgot-password/request-otp`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email })
-            });
-            const data = await res.json();
-            if (res.ok) {
+            const res = await axios.post(`${getApiUrl()}/auth/forgot-password/request-otp`, { email });
+            
+            if (res.status === 200 || res.status === 201) {
                 setOtpSent(true);
-            } else {
-                setError(data.message || "Failed to dispatch reset OTP code");
             }
         } catch (err) {
             console.error(err);
-            setError("Error connecting to server to send OTP code.");
+            if (err.response && err.response.data) {
+                setError(err.response.data.message || "Failed to dispatch reset OTP code");
+            } else {
+                setError("Error connecting to server to send OTP code.");
+            }
         } finally {
             setOtpLoading(false);
         }
@@ -58,20 +57,17 @@ const ResetPassword = () => {
         setIsLoading(true);
         setError('');
         try {
-            const res = await fetch(`${getApiUrl()}/auth/forgot-password/verify-otp`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, emailOtp })
-            });
-            const data = await res.json();
-            if (res.ok) {
+            const res = await axios.post(`${getApiUrl()}/auth/forgot-password/verify-otp`, { email, emailOtp });
+            if (res.status === 200 || res.status === 201) {
                 setIsVerified(true);
-            } else {
-                setError(data.message || "Incorrect verification code.");
             }
         } catch (err) {
             console.error(err);
-            setError("Server error verifying reset OTP.");
+            if (err.response && err.response.data) {
+                setError(err.response.data.message || "Incorrect verification code.");
+            } else {
+                setError("Server error verifying reset OTP.");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -94,25 +90,21 @@ const ResetPassword = () => {
         setIsLoading(true);
         
         try {
-            const res = await fetch(`${getApiUrl()}/auth/reset-password`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                    email, 
-                    password,
-                    bypass2fa: !is2faActive // Let server know if we bypassed 2FA locally
-                })
+            const res = await axios.post(`${getApiUrl()}/auth/reset-password`, {
+                email, 
+                password,
+                bypass2fa: !is2faActive
             });
             
-            const data = await res.json();
-            
-            if (res.ok) {
+            if (res.status === 200 || res.status === 201) {
                 setIsSubmitted(true);
-            } else {
-                setError(data.message || "Failed to reset password");
             }
         } catch (err) {
-            setError("An error occurred while resetting the password");
+            if (err.response && err.response.data) {
+                setError(err.response.data.message || "Failed to reset password");
+            } else {
+                setError("An error occurred while resetting the password");
+            }
         } finally {
             setIsLoading(false);
         }

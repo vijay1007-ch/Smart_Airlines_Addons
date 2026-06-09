@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Payment = () => {
     const navigate = useNavigate();
@@ -22,9 +23,9 @@ const Payment = () => {
             // Poll the backend API every 1.5 seconds to check if Admin accepted the payment
             interval = setInterval(async () => {
                 try {
-                    const res = await fetch(`${getApiUrl()}/orders/pending/${orderId}/status`);
-                    if (!res.ok) return;
-                    const data = await res.json();
+                    const res = await axios.get(`${getApiUrl()}/orders/pending/${orderId}/status`);
+                    if (res.status !== 200) return;
+                    const data = res.data;
                     const status = data.status;
                     
                     if (status === 'approved') {
@@ -45,40 +46,29 @@ const Payment = () => {
                     // Sync with backend so Admin can see it
                     try {
                         const user = JSON.parse(localStorage.getItem('user'));
-                        fetch(`${getApiUrl()}/orders`, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                id: newOrder.orderId,
-                                customerName: user ? user.name : "Guest",
-                                items: cart,
-                                amount: totalPrice,
-                                status: "Approved"
-                            })
+                        axios.post(`${getApiUrl()}/orders`, {
+                            id: newOrder.orderId,
+                            customerName: user ? user.name : "Guest",
+                            items: cart,
+                            amount: totalPrice,
+                            status: "Approved"
                         });
 
                         // Check if any cart item is a seat upgrade, and approve it
                         const upgradeItem = cart.find(item => item.type === 'upgrade');
                         if (upgradeItem && upgradeItem.upgradeId) {
-                            fetch(`${getApiUrl()}/upgrades/${upgradeItem.upgradeId}/approve`, {
-                                method: "PUT",
-                                headers: { "Content-Type": "application/json" }
-                            });
+                            axios.put(`${getApiUrl()}/upgrades/${upgradeItem.upgradeId}/approve`);
                         }
 
                         // Check if they bought a Shuu Pass
                         const shuuPassItem = cart.find(item => item.name === 'Shuu Pass');
                         if (shuuPassItem && user && user.email) {
-                            fetch(`${getApiUrl()}/auth/profile`, {
-                                method: "PUT",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    email: user.email,
-                                    hasShuuPass: true,
-                                    shuuPassDate: new Date().toISOString()
-                                })
-                            }).then(r => r.json()).then(d => {
-                                if (d.user) localStorage.setItem('user', JSON.stringify(d.user));
+                            axios.put(`${getApiUrl()}/auth/profile`, {
+                                email: user.email,
+                                hasShuuPass: true,
+                                shuuPassDate: new Date().toISOString()
+                            }).then(r => {
+                                if (r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
                             }).catch(err => console.error(err));
                         }
 
@@ -91,17 +81,13 @@ const Payment = () => {
 
                         // Send Receipt Email
                         if (user && user.email) {
-                            fetch(`${getApiUrl()}/orders/receipt`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    email: user.email,
-                                    name: user.name,
-                                    status: "success",
-                                    items: cart,
-                                    total: totalPrice,
-                                    paymentMethod: paymentMethod
-                                })
+                            axios.post(`${getApiUrl()}/orders/receipt`, {
+                                email: user.email,
+                                name: user.name,
+                                status: "success",
+                                items: cart,
+                                total: totalPrice,
+                                paymentMethod: paymentMethod
                             });
                         }
                     } catch(err) {
@@ -112,7 +98,7 @@ const Payment = () => {
                     localStorage.removeItem('airline_cart');
                     localStorage.removeItem('airline_cart_summary');
                     try {
-                        fetch(`${getApiUrl()}/orders/pending/${orderId}`, { method: 'DELETE' });
+                        axios.delete(`${getApiUrl()}/orders/pending/${orderId}`);
                     } catch(e) {}
 
                     setTimeout(() => navigate('/history'), 3000);
@@ -124,23 +110,19 @@ const Payment = () => {
                     // Send Failed Receipt Email
                     const user = JSON.parse(localStorage.getItem('user'));
                     if (user && user.email) {
-                        fetch(`${getApiUrl()}/orders/receipt`, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                email: user.email,
-                                name: user.name,
-                                status: "failed",
-                                items: cart,
-                                total: totalPrice,
-                                paymentMethod: paymentMethod,
-                                reason: "Declined by administrator."
-                            })
+                        axios.post(`${getApiUrl()}/orders/receipt`, {
+                            email: user.email,
+                            name: user.name,
+                            status: "failed",
+                            items: cart,
+                            total: totalPrice,
+                            paymentMethod: paymentMethod,
+                            reason: "Declined by administrator."
                         }).catch(err => console.error(err));
                     }
 
                     try {
-                        fetch(`${getApiUrl()}/orders/pending/${orderId}`, { method: 'DELETE' });
+                        axios.delete(`${getApiUrl()}/orders/pending/${orderId}`);
                     } catch(e) {}
                 }
             } catch (err) {
@@ -162,11 +144,7 @@ const Payment = () => {
 
         // Send pending payment request to backend so it works across different browsers/devices
         try {
-            await fetch(`${getApiUrl()}/orders/pending`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ orderId: newOrderId, amount: totalPrice })
-            });
+            await axios.post(`${getApiUrl()}/orders/pending`, { orderId: newOrderId, amount: totalPrice });
         } catch (err) {
             console.error("Failed to send pending payment to server", err);
         }

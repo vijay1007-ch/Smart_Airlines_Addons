@@ -9,6 +9,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "axios": "^1.17.0",
     "core-js-pure": "^3.23.3",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",

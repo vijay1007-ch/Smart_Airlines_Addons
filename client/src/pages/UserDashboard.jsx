@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { Plane, Calendar, Clock, ArrowRight, ShoppingBag, ArrowUpCircle, CheckCircle, XCircle } from 'lucide-react';
+import axios from 'axios';
 import { getApiUrl } from '../services/apiService';
 
 const UserDashboard = () => {
@@ -30,8 +31,8 @@ const UserDashboard = () => {
 
     useEffect(() => {
         if (userEmail) {
-            fetch(`${getApiUrl()}/upgrades/user/${userEmail}`)
-                .then(res => res.json())
+            axios.get(`${getApiUrl()}/upgrades/user/${userEmail}`)
+                .then(res => res.data)
                 .then(data => {
                     if (data && data.length > 0) {
                         // Get the most recent request
@@ -51,18 +52,14 @@ const UserDashboard = () => {
 
         setIsRequesting(true);
         try {
-            const res = await fetch(`${getApiUrl()}/upgrades`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: userEmail,
-                    customerName: userName,
-                    currentSeat: flightDetails.seat,
-                    requestedClass: selectedClass
-                })
+            const res = await axios.post(`${getApiUrl()}/upgrades`, {
+                email: userEmail,
+                customerName: userName,
+                currentSeat: flightDetails.seat,
+                requestedClass: selectedClass
             });
-            const data = await res.json();
-            if (res.ok) {
+            const data = res.data;
+            if (res.status === 200 || res.status === 201) {
                 setUpgradeStatus(data.upgrade);
             } else {
                 alert(data.message);

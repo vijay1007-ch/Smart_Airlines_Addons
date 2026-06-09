@@ -3,6 +3,7 @@ import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 import { Edit2, Trash2, Plus, Save, X, Check, Diamond } from 'lucide-react';
+import axios from 'axios';
 
 const AdminBundles = () => {
     const navigate = useNavigate();
@@ -35,8 +36,8 @@ const AdminBundles = () => {
 
     const fetchBundles = async () => {
         try {
-            const res = await fetch(`${getApiUrl()}/bundles`);
-            const data = await res.json();
+            const res = await axios.get(`${getApiUrl()}/bundles`);
+            const data = res.data;
             setBundles(data);
             if (data.length > 0 && !selectedBundle) {
                 setSelectedBundle(data[0]);
@@ -51,22 +52,19 @@ const AdminBundles = () => {
     const handleAdd = async () => {
         if (!addForm.name || !addForm.price) return alert("Please fill at least name and price");
         try {
-            const res = await fetch(`${getApiUrl()}/bundles`, {
-                method: "POST",
+            const res = await axios.post(`${getApiUrl()}/bundles`, {
+                name: addForm.name,
+                price: Number(addForm.price),
+                shuuPassPrice: addForm.shuuPassPrice ? Number(addForm.shuuPassPrice) : undefined,
+                description: addForm.description,
+                iconBg: addForm.iconBg,
+                features: addForm.features ? addForm.features.split('\n').filter(f => f.trim()).map(f => ({ text: f.trim() })) : []
+            }, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": localStorage.getItem("token")
-                },
-                body: JSON.stringify({
-                    name: addForm.name,
-                    price: Number(addForm.price),
-                    shuuPassPrice: addForm.shuuPassPrice ? Number(addForm.shuuPassPrice) : undefined,
-                    description: addForm.description,
-                    iconBg: addForm.iconBg,
-                    features: addForm.features ? addForm.features.split('\n').filter(f => f.trim()).map(f => ({ text: f.trim() })) : []
-                })
+                }
             });
-            if (res.ok) {
+            if (res.status === 200 || res.status === 201) {
                 setAddForm({ name: '', price: '', shuuPassPrice: '', description: '', iconBg: '#00e5ff', features: '' });
                 setIsAdding(false);
                 fetchBundles();
@@ -79,27 +77,24 @@ const AdminBundles = () => {
     const handleUpdate = async (id) => {
         if (!editForm.name || !editForm.price) return alert("Please fill at least name and price");
         try {
-            const res = await fetch(`${getApiUrl()}/bundles/${id}`, {
-                method: "PUT",
+            const res = await axios.put(`${getApiUrl()}/bundles/${id}`, {
+                name: editForm.name,
+                price: Number(editForm.price),
+                shuuPassPrice: editForm.shuuPassPrice ? Number(editForm.shuuPassPrice) : undefined,
+                description: editForm.description,
+                features: editForm.features ? editForm.features.split('\n').filter(f => f.trim()).map(f => ({ text: f.trim() })) : []
+            }, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": localStorage.getItem("token")
-                },
-                body: JSON.stringify({
-                    name: editForm.name,
-                    price: Number(editForm.price),
-                    shuuPassPrice: editForm.shuuPassPrice ? Number(editForm.shuuPassPrice) : undefined,
-                    description: editForm.description,
-                    features: editForm.features ? editForm.features.split('\n').filter(f => f.trim()).map(f => ({ text: f.trim() })) : []
-                })
+                }
             });
-            if (res.ok) {
+            if (res.status === 200 || res.status === 201) {
                 setIsEditing(null);
                 fetchBundles();
                 // Update selected bundle if it was the one edited
                 if (selectedBundle && selectedBundle.id === id) {
-                    const updatedRes = await fetch(`${getApiUrl()}/bundles/${id}`);
-                    if (updatedRes.ok) setSelectedBundle(await updatedRes.json());
+                    const updatedRes = await axios.get(`${getApiUrl()}/bundles/${id}`);
+                    if (updatedRes.status === 200 || updatedRes.status === 201) setSelectedBundle(updatedRes.data);
                 }
             }
         } catch (error) {
@@ -110,13 +105,12 @@ const AdminBundles = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this bundle?")) return;
         try {
-            const res = await fetch(`${getApiUrl()}/bundles/${id}`, {
-                method: "DELETE",
+            const res = await axios.delete(`${getApiUrl()}/bundles/${id}`, {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
             });
-            if (res.ok) {
+            if (res.status === 200 || res.status === 201) {
                 if (selectedBundle && selectedBundle.id === id) setSelectedBundle(null);
                 fetchBundles();
             }

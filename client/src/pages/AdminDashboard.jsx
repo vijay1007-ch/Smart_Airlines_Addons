@@ -3,6 +3,7 @@ import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 import { TrendingUp, IndianRupee, Users, Plane, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import axios from 'axios';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -34,9 +35,9 @@ const AdminDashboard = () => {
         // Poll for pending payments from backend API
         const paymentInterval = setInterval(async () => {
             try {
-                const res = await fetch(`${getApiUrl()}/orders/pending`);
-                if (res.ok) {
-                    const data = await res.json();
+                const res = await axios.get(`${getApiUrl()}/orders/pending`);
+                if (res.status === 200 || res.status === 201) {
+                    const data = res.data;
                     setPendingPayments(data.filter(p => p.status === 'pending'));
                 }
             } catch (err) {
@@ -50,15 +51,15 @@ const AdminDashboard = () => {
     const fetchDashboardData = async () => {
         try {
             // Fetch stats
-            const statsRes = await fetch(`${getApiUrl()}/orders/stats`);
-            const statsData = await statsRes.json();
+            const statsRes = await axios.get(`${getApiUrl()}/orders/stats`);
+            const statsData = statsRes.data;
             if (typeof statsData.revenue === 'string') statsData.revenue = statsData.revenue.replace('$', '₹');
             if (typeof statsData.profit === 'string') statsData.profit = statsData.profit.replace('$', '₹');
             setAnalytics(statsData);
 
             // Fetch orders
-            const ordersRes = await fetch(`${getApiUrl()}/orders`);
-            const ordersData = await ordersRes.json();
+            const ordersRes = await axios.get(`${getApiUrl()}/orders`);
+            const ordersData = ordersRes.data;
             
             // Format orders for the table, taking the 10 most recent
             const formattedOrders = ordersData.reverse().slice(0, 10).map(o => {
@@ -86,8 +87,8 @@ const AdminDashboard = () => {
             setOrders(formattedOrders);
 
             // Fetch upgrades
-            const upgradesRes = await fetch(`${getApiUrl()}/upgrades`);
-            const upgradesData = await upgradesRes.json();
+            const upgradesRes = await axios.get(`${getApiUrl()}/upgrades`);
+            const upgradesData = upgradesRes.data;
             setUpgrades(upgradesData.reverse());
         } catch (error) {
             console.error("Failed to fetch dashboard data:", error);
@@ -101,12 +102,8 @@ const AdminDashboard = () => {
         if (!newSeat || !price || isNaN(price)) return;
         
         try {
-            const res = await fetch(`${getApiUrl()}/upgrades/${id}/offer`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ newSeat, price: Number(price) })
-            });
-            if (res.ok) {
+            const res = await axios.put(`${getApiUrl()}/upgrades/${id}/offer`, { newSeat, price: Number(price) });
+            if (res.status === 200 || res.status === 201) {
                 setUpgrades(prev => prev.map(u => u.id === id ? { ...u, status: "Pending Payment", newSeat, price: Number(price) } : u));
                 setOfferingId(null);
                 setOfferData({ seat: '', price: '' });
@@ -118,8 +115,8 @@ const AdminDashboard = () => {
 
     const handleUpgradeReject = async (id) => {
         try {
-            const res = await fetch(`${getApiUrl()}/upgrades/${id}/reject`, { method: 'PUT' });
-            if (res.ok) {
+            const res = await axios.put(`${getApiUrl()}/upgrades/${id}/reject`);
+            if (res.status === 200 || res.status === 201) {
                 setUpgrades(prev => prev.map(u => u.id === id ? { ...u, status: "Rejected" } : u));
             }
         } catch (err) {
@@ -129,11 +126,7 @@ const AdminDashboard = () => {
 
     const handlePaymentAction = async (orderId, action) => {
         try {
-            await fetch(`${getApiUrl()}/orders/pending/${orderId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: action })
-            });
+            await axios.put(`${getApiUrl()}/orders/pending/${orderId}`, { status: action });
             setPendingPayments(prev => prev.filter(p => p.orderId !== orderId));
         } catch (err) {
             console.error("Failed to update payment action", err);

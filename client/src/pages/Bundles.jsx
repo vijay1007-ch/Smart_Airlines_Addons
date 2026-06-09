@@ -3,6 +3,7 @@ import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { Star, Diamond, CheckCircle, X } from 'lucide-react';
+import axios from 'axios';
 
 const Bundles = () => {
     const navigate = useNavigate();
@@ -17,10 +18,9 @@ const Bundles = () => {
     });
 
     useEffect(() => {
-        fetch(`${getApiUrl()}/bundles`)
-            .then(res => res.json())
-            .then(data => {
-                setBundles(data);
+        axios.get(`${getApiUrl()}/bundles`)
+            .then(res => {
+                setBundles(res.data);
                 setLoading(false);
             })
             .catch(err => {

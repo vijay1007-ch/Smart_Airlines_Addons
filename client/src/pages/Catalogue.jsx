@@ -3,6 +3,7 @@ import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, Utensils, Wine, Wifi, Star, ShoppingBag, Plus } from 'lucide-react';
+import axios from 'axios';
 
 const Catalogue = () => {
     const navigate = useNavigate();
@@ -18,9 +19,8 @@ const Catalogue = () => {
     const [dbAddons, setDbAddons] = useState([]);
 
     useEffect(() => {
-        fetch(`${getApiUrl()}/addons`)
-            .then(res => res.json())
-            .then(data => setDbAddons(data))
+        axios.get(`${getApiUrl()}/addons`)
+            .then(res => setDbAddons(res.data))
             .catch(err => console.error("Error fetching addons:", err));
     }, []);
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Sun, Moon, Settings, ShieldAlert, Wifi, Globe, Smartphone, HelpCircle, Home, Plane, Package, Store, ShoppingCart, Receipt, Edit2, Key, LogOut } from 'lucide-react';
+import axios from 'axios';
 import { getApiUrl, setApiUrl, is2FAEnabled, set2FAEnabled } from '../services/apiService';
 
 const SidebarRow = ({ icon, title, subtitle, onClick, color }) => (
@@ -67,13 +68,12 @@ const Navbar = () => {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-            const response = await fetch(`${url}/auth/health`, {
-                method: 'GET',
+            const response = await axios.get(`${url}/auth/health`, {
                 signal: controller.signal
             });
             clearTimeout(timeoutId);
 
-            if (response.ok) {
+            if (response.status === 200) {
                 setPingStatus('connected');
             } else {
                 setPingStatus('offline');
@@ -168,7 +168,6 @@ const Navbar = () => {
                         Bundles
                         {location.pathname === '/bundles' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
                     </div>
-                    <div style={{ cursor: 'pointer' }}>Support</div>
                 </div>
 
                 <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>

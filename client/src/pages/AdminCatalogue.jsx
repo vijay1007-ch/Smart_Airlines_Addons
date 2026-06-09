@@ -3,6 +3,7 @@ import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 import { Edit2, Trash2, Plus, Save, X } from 'lucide-react';
+import axios from 'axios';
 
 const AdminCatalogue = () => {
     const navigate = useNavigate();
@@ -34,8 +35,8 @@ const AdminCatalogue = () => {
 
     const fetchAddons = async () => {
         try {
-            const res = await fetch(`${getApiUrl()}/addons`);
-            const data = await res.json();
+            const res = await axios.get(`${getApiUrl()}/addons`);
+            const data = res.data;
             setAddons(data);
         } catch (error) {
             console.error("Error fetching addons:", error);
@@ -47,15 +48,12 @@ const AdminCatalogue = () => {
     const handleAdd = async () => {
         if (!addForm.name || !addForm.price) return alert("Please fill all fields");
         try {
-            const res = await fetch(`${getApiUrl()}/addons`, {
-                method: "POST",
+            const res = await axios.post(`${getApiUrl()}/addons`, addForm, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": localStorage.getItem("token")
-                },
-                body: JSON.stringify(addForm)
+                }
             });
-            if (res.ok) {
+            if (res.status === 200 || res.status === 201) {
                 setAddForm({ name: '', price: '' });
                 setIsAdding(false);
                 fetchAddons();
@@ -68,15 +66,12 @@ const AdminCatalogue = () => {
     const handleUpdate = async (id) => {
         if (!editForm.name || !editForm.price) return alert("Please fill all fields");
         try {
-            const res = await fetch(`${getApiUrl()}/addons/${id}`, {
-                method: "PUT",
+            const res = await axios.put(`${getApiUrl()}/addons/${id}`, editForm, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": localStorage.getItem("token")
-                },
-                body: JSON.stringify(editForm)
+                }
             });
-            if (res.ok) {
+            if (res.status === 200 || res.status === 201) {
                 setIsEditing(null);
                 fetchAddons();
             }
@@ -88,13 +83,12 @@ const AdminCatalogue = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this item?")) return;
         try {
-            const res = await fetch(`${getApiUrl()}/addons/${id}`, {
-                method: "DELETE",
+            const res = await axios.delete(`${getApiUrl()}/addons/${id}`, {
                 headers: {
                     "Authorization": localStorage.getItem("token")
                 }
             });
-            if (res.ok) {
+            if (res.status === 200 || res.status === 201) {
                 fetchAddons();
             }
         } catch (error) {

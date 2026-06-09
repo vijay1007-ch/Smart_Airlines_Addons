@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getApiUrl } from '../services/apiService';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const EditProfile = () => {
     const navigate = useNavigate();
@@ -45,18 +46,13 @@ const EditProfile = () => {
         setMessage('');
 
         try {
-            const response = await fetch(`${getApiUrl()}/auth/profile`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                    email: user.email, 
-                    ...formData 
-                })
+            const response = await axios.put(`${getApiUrl()}/auth/profile`, { 
+                email: user.email, 
+                ...formData 
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
+                const data = response.data;
                 setMessage("Profile updated successfully!");
                 // Update local storage
                 localStorage.setItem("user", JSON.stringify(data.user));
@@ -64,12 +60,14 @@ const EditProfile = () => {
                 
                 // Show success message briefly then optionally navigate
                 setTimeout(() => setMessage(''), 3000);
-            } else {
-                setMessage(data.message || "Failed to update profile");
             }
         } catch (error) {
             console.error("Update error:", error);
-            setMessage("Something went wrong connecting to the server.");
+            if (error.response && error.response.data) {
+                setMessage(error.response.data.message || "Failed to update profile");
+            } else {
+                setMessage("Something went wrong connecting to the server.");
+            }
         } finally {
             setIsLoading(false);
         }

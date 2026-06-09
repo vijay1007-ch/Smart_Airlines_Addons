@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, Lock, User, Phone, AlertCircle, Smartphone, ShieldCheck, X, Plane, MapPin } from 'lucide-react';
+import axios from 'axios';
 import { getApiUrl } from '../services/apiService';
 
 const Signup = () => {
@@ -24,33 +25,29 @@ const Signup = () => {
         setErrorMsg('');
         
         try {
-            const response = await fetch(`${getApiUrl()}/auth/register`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password, name, phone })
-            });
+            const response = await axios.post(`${getApiUrl()}/auth/register`, { email, password, name, phone });
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
-                if (data.verificationRequired) {
-                    setVerificationRequired(true);
-                } else {
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    localStorage.setItem("token", data.token);
-
-                    if (data.user.role === 'admin') {
-                        navigate("/admin");
-                    } else {
-                        navigate("/dashboard");
-                    }
-                }
+            if (data.verificationRequired) {
+                setVerificationRequired(true);
             } else {
-                setErrorMsg(data.message || "Registration failed");
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", data.token);
+
+                if (data.user.role === 'admin') {
+                    navigate("/admin");
+                } else {
+                    navigate("/dashboard");
+                }
             }
         } catch (error) {
             console.error("Auth error:", error);
-            setErrorMsg("Something went wrong connecting to the server.");
+            if (error.response && error.response.data) {
+                setErrorMsg(error.response.data.message || "Registration failed");
+            } else {
+                setErrorMsg("Something went wrong connecting to the server.");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -62,32 +59,28 @@ const Signup = () => {
         setErrorMsg('');
 
         try {
-            const response = await fetch(`${getApiUrl()}/auth/register/verify`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email,
-                    emailOtp
-                })
+            const response = await axios.post(`${getApiUrl()}/auth/register/verify`, {
+                email,
+                emailOtp
             });
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
-                localStorage.setItem("user", JSON.stringify(data.user));
-                localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
 
-                if (data.user.role === 'admin') {
-                    navigate("/admin");
-                } else {
-                    navigate("/dashboard");
-                }
+            if (data.user.role === 'admin') {
+                navigate("/admin");
             } else {
-                setErrorMsg(data.message || "Verification failed");
+                navigate("/dashboard");
             }
         } catch (error) {
             console.error("Verification error:", error);
-            setErrorMsg("Server error verifying OTP code.");
+            if (error.response && error.response.data) {
+                setErrorMsg(error.response.data.message || "Verification failed");
+            } else {
+                setErrorMsg("Server error verifying OTP code.");
+            }
         } finally {
             setIsLoading(false);
         }

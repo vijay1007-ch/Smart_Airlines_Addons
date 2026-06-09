@@ -3,6 +3,7 @@ import { getApiUrl, is2FAEnabled } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, Lock, AlertCircle, Plane, MapPin, Smartphone, X } from 'lucide-react';
+import axios from 'axios';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -30,34 +31,30 @@ const Login = () => {
         setErrorMsg('');
         
         try {
-            const response = await fetch(`${getApiUrl()}/auth/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                    email, 
-                    password,
-                    twoFactorEnabled: is2FAEnabled() 
-                })
+            const response = await axios.post(`${getApiUrl()}/auth/login`, {
+                email, 
+                password,
+                twoFactorEnabled: is2FAEnabled() 
             });
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
-                if (data.twoFactorRequired) {
-                    setTwoFactorRequired(true);
-                } else {
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    localStorage.setItem("token", data.token);
-
-                    if (data.user.role === 'admin') navigate("/admin");
-                    else navigate("/dashboard");
-                }
+            if (data.twoFactorRequired) {
+                setTwoFactorRequired(true);
             } else {
-                setErrorMsg(data.message || "Authentication failed");
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", data.token);
+
+                if (data.user.role === 'admin') navigate("/admin");
+                else navigate("/dashboard");
             }
         } catch (error) {
             console.error("Auth error:", error);
-            setErrorMsg("Something went wrong connecting to the server.");
+            if (error.response && error.response.data) {
+                setErrorMsg(error.response.data.message || "Authentication failed");
+            } else {
+                setErrorMsg("Something went wrong connecting to the server.");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -69,29 +66,25 @@ const Login = () => {
         setErrorMsg('');
 
         try {
-            const response = await fetch(`${getApiUrl()}/auth/verify-2fa`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email,
-                    emailOtp
-                })
+            const response = await axios.post(`${getApiUrl()}/auth/verify-2fa`, {
+                email,
+                emailOtp
             });
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
-                localStorage.setItem("user", JSON.stringify(data.user));
-                localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
 
-                if (data.user.role === 'admin') navigate("/admin");
-                else navigate("/dashboard");
-            } else {
-                setErrorMsg(data.message || "2FA Verification failed");
-            }
+            if (data.user.role === 'admin') navigate("/admin");
+            else navigate("/dashboard");
         } catch (error) {
             console.error("2FA verify error:", error);
-            setErrorMsg("Server error verifying 2FA codes.");
+            if (error.response && error.response.data) {
+                setErrorMsg(error.response.data.message || "2FA Verification failed");
+            } else {
+                setErrorMsg("Server error verifying 2FA codes.");
+            }
         } finally {
             setIsLoading(false);
         }

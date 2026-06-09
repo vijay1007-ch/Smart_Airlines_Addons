@@ -3,6 +3,7 @@ import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, ArrowRight, PlaneTakeoff, CheckCircle2 } from 'lucide-react';
+import axios from 'axios';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -16,25 +17,21 @@ const ForgotPassword = () => {
         setIsLoading(true);
         
         try {
-            const response = await fetch(`${getApiUrl()}/auth/forgot-password`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ 
-                    email,
-                    clientOrigin: window.location.origin 
-                })
+            const response = await axios.post(`${getApiUrl()}/auth/forgot-password`, {
+                email,
+                clientOrigin: window.location.origin 
             });
 
-            const data = await response.json();
-            
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
                 setIsSubmitted(true);
-            } else {
-                alert(data.message || "Something went wrong.");
             }
         } catch (error) {
             console.error(error);
-            alert("Failed to connect to the server.");
+            if (error.response && error.response.data) {
+                alert(error.response.data.message || "Something went wrong.");
+            } else {
+                alert("Failed to connect to the server.");
+            }
         } finally {
             setIsLoading(false);
         }
