@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Mail, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { getApiUrl } from '../services/apiService';
-import './Signup.css';
 
 const Signup = () => {
     const [email, setEmail] = useState('');

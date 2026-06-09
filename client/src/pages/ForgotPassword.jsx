@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, ArrowRight, PlaneTakeoff, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
-import './ForgotPassword.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');

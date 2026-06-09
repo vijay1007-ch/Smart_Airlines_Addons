@@ -14,7 +14,7 @@ import {
     RefreshCw
 } from 'lucide-react';
 import axios from 'axios';
-import './ResetPassword.css';
+
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
