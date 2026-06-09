@@ -242,12 +242,12 @@ const Payment = () => {
 
                 <button 
                     type="submit" 
-                    disabled={isProcessing || totalPrice === 0}
+                    disabled={isProcessing}
                     style={{ 
                         width: '100%', 
                         background: isProcessing ? 'var(--border-light)' : 'var(--gradient-primary)',
                         color: '#ffffff',
-                        opacity: totalPrice === 0 ? 0.5 : 1
+                        opacity: isProcessing ? 0.7 : 1
                     }}
                 >
                     {isProcessing ? 'Verifying...' : `Pay ₹${totalPrice}`}
@@ -279,12 +279,13 @@ const Payment = () => {
                 
                 <button 
                     onClick={() => handlePayment()} 
-                    disabled={isProcessing || totalPrice === 0}
+                    disabled={isProcessing}
                     style={{ 
                         width: '100%', 
                         background: isProcessing ? 'var(--border-light)' : 'var(--gradient-primary)',
                         color: '#ffffff',
-                        marginBottom: '20px'
+                        marginBottom: '20px',
+                        opacity: isProcessing ? 0.7 : 1
                     }}
                 >
                     {isProcessing ? 'Waiting for approval...' : `I have paid ₹${totalPrice}`}
