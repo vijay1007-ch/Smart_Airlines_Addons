@@ -150,78 +150,43 @@ const Navbar = () => {
                     <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer', margin: 0 }}>✈️ Smart Airline</div>
                 </div>
 
-                {/* Central Links */}
-                <div style={{ display: 'none', '@media (minWidth: 768px)': { display: 'flex' }, display: 'flex', alignItems: 'center', gap: '2rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/')}>
-                        Home
-                        {location.pathname === '/' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
-                    </div>
-                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/catalogue' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/catalogue')}>
-                        Catalogue
-                        {location.pathname === '/catalogue' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
-                    </div>
-                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/travelled' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/travelled')}>
-                        My Trips
-                        {location.pathname === '/travelled' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
-                    </div>
-                    <div style={{ cursor: 'pointer', position: 'relative', color: location.pathname === '/bundles' ? '#ffffff' : 'var(--text-muted)' }} onClick={() => navigate('/bundles')}>
-                        Bundles
-                        {location.pathname === '/bundles' && <div style={{ position: 'absolute', bottom: '-8px', left: '0', width: '100%', height: '2px', background: 'var(--gradient-primary)' }} />}
-                    </div>
-                </div>
-
                 <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                    {/* Connection and Security Settings Gear Icon */}
-                    <div
-                        onClick={() => setIsSettingsOpen(true)}
-                        title="Connection & Security Settings"
-                        style={{
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            background: 'var(--bg-main)',
-                            border: '1px solid var(--border-light)',
-                            transition: 'all 0.3s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'rgba(0, 229, 255, 0.1)';
-                            e.currentTarget.style.boxShadow = 'var(--glow-cyan)';
-                            e.currentTarget.style.borderColor = 'var(--primary-blue)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'var(--bg-main)';
-                            e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.borderColor = 'var(--border-light)';
-                        }}
-                    >
-                        <Settings size={20} />
-                    </div>
-
-                    {!user && (
-                        <button 
-                            onClick={() => navigate('/login')}
-                            style={{ 
-                                background: 'transparent',
-                                border: '1px solid rgba(255,255,255,0.2)',
-                                color: '#ffffff',
-                                padding: '8px 24px',
-                                borderRadius: '8px',
-                                fontSize: '0.9rem',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease'
-                            }}
-                            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--gradient-primary)'; e.currentTarget.style.color = 'var(--gradient-primary)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = '#ffffff'; }}
-                        >
-                            Login
-                        </button>
-                    )}
+                    {/* Settings moved to floating button */}
                 </div>
             </div>
+            </div>
+
+            {/* Floating Connection and Security Settings Gear Icon */}
+            <div
+                onClick={() => setIsSettingsOpen(true)}
+                title="Connection & Security Settings"
+                style={{
+                    position: 'fixed',
+                    bottom: '30px',
+                    right: '30px',
+                    zIndex: 9999,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%',
+                    background: 'var(--gradient-primary)',
+                    boxShadow: '0 4px 15px rgba(0, 229, 255, 0.3)',
+                    transition: 'all 0.3s ease',
+                    color: '#fff'
+                }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 229, 255, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 229, 255, 0.3)';
+                }}
+            >
+                <Settings size={24} />
             </div>
 
             {/* The Sidebar Drawer */}
