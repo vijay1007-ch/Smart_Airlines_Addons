@@ -10,12 +10,12 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
+
     // 2FA Flow states
     const [twoFactorRequired, setTwoFactorRequired] = useState(false);
     const [emailOtp, setEmailOtp] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
-    
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,12 +30,12 @@ const Login = () => {
         e.preventDefault();
         setIsLoading(true);
         setErrorMsg('');
-        
+
         try {
             const response = await axios.post(`${getApiUrl()}/auth/login`, {
-                email, 
+                email,
                 password,
-                twoFactorEnabled: is2FAEnabled() 
+                twoFactorEnabled: is2FAEnabled()
             });
 
             const data = response.data;
@@ -98,134 +98,131 @@ const Login = () => {
             </div>
 
             <div className="hero-section">
-                <h1>4. AURORA NIGHT</h1>
-                <p>Modern, Sleek & Premium</p>
+                <h1>SMART AIRLINE ADD-ONS PLATFORM</h1>
+                <p>A Modern, Sleek, and Professional Airline Addon Platform</p>
 
                 <div className="logo-box">
-                    <h2>SMART AIRLINES</h2>
-                    <span>ADDONS</span>
+                    <h2>Smart Airline</h2>
+                    <h3>Premium Travel Experience</h3>
+                    <p>DIGITAL AIRLINE ECOSYSTEM</p>
+                    <p>Passenger & Admin Management Suite</p>
+                    <span>Add-Ons</span>
                 </div>
             </div>
 
-            <div className="theme-colors">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+
 
             <div className="login-card">
-                    
-                    {!twoFactorRequired ? (
-                        <>
-                            <h2>Welcome Back</h2>
-                            <p>Login to your account</p>
 
-                            {errorMsg && (
-                                <div style={{ 
-                                    display: 'flex', alignItems: 'center', gap: '8px', 
-                                    padding: '10px 15px', background: 'rgba(255, 65, 108, 0.1)', 
-                                    border: '1px solid rgba(255, 65, 108, 0.3)', borderRadius: '12px', 
-                                    color: '#ff416c', fontSize: '0.85rem', marginBottom: '1.25rem' 
-                                }}>
-                                    <AlertCircle size={16} />
-                                    <span>{errorMsg}</span>
-                                </div>
-                            )}
+                {!twoFactorRequired ? (
+                    <>
+                        <h2>Welcome Back</h2>
+                        <p>Login to your account</p>
 
-                            <form onSubmit={handleSubmit}>
-                                <div className="input-group">
-                                    <input 
-                                        type="email" 
-                                        placeholder="Email" 
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required 
-                                    />
-                                </div>
-                                
-                                <div className="input-group">
-                                    <input 
-                                        type="password" 
-                                        placeholder="Password" 
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required 
-                                    />
-                                </div>
-
-                                <div style={{ textAlign: 'right', marginBottom: '15px' }}>
-                                    <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }} style={{ color: '#b8c1cc', fontSize: '13px', textDecoration: 'none' }}>Forgot Password?</a>
-                                </div>
-
-                                <button 
-                                    type="submit" 
-                                    disabled={isLoading}
-                                    className="login-btn"
-                                >
-                                    {isLoading ? 'Logging in...' : 'Login'}
-                                </button>
-                            </form>
-
-                            <div className="bottom-links">
-                                Don't have an account?
-                                <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}> Sign Up</a>
+                        {errorMsg && (
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: '8px',
+                                padding: '10px 15px', background: 'rgba(255, 65, 108, 0.1)',
+                                border: '1px solid rgba(255, 65, 108, 0.3)', borderRadius: '12px',
+                                color: '#ff416c', fontSize: '0.85rem', marginBottom: '1.25rem'
+                            }}>
+                                <AlertCircle size={16} />
+                                <span>{errorMsg}</span>
                             </div>
-                        </>
-                    ) : (
-                        <>
-                            {/* 2-Step Authentication View */}
-                            <h2>2-Step Verification</h2>
-                            <p>For security, we sent a code to your Email.</p>
+                        )}
 
-                            {errorMsg && (
-                                <div style={{ 
-                                    display: 'flex', alignItems: 'center', gap: '8px', 
-                                    padding: '10px 15px', background: 'rgba(255, 65, 108, 0.1)', 
-                                    border: '1px solid rgba(255, 65, 108, 0.3)', borderRadius: '12px', 
-                                    color: '#ff416c', fontSize: '0.85rem', marginBottom: '1.25rem' 
-                                }}>
-                                    <AlertCircle size={16} />
-                                    <span>{errorMsg}</span>
-                                </div>
-                            )}
+                        <form onSubmit={handleSubmit}>
+                            <div className="input-group">
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
 
-                            <form onSubmit={handleVerify2FA}>
-                                <div className="input-group" style={{ position: 'relative' }}>
-                                    <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: '#9ca3af' }} />
-                                    <input 
-                                        type="text" 
-                                        maxLength="6"
-                                        placeholder="Enter 6-digit code" 
-                                        value={emailOtp}
-                                        onChange={(e) => setEmailOtp(e.target.value)}
-                                        required 
-                                        style={{ paddingLeft: '48px' }}
-                                    />
-                                </div>
+                            <div className="input-group">
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
 
-                                <button 
-                                    type="submit" 
-                                    disabled={isLoading}
-                                    className="login-btn"
-                                >
-                                    {isLoading ? 'Verifying...' : 'Verify & Sign In'}
-                                </button>
-                                
-                                <button 
-                                    type="button" 
-                                    onClick={() => setTwoFactorRequired(false)}
-                                    className="login-btn"
-                                    style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white', marginTop: '10px', boxShadow: 'none' }}
-                                >
-                                    Back to Login
-                                </button>
-                            </form>
-                        </>
-                    )}
-                </div>
+                            <div style={{ textAlign: 'right', marginBottom: '15px' }}>
+                                <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }} style={{ color: '#b8c1cc', fontSize: '13px', textDecoration: 'none' }}>Forgot Password?</a>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="login-btn"
+                            >
+                                {isLoading ? 'Logging in...' : 'Login'}
+                            </button>
+                        </form>
+
+                        <div className="bottom-links">
+                            Don't have an account?
+                            <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}> Sign Up</a>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {/* 2-Step Authentication View */}
+                        <h2>2-Step Verification</h2>
+                        <p>For security, we sent a code to your Email.</p>
+
+                        {errorMsg && (
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: '8px',
+                                padding: '10px 15px', background: 'rgba(255, 65, 108, 0.1)',
+                                border: '1px solid rgba(255, 65, 108, 0.3)', borderRadius: '12px',
+                                color: '#ff416c', fontSize: '0.85rem', marginBottom: '1.25rem'
+                            }}>
+                                <AlertCircle size={16} />
+                                <span>{errorMsg}</span>
+                            </div>
+                        )}
+
+                        <form onSubmit={handleVerify2FA}>
+                            <div className="input-group" style={{ position: 'relative' }}>
+                                <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: '#9ca3af' }} />
+                                <input
+                                    type="text"
+                                    maxLength="6"
+                                    placeholder="Enter 6-digit code"
+                                    value={emailOtp}
+                                    onChange={(e) => setEmailOtp(e.target.value)}
+                                    required
+                                    style={{ paddingLeft: '48px' }}
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="login-btn"
+                            >
+                                {isLoading ? 'Verifying...' : 'Verify & Sign In'}
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setTwoFactorRequired(false)}
+                                className="login-btn"
+                                style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white', marginTop: '10px', boxShadow: 'none' }}
+                            >
+                                Back to Login
+                            </button>
+                        </form>
+                    </>
+                )}
             </div>
+        </div>
     );
 };
 

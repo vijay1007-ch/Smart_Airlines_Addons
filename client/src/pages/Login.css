@@ -355,16 +355,6 @@
     letter-spacing: 4px;
   }
 
-  .theme-colors {
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .theme-colors div {
-    width: 24px;
-    height: 24px;
-  }
-
   .login-card {
     max-width: 100%;
     padding: 26px 18px 18px;
