@@ -1,93 +1,151 @@
+/* LOGIN PAGE */
+
 .login-page {
   min-height: 100vh;
-  background: url("https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad")
-    center/cover no-repeat;
+
+  background:
+    linear-gradient(
+      rgba(0, 8, 25, 0.25),
+      rgba(0, 8, 25, 0.25)
+    ),
+    url("https://images.unsplash.com/photo-1579033462043-0f11a7862f7d?auto=format&fit=crop&w=1920&q=80");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-}
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(2px);
-}
-
-.login-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  justify-content: space-between;
   padding: 40px;
 }
 
-.logo-section {
-  color: white;
-  align-self: center;
+/* MAIN CONTAINER */
+
+.login-wrapper {
+  width: 100%;
+  max-width: 1200px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.logo-section h2 {
-  font-size: 2.5rem;
+/* LEFT SIDE */
+
+.brand-section {
+  color: white;
+}
+
+.brand-section h4 {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #ffffff;
+}
+
+.brand-section h1 {
+  font-size: 42px;
+  margin-top: 15px;
+  font-weight: 700;
+}
+
+.brand-section p {
+  margin-top: 10px;
+  color: #d1d5db;
+}
+
+.airline-logo {
+  margin-top: 40px;
+}
+
+.airline-logo h2 {
+  font-size: 30px;
   letter-spacing: 2px;
 }
 
-.logo-section p {
-  color: #8ef7f2;
+.airline-logo span {
+  color: #8ff8e8;
   letter-spacing: 6px;
+  font-size: 14px;
 }
+
+/* LOGIN CARD */
 
 .login-card {
   width: 420px;
+
   padding: 40px;
-  border-radius: 20px;
 
-  background: rgba(0,0,0,0.35);
+  border-radius: 18px;
 
-  backdrop-filter: blur(15px);
+  background: rgba(0, 0, 0, 0.35);
 
-  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,0.12);
 
   box-shadow:
-    0 0 25px rgba(0,255,255,0.15);
+    0 0 30px rgba(0,255,255,0.08),
+    inset 0 0 0 1px rgba(255,255,255,0.03);
 }
 
-.login-card h1 {
+/* TITLE */
+
+.login-card h2 {
   color: white;
   text-align: center;
+  font-size: 28px;
 }
 
 .login-card p {
   text-align: center;
-  color: #ccc;
+  color: #b8c1cc;
+  margin-top: 6px;
+  margin-bottom: 25px;
 }
 
-.input-field {
+/* INPUTS */
+
+.login-input {
   width: 100%;
-  margin-top: 18px;
-  padding: 14px;
+  height: 50px;
+
+  margin-bottom: 15px;
 
   background: rgba(255,255,255,0.05);
 
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
 
   border-radius: 10px;
 
+  padding: 0 15px;
+
   color: white;
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.3s;
 }
 
-.input-field::placeholder {
-  color: #aaa;
+.login-input::placeholder {
+  color: #9ca3af;
 }
+
+.login-input:focus {
+  border-color: #27e8e5;
+
+  box-shadow:
+    0 0 10px rgba(39,232,229,0.3);
+}
+
+/* BUTTON */
 
 .login-btn {
   width: 100%;
-  margin-top: 22px;
-
-  padding: 14px;
+  height: 50px;
 
   border: none;
 
@@ -95,36 +153,84 @@
 
   background: linear-gradient(
     90deg,
-    #00d9ff,
-    #34f5c5
+    #21d4fd,
+    #26f0c6
   );
 
-  color: black;
+  color: #001018;
 
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 700;
 
   cursor: pointer;
+
+  transition: all 0.3s ease;
 }
 
 .login-btn:hover {
   transform: translateY(-2px);
+
+  box-shadow:
+    0 0 20px rgba(38,240,198,0.4);
 }
 
-.bottom-links {
-  text-align: right;
-  margin-top: 10px;
-}
-
-.bottom-links a {
-  color: #34f5c5;
-  text-decoration: none;
-}
+/* SIGNUP */
 
 .signup-text {
-  margin-top: 20px;
+  text-align: center;
+
+  margin-top: 18px;
+
+  color: #cbd5e1;
+
+  font-size: 14px;
 }
 
 .signup-text a {
-  color: #34f5c5;
+  color: #27e8e5;
   text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-text a:hover {
+  color: white;
+}
+
+/* COLOR SELECTOR */
+
+.theme-colors {
+  display: flex;
+  gap: 12px;
+  margin-top: 35px;
+}
+
+.theme-colors span {
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(255,255,255,0.15);
+
+  cursor: pointer;
+}
+
+.theme-colors span:nth-child(1) {
+  background: #081a45;
+}
+
+.theme-colors span:nth-child(2) {
+  background: #312e81;
+}
+
+.theme-colors span:nth-child(3) {
+  background: #14b8a6;
+}
+
+.theme-colors span:nth-child(4) {
+  background: #8ff8e8;
+}
+
+.theme-colors span:nth-child(5) {
+  background: white;
 }

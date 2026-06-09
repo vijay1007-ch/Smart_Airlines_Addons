@@ -93,21 +93,34 @@ const Login = () => {
 
     return (
         <div className="login-page">
-            <div className="overlay"></div>
             <Navbar />
 
-            <div className="login-container">
-                <div className="logo-section">
-                    <h2>SKY WINGS</h2>
-                    <p>PREMIUM ADD-ONS</p>
+            <div className="login-wrapper">
+
+                <div className="brand-section">
+                    <h4>4. AURORA NIGHT</h4>
+                    <p>Modern, Sleek & Premium</p>
+
+                    <div className="airline-logo">
+                        <h2>SMART AIRLINES</h2>
+                        <span>ADDONS</span>
+                    </div>
+
+                    <div className="theme-colors">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
 
                 <div className="login-card">
                     
                     {!twoFactorRequired ? (
                         <>
-                            <h1>Welcome Back</h1>
-                            <p>Sign in to continue your journey</p>
+                            <h2>Welcome Back</h2>
+                            <p>Login to your account</p>
 
                             {errorMsg && (
                                 <div style={{ 
@@ -122,29 +135,26 @@ const Login = () => {
                             )}
 
                             <form onSubmit={handleSubmit}>
-                                <div>
-                                    <input 
-                                        type="email" 
-                                        placeholder="Email Address" 
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required 
-                                        className="input-field"
-                                    />
-                                </div>
+                                <input 
+                                    type="email" 
+                                    placeholder="Email" 
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required 
+                                    className="login-input"
+                                />
                                 
-                                <div>
-                                    <input 
-                                        type="password" 
-                                        placeholder="Password" 
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required 
-                                        className="input-field"
-                                    />
-                                </div>
-                                <div className="bottom-links">
-                                    <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }}>Forgot Password?</a>
+                                <input 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required 
+                                    className="login-input"
+                                />
+
+                                <div style={{ textAlign: 'right', marginBottom: '15px' }}>
+                                    <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }} style={{ color: '#b8c1cc', fontSize: '13px', textDecoration: 'none' }}>Forgot Password?</a>
                                 </div>
 
                                 <button 
@@ -152,19 +162,19 @@ const Login = () => {
                                     disabled={isLoading}
                                     className="login-btn"
                                 >
-                                    {isLoading ? 'Authenticating...' : 'Sign In'}
+                                    {isLoading ? 'Logging in...' : 'Login'}
                                 </button>
                             </form>
 
-                            <div className="signup-text" style={{ textAlign: 'center' }}>
-                                Don't have an account?{" "}
-                                <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}>Sign up</a>
+                            <div className="signup-text">
+                                Don't have an account?
+                                <a href="#!" onClick={(e) => { e.preventDefault(); navigate('/signup'); }}> Sign Up</a>
                             </div>
                         </>
                     ) : (
                         <>
                             {/* 2-Step Authentication View */}
-                            <h1>2-Step Verification</h1>
+                            <h2>2-Step Verification</h2>
                             <p>For security, we sent a code to your Email.</p>
 
                             {errorMsg && (
@@ -181,7 +191,7 @@ const Login = () => {
 
                             <form onSubmit={handleVerify2FA}>
                                 <div style={{ position: 'relative' }}>
-                                    <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: '#aaa', marginTop: '9px' }} />
+                                    <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: '#9ca3af' }} />
                                     <input 
                                         type="text" 
                                         maxLength="6"
@@ -189,7 +199,7 @@ const Login = () => {
                                         value={emailOtp}
                                         onChange={(e) => setEmailOtp(e.target.value)}
                                         required 
-                                        className="input-field"
+                                        className="login-input"
                                         style={{ paddingLeft: '48px' }}
                                     />
                                 </div>
@@ -206,7 +216,7 @@ const Login = () => {
                                     type="button" 
                                     onClick={() => setTwoFactorRequired(false)}
                                     className="login-btn"
-                                    style={{ background: 'transparent', border: '1px solid #34f5c5', color: '#34f5c5', marginTop: '10px' }}
+                                    style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white', marginTop: '10px', boxShadow: 'none' }}
                                 >
                                     Back to Login
                                 </button>
