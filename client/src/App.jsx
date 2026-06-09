@@ -21,6 +21,7 @@ import Travelled from './pages/Travelled';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import AdminReports from './pages/AdminReports';
+import AdminSeatUpgrades from './pages/AdminSeatUpgrades';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/admin/reports" element={<AdminReports />} />
+        <Route path="/admin/upgrades" element={<AdminSeatUpgrades />} />
       </Routes>
     </Router>
   );

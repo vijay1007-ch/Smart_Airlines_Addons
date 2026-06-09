@@ -330,6 +330,15 @@ const AdminDashboard = () => {
                         <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '1.5rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                                 <h3 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>Seat Upgrade Requests</h3>
+                                <button 
+                                    onClick={() => navigate('/admin/upgrades')}
+                                    style={{ 
+                                        background: 'transparent', border: '1px solid #334155', color: '#cbd5e1',
+                                        padding: '0.4rem 1rem', borderRadius: '6px', fontSize: '0.85rem', cursor: 'pointer'
+                                    }}
+                                >
+                                    View All
+                                </button>
                             </div>
                             
                             <div style={{ overflowX: 'auto' }}>
