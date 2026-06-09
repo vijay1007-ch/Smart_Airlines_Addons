@@ -111,19 +111,16 @@ const ResetPassword = () => {
     };
 
     return (
-        <div className="page" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="page" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
+            <div className="aurora-bg"></div>
+            <div className="aurora-overlay"></div>
             <Navbar />
-            
-            
-            
 
             <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-                <div className="login-box" style={{ 
+                <div className="login-box glass-panel" style={{ 
                     maxWidth: '440px', 
                     width: '100%', 
                     padding: '3rem 2.5rem',
-                    borderRadius: '24px',
-                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     position: 'relative',
                     border: !isVerified ? '1px solid rgba(255, 65, 108, 0.4)' : '1px solid var(--border-light)'
                 }}>
@@ -199,9 +196,11 @@ const ResetPassword = () => {
                                     alignItems: 'center',
                                     gap: '0.5rem',
                                     fontSize: '1.05rem',
-                                    background: 'var(--gradient-accent)',
+                                    background: 'var(--accent-teal)',
+                                    color: '#fff',
+                                    border: 'none',
                                     opacity: (isLoading || otpLoading) ? 0.7 : 1,
-                                    borderRadius: '30px'
+                                    borderRadius: '8px'
                                 }}
                             >
                                 {isLoading ? 'Verifying...' : 'Verify Code & Unlock'}
@@ -273,7 +272,10 @@ const ResetPassword = () => {
                                     alignItems: 'center',
                                     gap: '0.5rem',
                                     fontSize: '1.05rem',
-                                    borderRadius: '30px',
+                                    background: 'var(--accent-teal)',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '8px',
                                     opacity: isLoading ? 0.7 : 1
                                 }}
                             >
@@ -300,7 +302,10 @@ const ResetPassword = () => {
                                     alignItems: 'center',
                                     gap: '0.5rem',
                                     fontSize: '1.05rem',
-                                    borderRadius: '30px'
+                                    background: 'var(--accent-teal)',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '8px'
                                 }}
                             >
                                 Go to Login <ArrowRight size={20} />

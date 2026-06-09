@@ -203,7 +203,7 @@ const Cart = () => {
                             </div>
                             
                             {isShuuPassActive && (
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', color: '#0077ff' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', color: 'var(--accent-teal)' }}>
                                     <span>Shuu Pass Discount ({shuuDiscountPercent}%)</span>
                                     <span>-₹{Math.round(shuuDiscountAmount)}</span>
                                 </div>

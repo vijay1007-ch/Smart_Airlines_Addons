@@ -109,7 +109,7 @@ const UserDashboard = () => {
                     border: '1px solid var(--border-light)'
                 }}>
                     <div style={{ display: 'flex', gap: '3rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <div style={{ padding: '0.5rem 1rem', background: 'rgba(0, 112, 243, 0.1)', borderRadius: '12px', border: '1px solid rgba(0, 112, 243, 0.3)' }}>
+                        <div style={{ padding: '0.5rem 1rem', background: 'rgba(6, 182, 212, 0.1)', borderRadius: '12px', border: '1px solid rgba(6, 182, 212, 0.3)' }}>
                             <h3 style={{ margin: 0, color: 'var(--accent-cyan)', fontSize: '1.2rem' }}>{flightDetails.flightNumber}</h3>
                         </div>
                         
@@ -225,9 +225,9 @@ const UserDashboard = () => {
                 {/* Quick Actions */}
                 <h2 style={{ fontSize: '1.2rem', marginBottom: '1rem', fontWeight: '600', color: 'var(--text-muted)' }}>Quick Actions</h2>
                 <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-                    <div className="card" onClick={() => navigate('/catalogue')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '1.5rem 2rem', border: '1px solid var(--border-light)' }}>
-                        <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'rgba(0, 112, 243, 0.1)', border: '1px solid rgba(0, 112, 243, 0.2)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
-                            <ShoppingBag size={24} color="var(--primary-blue)" />
+                    <div className="card glass-panel" onClick={() => navigate('/catalogue')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '1.5rem 2rem', border: '1px solid var(--border-light)' }}>
+                        <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'rgba(6, 182, 212, 0.1)', border: '1px solid rgba(6, 182, 212, 0.2)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
+                            <ShoppingBag size={24} color="var(--accent-cyan)" />
                         </div>
                         <div>
                             <h3 style={{ margin: '0 0 0.3rem 0', fontSize: '1rem' }}>Browse Catalogue</h3>
@@ -235,9 +235,9 @@ const UserDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="card" onClick={() => navigate('/history')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '1.5rem 2rem', border: '1px solid var(--border-light)' }}>
-                        <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'rgba(14, 165, 233, 0.1)', border: '1px solid rgba(14, 165, 233, 0.2)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
-                            <Clock size={24} color="var(--tertiary-accent)" />
+                    <div className="card glass-panel" onClick={() => navigate('/history')} style={{ flex: '1', minWidth: '300px', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '1.5rem 2rem', border: '1px solid var(--border-light)' }}>
+                        <div style={{ width: '50px', height: '50px', borderRadius: '12px', background: 'rgba(20, 184, 166, 0.1)', border: '1px solid rgba(20, 184, 166, 0.2)', display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '1.5rem' }}>
+                            <Clock size={24} color="var(--accent-teal)" />
                         </div>
                         <div>
                             <h3 style={{ margin: '0 0 0.3rem 0', fontSize: '1rem' }}>My Orders</h3>
@@ -247,7 +247,7 @@ const UserDashboard = () => {
                 </div>
 
                 {/* Dashboard Stats Panel */}
-                <div className="card" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '2rem', border: '1px solid var(--border-light)' }}>
+                <div className="card glass-panel" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '2rem', border: '1px solid var(--border-light)' }}>
                     <div style={{ textAlign: 'center' }}>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '1px' }}>SkyPoints</p>
                         <h2 style={{ fontSize: '2rem', margin: 0, color: 'var(--text-main)' }}>2,450</h2>

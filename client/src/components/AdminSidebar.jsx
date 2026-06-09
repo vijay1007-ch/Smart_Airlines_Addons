@@ -69,11 +69,13 @@ const AdminSidebar = () => {
                                 alignItems: 'center',
                                 gap: '12px',
                                 padding: '0.8rem 1rem',
-                                borderRadius: '8px',
+                                paddingLeft: isActive ? 'calc(1rem - 3px)' : '1rem',
+                                borderRadius: '0 8px 8px 0',
                                 cursor: 'pointer',
                                 transition: 'all 0.2s ease',
-                                background: isActive ? 'var(--primary-blue)' : 'transparent',
-                                color: isActive ? '#ffffff' : 'var(--text-muted)'
+                                background: isActive ? 'rgba(6, 182, 212, 0.1)' : 'transparent',
+                                color: isActive ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                                borderLeft: isActive ? '3px solid var(--accent-cyan)' : '3px solid transparent'
                             }}
                             onMouseEnter={(e) => {
                                 if (!isActive) e.currentTarget.style.color = '#ffffff';

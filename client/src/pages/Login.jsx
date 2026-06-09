@@ -91,12 +91,9 @@ const Login = () => {
     };
 
     return (
-        <div className="page" style={{ 
-            position: 'relative', 
-            overflow: 'hidden',
-            backgroundColor: 'var(--bg-main)',
-            backgroundImage: 'radial-gradient(circle at center, rgba(0, 102, 255, 0.05) 0%, transparent 70%)'
-        }}>
+        <div className="page" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
+            <div className="aurora-bg"></div>
+            <div className="aurora-overlay"></div>
             <Navbar />
 
             <div className="container" style={{ 
@@ -136,15 +133,11 @@ const Login = () => {
                 </div>
 
                 <div className="login-box" style={{ 
-                    maxWidth: '400px', 
+                    maxWidth: '420px', 
                     width: '100%', 
                     padding: '2.5rem',
-                    borderRadius: '16px',
                     position: 'relative',
-                    zIndex: 1,
-                    background: '#0f172a', /* Dark solid color */
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)'
+                    zIndex: 1
                 }}>
                     
                     {!twoFactorRequired ? (
@@ -205,7 +198,7 @@ const Login = () => {
                                 <button 
                                     type="submit" 
                                     disabled={isLoading}
-                                    style={{ width: '100%', padding: '12px', marginTop: '1rem', background: 'var(--gradient-primary)', borderRadius: '8px', fontWeight: '600' }}
+                                    style={{ width: '100%', padding: '12px', marginTop: '1rem', background: 'var(--accent-teal)', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '600' }}
                                 >
                                     {isLoading ? 'Authenticating...' : 'Sign In'}
                                 </button>

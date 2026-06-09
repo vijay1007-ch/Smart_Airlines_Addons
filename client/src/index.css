@@ -1,32 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Deep Dark "Real Dev" Colorful Palette */
-    --bg-main: #060b13;           
-    --bg-card: rgba(15, 23, 42, 0.6);           
-    --primary-blue: #0070f3;      /* Deep Blue */
-    --primary-hover: #0056b3;
-    --accent-cyan: #00e5ff;       /* Neon Cyan */
-    --secondary-accent: #f43f5e;  /* Vibrant Rose */
-    --tertiary-accent: #0ea5e9;   /* Bright Sky Blue */
-    --warning: #f59e0b;           /* Amber */
-    --success: #10b981;           /* Emerald */
+    /* Aurora Night Premium Palette */
+    --bg-main: #020617;           /* Very deep navy */
+    --bg-card: rgba(15, 23, 42, 0.55);           
+    --primary-blue: #0ea5e9;      /* Sky blue / Teal mix */
+    --primary-hover: #0284c7;
+    --accent-cyan: #06b6d4;       /* Aurora Cyan */
+    --accent-teal: #14b8a6;       /* Aurora Green */
+    --secondary-accent: #f43f5e;  
+    --warning: #f59e0b;           
+    --success: #10b981;           
     
-    --text-main: #f8fafc;         /* White/Slate 50 */
-    --text-muted: #94a3b8;        /* Slate 400 */
-    --border-light: rgba(255, 255, 255, 0.1);      
-    --border-hover: rgba(255, 255, 255, 0.2);
+    --text-main: #f8fafc;         
+    --text-muted: #94a3b8;        
+    --border-light: rgba(255, 255, 255, 0.08);      
+    --border-hover: rgba(255, 255, 255, 0.15);
 
     /* Gradients */
-    --gradient-primary: #0066FF; /* Solid blue instead of gradient */
+    --gradient-primary: linear-gradient(135deg, #06b6d4, #14b8a6); /* Teal to Cyan */
     --gradient-hot: linear-gradient(135deg, #f43f5e, #f97316);
-    --gradient-sidebar: linear-gradient(180deg, rgba(6, 11, 19, 0.95), rgba(15, 23, 42, 0.95));
+    --gradient-sidebar: linear-gradient(180deg, rgba(2, 6, 23, 0.95), rgba(15, 23, 42, 0.95));
 
-    /* Colorful, Soft Shadows */
+    /* Glass Shadows & Glows */
     --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 20px 25px -5px rgba(0, 102, 255, 0.15), 0 8px 10px -6px rgba(0, 102, 255, 0.1);
-    --glow-cyan: 0 0 20px rgba(0, 102, 255, 0.4); /* Glow Blue */
+    --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --shadow-hover: 0 8px 32px 0 rgba(6, 182, 212, 0.15);
+    --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.4); 
 }
 
 * {
@@ -39,8 +39,8 @@ body {
     /* Deep dark blue ambient glow background */
     background-color: var(--bg-main);
     background-image: 
-        radial-gradient(circle at top left, rgba(0, 112, 243, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at bottom right, rgba(0, 229, 255, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at top right, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at bottom left, rgba(20, 184, 166, 0.1) 0%, transparent 40%);
     background-attachment: fixed;
     color: var(--text-main);
     font-family: 'Outfit', sans-serif;
@@ -141,10 +141,11 @@ p {
 .summary,
 .login-box {
     background: var(--bg-card);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-light);
-    border-radius: 16px;
-    padding: 2.25rem;
+    border-radius: 12px;
+    padding: 1.5rem;
     box-shadow: var(--shadow-card);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -178,11 +179,11 @@ p {
 /* Beautiful Gradient Buttons */
 button,
 .btn {
-    background: var(--primary-blue);
+    background: var(--accent-teal);
     color: #ffffff;
     border: none;
-    padding: 0.85rem 1.75rem;
-    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
@@ -195,7 +196,7 @@ button,
 
 button:hover,
 .btn:hover {
-    background: var(--primary-hover);
+    background: var(--accent-cyan);
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
 }
@@ -259,4 +260,29 @@ input::placeholder {
 .toast.show {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.aurora-bg {
+    background: url('https://images.unsplash.com/photo-1531366936337-778550c18d94?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+.aurora-overlay {
+    background: linear-gradient(to bottom, rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.95));
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
 }
