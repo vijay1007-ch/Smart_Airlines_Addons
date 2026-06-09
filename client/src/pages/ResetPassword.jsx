@@ -2,17 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getApiUrl, is2FAEnabled } from '../services/apiService';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import {
-    Lock,
-    ArrowRight,
-    PlaneTakeoff,
-    CheckCircle2,
-    ShieldCheck,
-    Smartphone,
-    X,
-    AlertCircle,
-    RefreshCw
-} from 'lucide-react';
+import { Lock, ArrowRight, PlaneTakeoff, CheckCircle2, ShieldCheck, Smartphone, X, AlertCircle, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 
 

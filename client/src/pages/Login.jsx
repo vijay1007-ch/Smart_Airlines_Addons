@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Mail, Lock, AlertCircle, Plane, MapPin, Smartphone, X } from 'lucide-react';
 import axios from 'axios';
-import './Login.css';
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
