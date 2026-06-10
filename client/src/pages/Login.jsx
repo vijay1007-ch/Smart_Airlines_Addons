@@ -104,7 +104,6 @@ const Login = () => {
                     <h3>Premium Travel Experience</h3>
                     <p>DIGITAL AIRLINE ECOSYSTEM</p>
                     <p>Passenger & Admin Management Suite</p>
-                    <span>Add-Ons</span>
                 </div>
             </div>
 

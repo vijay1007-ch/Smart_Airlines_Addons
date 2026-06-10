@@ -91,6 +91,18 @@ const Signup = () => {
 
     return (
         <div className="signup-page">
+            <div className="hero-section">
+                <h1>SMART AIRLINE ADD-ONS PLATFORM</h1><br></br>
+                <p>A Modern, Sleek, and Professional Airline Addon Platform</p>
+
+                <div className="logo-box">
+                    <h2>Smart Airline</h2>
+                    <h3>Premium Travel Experience</h3>
+                    <p>DIGITAL AIRLINE ECOSYSTEM</p>
+                    <p>Passenger & Admin Management Suite</p>
+                </div>
+            </div>
+
             <div className="signup-card">
                 {!verificationRequired ? (
                     <>

@@ -1,8 +1,9 @@
 .login-page {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    gap: 2rem;
     min-height: 100vh;
     padding: 2rem;
     position: relative;
@@ -46,23 +47,57 @@
 }
 
 .hero-section {
-    text-align: center;
-    margin-bottom: 3rem;
-    animation: fadeInDown 0.8s ease-out;
+    text-align: left;
+    max-width: 500px;
+    animation: fadeInLeft 0.8s ease-out;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 900px) {
+    .login-page {
+        flex-direction: column;
+        justify-content: center;
+        padding: 2rem;
+        gap: 3rem;
+    }
+
+    .hero-section {
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+    
+    .login-card {
+        max-width: 100%;
+        padding: 2rem;
+    }
 }
 
 .hero-section h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .hero-section > p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--text-muted);
-    margin-bottom: 2rem;
 }
 
 .logo-box {
