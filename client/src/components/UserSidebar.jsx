@@ -7,7 +7,6 @@ import {
     PlusSquare, 
     Award, 
     Star, 
-    Tag,
     User, 
     Headset,
     LogOut,
@@ -27,13 +26,12 @@ const UserSidebar = () => {
     const navItems = [
         { name: 'Dashboard', path: '/dashboard', icon: Home },
         { name: 'My Orders', path: '/history', icon: List },
-        { name: 'Seat Upgrade', path: '/dashboard', icon: ArrowUpCircle },
+        { name: 'Seat Upgrade', path: '/seat-upgrade', icon: ArrowUpCircle },
         { name: 'Add-ons', path: '/catalogue', icon: PlusSquare },
-        { name: 'Shuu Pass', path: '/dashboard', icon: Award },
-        { name: 'SkyPoints', path: '/dashboard', icon: Star },
-        { name: 'Coupons', path: '/dashboard', icon: Tag },
+        { name: 'Shuu Pass', path: '/shuu-pass', icon: Award },
+        { name: 'SkyPoints', path: '/skypoints', icon: Star },
         { name: 'Profile', path: '/edit-profile', icon: User },
-        { name: 'Support', path: '/dashboard', icon: Headset }
+        { name: 'Support', path: '/support', icon: Headset }
     ];
 
     return (

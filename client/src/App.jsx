@@ -22,6 +22,10 @@ import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import AdminReports from './pages/AdminReports';
 import AdminSeatUpgrades from './pages/AdminSeatUpgrades';
+import SeatUpgrade from './pages/SeatUpgrade';
+import ShuuPass from './pages/ShuuPass';
+import SkyPoints from './pages/SkyPoints';
+import Support from './pages/Support';
 
 function App() {
   return (
@@ -40,6 +44,10 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/history" element={<History />} />
+        <Route path="/seat-upgrade" element={<SeatUpgrade />} />
+        <Route path="/shuu-pass" element={<ShuuPass />} />
+        <Route path="/skypoints" element={<SkyPoints />} />
+        <Route path="/support" element={<Support />} />
         <Route path="/approve/:orderId" element={<ApprovePayment />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/catalogue" element={<AdminCatalogue />} />

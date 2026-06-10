@@ -14,12 +14,94 @@ const UserDashboard = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     const userName = user ? user.name : 'Vijay Ganesh';
+    const userEmail = user ? user.email : '';
+
+    const [totalSpent, setTotalSpent] = useState(0);
+    const [totalOrders, setTotalOrders] = useState(0);
+    const [recentOrders, setRecentOrders] = useState([]);
+    const [upgradeStatus, setUpgradeStatus] = useState(null);
+    const [flightDetails, setFlightDetails] = useState({
+        flightNumber: "SA-1024",
+        from: "HYD",
+        to: "DEL",
+        fromCity: "Hyderabad",
+        toCity: "Delhi",
+        departureDate: "24 May 2025",
+        departureTime: "08:45 AM",
+        seat: "12A (Economy)",
+        status: "On Time"
+    });
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                // Fetch Orders
+                const ordersRes = await axios.get(`${getApiUrl()}/orders`);
+                const allOrders = ordersRes.data;
+                const userOrders = allOrders.filter(o => 
+                    o.customerName && o.customerName.toLowerCase() === userName.toLowerCase()
+                );
+
+                setTotalOrders(userOrders.length);
+                const spent = userOrders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
+                setTotalSpent(spent);
+
+                // Flatten all items from recent orders
+                let items = [];
+                userOrders.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(order => {
+                    if (order.items && Array.isArray(order.items)) {
+                        order.items.forEach(item => {
+                            items.push({
+                                name: item.name,
+                                price: item.price,
+                                date: new Date(order.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+                            });
+                        });
+                    }
+                });
+                
+                setRecentOrders(items.slice(0, 4));
+
+                // Fetch Upgrades
+                if (userEmail) {
+                    const upgRes = await axios.get(`${getApiUrl()}/upgrades/user/${userEmail}`);
+                    if (upgRes.data && upgRes.data.length > 0) {
+                        const latest = upgRes.data[upgRes.data.length - 1];
+                        setUpgradeStatus(latest);
+                        if (latest.status === 'Approved' && latest.newSeat) {
+                            setFlightDetails(prev => ({ ...prev, seat: latest.newSeat }));
+                        }
+                    }
+                }
+
+            } catch (err) {
+                console.error("Error fetching user data", err);
+            }
+        };
+
+        if (userName) {
+            fetchUserData();
+        }
+    }, [userName, userEmail]);
+
+    // Helper icon for order items based on name
+    const getOrderIcon = (name) => {
+        const lowerName = name.toLowerCase();
+        if (lowerName.includes('baggage')) return Briefcase;
+        if (lowerName.includes('boarding')) return Clock;
+        if (lowerName.includes('lounge')) return Coffee;
+        if (lowerName.includes('upgrade') || lowerName.includes('class')) return ArrowUpCircle;
+        if (lowerName.includes('wifi')) return Wifi;
+        if (lowerName.includes('food') || lowerName.includes('meal') || lowerName.includes('wine')) return Utensils;
+        return ShoppingBag;
+    };
 
     return (
         <div style={{ display: 'flex', minHeight: '100vh', background: '#0b0f19' }}>
             <UserSidebar />
 
             <div className="ud-container">
+                {/* Background is applied in css to .ud-container */}
                 
                 {/* Header */}
                 <div className="ud-header">
@@ -37,7 +119,7 @@ const UserDashboard = () => {
                             <div className="ud-notification-dot"></div>
                         </div>
                         <img 
-                            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Vijay" 
+                            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${userName}`} 
                             alt="User Avatar" 
                             className="ud-avatar"
                         />
@@ -52,12 +134,11 @@ const UserDashboard = () => {
                         </div>
                         <div className="ud-stat-content">
                             <p className="ud-stat-title">Total Spent</p>
-                            <h3 className="ud-stat-value">₹24,680</h3>
+                            <h3 className="ud-stat-value">₹{totalSpent.toLocaleString()}</h3>
                             <div className="ud-stat-trend ud-stat-trend-up">
                                 <span>^ 18%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
                             </div>
                         </div>
-                        {/* Mini Sparkline mock */}
                         <svg width="60" height="30" viewBox="0 0 60 30" style={{ position: 'absolute', right: '1rem', bottom: '1.5rem' }}>
                             <path d="M0,25 Q10,25 15,15 T30,20 T45,5 T60,10" fill="none" stroke="#10b981" strokeWidth="2" />
                         </svg>
@@ -69,7 +150,7 @@ const UserDashboard = () => {
                         </div>
                         <div className="ud-stat-content">
                             <p className="ud-stat-title">Total Orders</p>
-                            <h3 className="ud-stat-value">12</h3>
+                            <h3 className="ud-stat-value">{totalOrders}</h3>
                             <div className="ud-stat-trend ud-stat-trend-up">
                                 <span>^ 20%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
                             </div>
@@ -123,24 +204,24 @@ const UserDashboard = () => {
 
                             <div className="ud-trip-cities">
                                 <div className="ud-city">
-                                    <h2>HYD</h2>
-                                    <p>Hyderabad</p>
+                                    <h2>{flightDetails.from}</h2>
+                                    <p>{flightDetails.fromCity}</p>
                                 </div>
                                 <ArrowRight size={24} color="rgba(255,255,255,0.3)" />
                                 <div className="ud-city">
-                                    <h2>DEL</h2>
-                                    <p>Delhi</p>
+                                    <h2>{flightDetails.to}</h2>
+                                    <p>{flightDetails.toCity}</p>
                                 </div>
                                 <div className="ud-trip-flight-info" style={{ marginLeft: 'auto' }}>
-                                    <p>24 May 2025</p>
-                                    <p>6E 1023</p>
+                                    <p>{flightDetails.departureDate}</p>
+                                    <p>{flightDetails.flightNumber}</p>
                                 </div>
                             </div>
 
                             <div className="ud-trip-footer">
                                 <div className="ud-trip-footer-item">
                                     <p>Boarding Time</p>
-                                    <p>08:45 AM</p>
+                                    <p>{flightDetails.departureTime}</p>
                                 </div>
                                 <div className="ud-trip-footer-item">
                                     <p>Gate</p>
@@ -148,7 +229,9 @@ const UserDashboard = () => {
                                 </div>
                                 <div className="ud-trip-footer-item">
                                     <p>Seat</p>
-                                    <p>12A</p>
+                                    <p style={{ color: upgradeStatus?.status === 'Approved' ? 'var(--accent-cyan)' : '#fff' }}>
+                                        {flightDetails.seat}
+                                    </p>
                                 </div>
                                 <div className="ud-trip-footer-item">
                                     <p>Terminal</p>
@@ -165,26 +248,26 @@ const UserDashboard = () => {
                             <button className="ud-btn-outline" style={{ fontSize: '0.7rem', padding: '0.3rem 0.8rem' }} onClick={() => navigate('/history')}>View All</button>
                         </div>
                         <div className="ud-orders-list">
-                            {[
-                                { name: 'Extra Baggage (20kg)', date: '24 May 2025', price: '₹660', icon: Briefcase },
-                                { name: 'Priority Boarding', date: '24 May 2025', price: '₹440', icon: Clock },
-                                { name: 'Lounge Access', date: '24 May 2025', price: '₹660', icon: Coffee },
-                                { name: 'Seat Upgrade', date: '24 May 2025', price: '₹1,760', icon: ArrowUpCircle }
-                            ].map((order, i) => (
+                            {recentOrders.length > 0 ? recentOrders.map((order, i) => {
+                                const IconComp = getOrderIcon(order.name);
+                                return (
                                 <div className="ud-order-item" key={i}>
                                     <div className="ud-order-left">
-                                        <div className="ud-order-icon"><order.icon size={18} /></div>
+                                        <div className="ud-order-icon"><IconComp size={18} /></div>
                                         <div className="ud-order-details">
-                                            <h4>{order.name}</h4>
+                                            <h4 style={{textTransform: 'capitalize'}}>{order.name}</h4>
                                             <p>{order.date}</p>
                                         </div>
                                     </div>
                                     <div className="ud-order-right">
-                                        <span className="ud-order-price">{order.price}</span>
+                                        <span className="ud-order-price">₹{order.price}</span>
                                         <span className="ud-badge-success">Completed</span>
                                     </div>
                                 </div>
-                            ))}
+                                );
+                            }) : (
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>No recent orders found.</p>
+                            )}
                         </div>
                     </div>
 
@@ -273,7 +356,7 @@ const UserDashboard = () => {
                                 <circle cx="400" cy="30" r="4" fill="var(--accent-cyan)" />
                             </svg>
                             <div className="ud-chart-tooltip">
-                                <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '0.9rem' }}>₹24,680</h4>
+                                <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '0.9rem' }}>₹{totalSpent.toLocaleString()}</h4>
                                 <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--text-muted)' }}>May 2025</p>
                             </div>
                         </div>
@@ -301,8 +384,8 @@ const UserDashboard = () => {
                                 <h4>Lounge Access</h4>
                                 <p>From ₹660</p>
                             </div>
-                            <div className="ud-addon-card" onClick={() => navigate('/catalogue')}>
-                                <Briefcase size={28} color="#3b82f6" />
+                            <div className="ud-addon-card" onClick={() => navigate('/seat-upgrade')}>
+                                <ArrowUpCircle size={28} color="#3b82f6" />
                                 <h4>Seat Upgrade</h4>
                                 <p>From ₹110</p>
                             </div>
@@ -343,7 +426,7 @@ const UserDashboard = () => {
                                 <span>Exclusive Member Deals</span>
                             </div>
                         </div>
-                        <button className="ud-btn-primary" onClick={() => navigate('/catalogue')}>
+                        <button className="ud-btn-primary" onClick={() => navigate('/shuu-pass')}>
                             Explore Shuu Pass
                         </button>
                     </div>
