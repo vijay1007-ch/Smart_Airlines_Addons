@@ -1,0 +1,445 @@
+.ud-container {
+    flex: 1;
+    margin-left: 260px;
+    padding: 2rem 3rem;
+    max-width: 1400px;
+    color: #ffffff;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: #0b0f19;
+    min-height: 100vh;
+}
+
+/* Header */
+.ud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.ud-header-left h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ud-header-left p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.ud-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.ud-search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 0.5rem 1.2rem;
+    width: 300px;
+}
+
+.ud-search-bar input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    outline: none;
+    width: 100%;
+    margin-right: 10px;
+    font-size: 0.9rem;
+}
+
+.ud-search-bar input::placeholder {
+    color: var(--text-muted);
+}
+
+.ud-header-icon {
+    position: relative;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.ud-header-icon:hover {
+    color: #fff;
+}
+
+.ud-notification-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    border: 2px solid #0b0f19;
+}
+
+.ud-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(6, 182, 212, 0.5);
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Glass Card Base */
+.ud-glass-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Top Stats Grid */
+.ud-top-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ud-stat-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.ud-stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ud-stat-content {
+    flex: 1;
+}
+
+.ud-stat-title {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0 0 0.4rem 0;
+}
+
+.ud-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+}
+
+.ud-stat-trend {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ud-stat-trend-up {
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Middle Section Grid */
+.ud-middle-section {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Upcoming Trip Card */
+.ud-trip-card {
+    background: url('../assets/aurora.png') center/cover no-repeat;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.ud-trip-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(2, 6, 18, 0.9), rgba(2, 6, 18, 0.4));
+    z-index: 0;
+}
+
+.ud-trip-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ud-trip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.ud-trip-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.ud-btn-outline {
+    background: transparent;
+    border: 1px solid rgba(6, 182, 212, 0.5);
+    color: var(--accent-cyan);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ud-btn-outline:hover {
+    background: rgba(6, 182, 212, 0.1);
+}
+
+.ud-trip-cities {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.ud-city h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.ud-city p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.ud-trip-flight-info {
+    text-align: right;
+}
+
+.ud-trip-flight-info p {
+    margin: 0 0 0.3rem 0;
+    font-size: 0.9rem;
+}
+
+.ud-trip-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.ud-trip-footer-item p:first-child {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin: 0 0 0.3rem 0;
+}
+
+.ud-trip-footer-item p:last-child {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Section Header */
+.ud-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.ud-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Recent Orders */
+.ud-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.ud-order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ud-order-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ud-order-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-cyan);
+}
+
+.ud-order-details h4 {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ud-order-details p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.ud-order-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ud-order-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.ud-badge-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+/* Bottom Section Grid */
+.ud-bottom-section {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Chart Card */
+.ud-chart-container {
+    height: 200px;
+    width: 100%;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.ud-chart-tooltip {
+    position: absolute;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid var(--accent-cyan);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    top: 20px;
+    right: 40px;
+}
+
+/* Popular Addons Grid */
+.ud-addons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.ud-addon-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ud-addon-card:hover {
+    background: rgba(6, 182, 212, 0.05);
+    border-color: rgba(6, 182, 212, 0.3);
+}
+
+.ud-addon-card h4 {
+    margin: 1rem 0 0.3rem 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.ud-addon-card p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Shuu Pass Benefits */
+.ud-benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.ud-benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #e2e8f0;
+}
+
+.ud-benefit-icon {
+    color: var(--accent-cyan);
+}
+
+.ud-btn-primary {
+    width: 100%;
+    background: var(--accent-cyan);
+    color: #060b13;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ud-btn-primary:hover {
+    background: #00b3cc;
+}
