@@ -170,7 +170,7 @@ const Signup = () => {
                 ) : (
                     <>
                         <h2>Verify Your Email</h2>
-                        <p>We’ve sent a 6-digit code to your email</p>
+                        <p style={{marginBottom: '2rem'}}>We've sent a 6-digit code to<br/>{email || 'vijaykoushik@gmail.com'}</p>
 
                         {errorMsg && (
                             <div className="auth-error-box">
@@ -180,33 +180,58 @@ const Signup = () => {
                         )}
 
                         <form onSubmit={handleVerifyOtp}>
-                            <div className="input-group otp-group">
-                                <Mail size={18} className="otp-icon" />
-                                <input
-                                    type="text"
-                                    maxLength="6"
-                                    placeholder="Enter 6-digit code"
-                                    value={emailOtp}
-                                    onChange={(e) => setEmailOtp(e.target.value)}
-                                    required
-                                />
+                            <div className="otp-container">
+                                {Array.from({ length: 6 }).map((_, index) => (
+                                    <input
+                                        key={index}
+                                        id={`otp-input-${index}`}
+                                        type="text"
+                                        maxLength="1"
+                                        className="otp-box"
+                                        value={emailOtp[index] || ''}
+                                        onChange={(e) => {
+                                            const val = e.target.value;
+                                            if (/^[0-9]$/.test(val) || val === '') {
+                                                const newOtp = emailOtp.split('');
+                                                newOtp[index] = val;
+                                                setEmailOtp(newOtp.join(''));
+                                                if (val !== '' && index < 5) {
+                                                    document.getElementById(`otp-input-${index + 1}`).focus();
+                                                }
+                                            }
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Backspace' && !emailOtp[index] && index > 0) {
+                                                document.getElementById(`otp-input-${index - 1}`).focus();
+                                            }
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
+                            <div className="resend-text">
+                                Didn't receive the code? <a href="#!">Resend (00:45)</a>
                             </div>
 
                             <button
                                 type="submit"
-                                disabled={isLoading}
+                                disabled={isLoading || emailOtp.length < 6}
                                 className="signup-btn"
                             >
                                 {isLoading ? 'Verifying...' : 'Verify'}
                             </button>
 
-                            <button
-                                type="button"
-                                onClick={() => setVerificationRequired(false)}
-                                className="signup-btn secondary-btn"
-                            >
-                                Back to Signup
-                            </button>
+                            <div className="bottom-links" style={{marginTop: '20px'}}>
+                                <a
+                                    href="#!"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setVerificationRequired(false);
+                                    }}
+                                >
+                                    Back to Login
+                                </a>
+                            </div>
                         </form>
                     </>
                 )}

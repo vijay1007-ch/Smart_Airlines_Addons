@@ -164,17 +164,43 @@
     font-size: 0.83rem;
 }
 
-.otp-group .otp-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(159, 177, 193, 0.88);
+.otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
 }
 
-.otp-group input {
-    padding-left: 46px;
-    letter-spacing: 1px;
+.otp-box {
+    width: 45px;
+    height: 55px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(9, 22, 46, 0.74);
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-align: center;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.otp-box:focus {
+    border-color: rgba(46, 214, 212, 0.6);
+    box-shadow: 0 0 0 3px rgba(46, 214, 212, 0.15);
+    background: rgba(10, 24, 52, 0.9);
+}
+
+.resend-text {
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(192, 206, 219, 0.92);
+    margin-bottom: 24px;
+}
+
+.resend-text a {
+    color: #35d7d3;
+    text-decoration: none;
+    font-weight: 600;
 }
 
 @media (max-width: 640px) {
