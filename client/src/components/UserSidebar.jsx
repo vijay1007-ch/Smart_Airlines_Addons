@@ -10,7 +10,9 @@ import {
     User, 
     Headset,
     LogOut,
-    Plane
+    Plane,
+    ShoppingCart,
+    Ticket
 } from 'lucide-react';
 
 const UserSidebar = () => {
@@ -28,8 +30,10 @@ const UserSidebar = () => {
         { name: 'My Orders', path: '/history', icon: List },
         { name: 'Seat Upgrade', path: '/seat-upgrade', icon: ArrowUpCircle },
         { name: 'Add-ons', path: '/catalogue', icon: PlusSquare },
+        { name: 'Cart', path: '/cart', icon: ShoppingCart },
         { name: 'Shuu Pass', path: '/shuu-pass', icon: Award },
         { name: 'SkyPoints', path: '/skypoints', icon: Star },
+        { name: 'Coupons', path: '/coupons', icon: Ticket },
         { name: 'Profile', path: '/edit-profile', icon: User },
         { name: 'Support', path: '/support', icon: Headset }
     ];
@@ -124,32 +128,32 @@ const UserSidebar = () => {
                 marginTop: '1.5rem',
                 padding: '1.5rem 1rem',
                 borderRadius: '12px',
-                background: 'linear-gradient(to bottom right, rgba(15, 23, 42, 0.8), rgba(6, 182, 212, 0.15))',
-                border: '1px solid rgba(255,255,255,0.05)',
+                background: 'url("https://images.unsplash.com/photo-1531366936337-7c912a458b68?auto=format&fit=crop&q=80&w=400") center/cover no-repeat',
                 position: 'relative',
                 overflow: 'hidden',
                 textAlign: 'center'
             }}>
-                <div style={{ position: 'absolute', top: '-50%', left: '-50%', width: '200%', height: '200%', background: 'radial-gradient(circle, rgba(46, 214, 212, 0.15) 0%, transparent 70%)', zIndex: 0 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.9))', zIndex: 0 }} />
                 <div style={{ position: 'relative', zIndex: 1 }}>
                     <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: '600', lineHeight: 1.3 }}>Fly Smarter.<br/>Travel Better.</h3>
-                    <p style={{ margin: '0 0 1rem 0', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Premium Add-ons for a seamless journey.</p>
-                    <button onClick={() => navigate('/catalogue')} style={{
+                    <p style={{ margin: '0 0 1rem 0', fontSize: '0.75rem', color: '#cbd5e1' }}>Premium Add-ons for a seamless journey.</p>
+                    <button onClick={() => navigate('/shuu-pass')} style={{
                         width: '100%',
                         padding: '0.6rem',
                         borderRadius: '6px',
-                        background: 'rgba(6, 182, 212, 0.2)',
-                        border: '1px solid rgba(6, 182, 212, 0.5)',
-                        color: 'var(--accent-cyan)',
+                        background: 'rgba(20, 184, 166, 0.2)',
+                        border: '1px solid rgba(20, 184, 166, 0.5)',
+                        color: 'var(--accent-teal, #14b8a6)',
                         fontSize: '0.8rem',
                         fontWeight: '600',
                         cursor: 'pointer',
-                        transition: 'all 0.2s ease'
+                        transition: 'all 0.2s ease',
+                        backdropFilter: 'blur(4px)'
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-cyan)'; e.currentTarget.style.color = '#000'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(6, 182, 212, 0.2)'; e.currentTarget.style.color = 'var(--accent-cyan)'; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-teal, #14b8a6)'; e.currentTarget.style.color = '#000'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(20, 184, 166, 0.2)'; e.currentTarget.style.color = 'var(--accent-teal, #14b8a6)'; }}
                     >
-                        Explore Add-ons
+                        Explore Shuu Pass
                     </button>
                 </div>
             </div>
