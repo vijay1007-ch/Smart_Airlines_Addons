@@ -94,7 +94,7 @@ const Signup = () => {
             <div className="signup-card">
                 {!verificationRequired ? (
                     <>
-                        <h2>Create Your Account</h2>
+                        <h2>Create Your Acco<span className="highlight-cyan">unt</span></h2>
                         <p>Join Smart Airlines Addons</p>
 
                         {errorMsg && (
