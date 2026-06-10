@@ -6,18 +6,18 @@ import { Plus, Search, ShoppingCart, Bell, Filter, ShieldCheck, Award, RefreshCw
 import axios from 'axios';
 
 const imageMap = {
-    'Extra Baggage': 'https://images.unsplash.com/photo-1551020084-2aaab0ee3dcc?auto=format&fit=crop&q=80&w=400',
-    'Seat Upgrade': 'https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?auto=format&fit=crop&q=80&w=400',
-    'Lounge Access': 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=400',
-    'WiFi Access': 'https://images.unsplash.com/photo-1620288627223-53302f4e8c74?auto=format&fit=crop&q=80&w=400',
-    'In-flight Meal': 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=400',
-    'Wine & Beverages': 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=80&w=400',
-    'Priority Boarding': 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=400',
-    'Travel Insurance': 'https://images.unsplash.com/photo-1450101499163-c8848c66cb85?auto=format&fit=crop&q=80&w=400',
-    'Extra Legroom': 'https://images.unsplash.com/photo-1502307100811-6bdc0981a85b?auto=format&fit=crop&q=80&w=400',
-    'Comfort Kit': 'https://images.unsplash.com/photo-1584305574635-43026315eeff?auto=format&fit=crop&q=80&w=400',
-    'Airport Transfer': 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=400',
-    'Pet in Cabin': 'https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=400',
+    'Extra Baggage': '/images/baggage_addon.png',
+    'Seat Upgrade': '/images/seat_upgrade.png',
+    'Lounge Access': '/images/lounge_access.png',
+    'WiFi Access': '/images/wifi_addon.png',
+    'In-flight Meal': '/images/inflight_meal.png',
+    'Wine & Beverages': '/images/wine_beverage.png',
+    'Priority Boarding': '/images/priority_boarding.png',
+    'Travel Insurance': '/images/travel_insurance.png',
+    'Extra Legroom': '/images/extra_legroom.png',
+    'Comfort Kit': '/images/comfort_kit.png',
+    'Airport Transfer': '/images/airport_transfer.png',
+    'Pet in Cabin': '/images/pet_cabin.png',
 };
 
 const descMap = {
@@ -331,7 +331,7 @@ const Catalogue = () => {
 
                 {/* Bottom Trust Badges */}
                 <div style={{ 
-                    display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem',
+                    display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem',
                     background: 'rgba(15, 23, 42, 0.4)', border: '1px solid rgba(255,255,255,0.05)',
                     padding: '1.5rem', borderRadius: '16px'
                 }}>
@@ -351,15 +351,6 @@ const Catalogue = () => {
                         <div>
                             <h4 style={{ margin: '0 0 5px 0', color: 'var(--accent-teal)', fontSize: '0.9rem' }}>Best Price Guarantee</h4>
                             <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)' }}>Get the best prices for all our add-ons.</p>
-                        </div>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
-                        <div style={{ background: 'rgba(20, 184, 166, 0.1)', padding: '10px', borderRadius: '10px' }}>
-                            <RefreshCw color="var(--accent-teal)" size={24} />
-                        </div>
-                        <div>
-                            <h4 style={{ margin: '0 0 5px 0', color: 'var(--accent-teal)', fontSize: '0.9rem' }}>Easy Cancellation</h4>
-                            <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)' }}>Cancel add-ons up to 3 hours before departure.</p>
                         </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
