@@ -14,7 +14,7 @@
     justify-content: center;
     padding: 32px 16px;
     font-family: "Poppins", "Segoe UI", sans-serif;
-    background: url('https://images.unsplash.com/photo-1531366936337-778550c18d94?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
+    background: url('../assets/aurora.png') no-repeat center center/cover;
     color: #ffffff;
 }
 
