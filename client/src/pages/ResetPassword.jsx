@@ -120,26 +120,21 @@ const ResetPassword = () => {
 
     return (
         <div className="reset-page">
-            <Navbar />
+            <div className="brand-logo">
+                <PlaneTakeoff size={28} color="#ffffff" />
+                <span style={{marginTop: '4px'}}>SMART AIRLINES</span>
+                <span className="brand-subtitle">ADDONS</span>
+            </div>
 
             <div className="reset-card">
                 <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                    <div style={{
-                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        width: '56px', height: '56px', borderRadius: '50%',
-                        background: !isVerified ? 'rgba(255, 65, 108, 0.1)' : 'rgba(53, 215, 211, 0.12)',
-                        border: !isVerified ? '1px solid rgba(255, 65, 108, 0.24)' : '1px solid rgba(53, 215, 211, 0.24)',
-                        marginBottom: '1rem'
-                    }}>
-                        <PlaneTakeoff size={28} color={!isVerified ? '#ff416c' : '#35d7d3'} />
-                    </div>
                     <h2>
-                        {!isVerified ? "2-Step Identity Check" : "Create New Password"}
+                        {!isVerified ? "2-Step Identity Check" : "Reset Password"}
                     </h2>
-                    <p>
+                    <p style={{marginTop: '10px'}}>
                         {isSubmitted ? "Password reset successful!" :
                             !isVerified ? "Verify email code to unlock password reset form." :
-                                "Verification successful! Please enter your new password below."}
+                                "Enter your new password below."}
                     </p>
                 </div>
 

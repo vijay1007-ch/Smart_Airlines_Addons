@@ -40,21 +40,17 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgot-page">
-            <Navbar />
+            <div className="brand-logo">
+                <PlaneTakeoff size={28} color="#ffffff" />
+                <span style={{marginTop: '4px'}}>SMART AIRLINES</span>
+                <span className="brand-subtitle">ADDONS</span>
+            </div>
             <div className="forgot-card">
                 <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                    <div style={{
-                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        width: '56px', height: '56px', borderRadius: '50%',
-                        background: 'rgba(53, 215, 211, 0.12)', border: '1px solid rgba(53, 215, 211, 0.24)',
-                        marginBottom: '1rem'
-                    }}>
-                        <PlaneTakeoff size={28} color="#35d7d3" />
-                    </div>
-                    <h2>Reset Password</h2>
-                    <p>
+                    <h2>Forgot Password</h2>
+                    <p style={{marginTop: '10px'}}>
                         {!isSubmitted
-                            ? "Enter your email address and we'll send you a link to reset your password."
+                            ? "Enter your email and we'll send you a link to reset your password."
                             : "Email sent successfully!"}
                     </p>
                 </div>
@@ -65,7 +61,7 @@ const ForgotPassword = () => {
                             <Mail size={18} className="input-icon" />
                             <input
                                 type="email"
-                                placeholder="Email Address"
+                                placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
@@ -76,10 +72,8 @@ const ForgotPassword = () => {
                             type="submit"
                             disabled={isLoading}
                             className="forgot-btn"
-                            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}
                         >
                             {isLoading ? 'Sending...' : 'Send Reset Link'}
-                            {!isLoading && <ArrowRight size={18} />}
                         </button>
                     </form>
                 ) : (
@@ -91,10 +85,11 @@ const ForgotPassword = () => {
                     </div>
                 )}
 
+                <div className="divider">OR</div>
+
                 <div className="bottom-link">
-                    Remember your password?{" "}
                     <span onClick={() => navigate('/login')}>
-                        Log in
+                        Back to Login
                     </span>
                 </div>
             </div>

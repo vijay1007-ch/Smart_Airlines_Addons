@@ -187,22 +187,38 @@ const Login = () => {
                         )}
 
                         <form onSubmit={handleVerify2FA}>
-                            <div className="input-group" style={{ position: 'relative' }}>
-                                <Mail size={18} style={{ position: 'absolute', top: '50%', left: '16px', transform: 'translateY(-50%)', color: '#9ca3af' }} />
-                                <input
-                                    type="text"
-                                    maxLength="6"
-                                    placeholder="Enter 6-digit code"
-                                    value={emailOtp}
-                                    onChange={(e) => setEmailOtp(e.target.value)}
-                                    required
-                                    style={{ paddingLeft: '48px' }}
-                                />
+                            <div className="otp-container">
+                                {Array.from({ length: 6 }).map((_, index) => (
+                                    <input
+                                        key={index}
+                                        id={`otp-input-${index}`}
+                                        type="text"
+                                        maxLength="1"
+                                        className="otp-box"
+                                        value={emailOtp[index] || ''}
+                                        onChange={(e) => {
+                                            const val = e.target.value;
+                                            if (/^[0-9]$/.test(val) || val === '') {
+                                                const newOtp = emailOtp.split('');
+                                                newOtp[index] = val;
+                                                setEmailOtp(newOtp.join(''));
+                                                if (val !== '' && index < 5) {
+                                                    document.getElementById(`otp-input-${index + 1}`).focus();
+                                                }
+                                            }
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Backspace' && !emailOtp[index] && index > 0) {
+                                                document.getElementById(`otp-input-${index - 1}`).focus();
+                                            }
+                                        }}
+                                    />
+                                ))}
                             </div>
 
                             <button
                                 type="submit"
-                                disabled={isLoading}
+                                disabled={isLoading || emailOtp.length < 6}
                                 className="login-btn"
                             >
                                 {isLoading ? 'Verifying...' : 'Verify & Sign In'}
