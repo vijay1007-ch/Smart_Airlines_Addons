@@ -4,6 +4,7 @@ import UserSidebar from '../components/UserSidebar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ShoppingCart, Bell, CreditCard, Wallet, Calendar, Building, Landmark, ChevronRight, ShieldCheck, Award, CheckCircle, Plane, Briefcase, CalendarDays, Shield, Gift, Download, Share2, Lock } from 'lucide-react';
+import QRCode from 'react-qr-code';
 
 const imageMap = {
     'Extra Baggage': '/images/baggage_addon.png',
@@ -55,102 +56,7 @@ const Payment = () => {
         setTotalPrice(price);
     }, []);
 
-    useEffect(() => {
-        let interval;
-        if (isProcessing && orderId) {
-            interval = setInterval(async () => {
-                try {
-                    const res = await axios.get(`${getApiUrl()}/orders/pending/${orderId}/status`);
-                    if (res.status !== 200) return;
-                    const data = res.data;
-                    const status = data.status;
-                    
-                    if (status === 'approved') {
-                        clearInterval(interval);
-                        setIsProcessing(false);
-                        setIsSuccess(true);
-                    
-                        const rawCart = JSON.parse(localStorage.getItem('airline_cart') || '[]');
-                        const history = JSON.parse(localStorage.getItem('airline_history') || '[]');
-                        const newOrder = {
-                            orderId: 'ORD-' + orderId.split('-')[1],
-                            date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
-                            items: rawCart,
-                            total: totalPrice
-                        };
-                        localStorage.setItem('airline_history', JSON.stringify([newOrder, ...history]));
-
-                        try {
-                            axios.post(`${getApiUrl()}/orders`, {
-                                id: newOrder.orderId,
-                                customerName: user ? user.name : "Guest",
-                                items: rawCart,
-                                amount: totalPrice,
-                                status: "Approved"
-                            });
-
-                            const upgradeItem = rawCart.find(item => item.type === 'upgrade');
-                            if (upgradeItem && upgradeItem.upgradeId) {
-                                axios.put(`${getApiUrl()}/upgrades/${upgradeItem.upgradeId}/approve`);
-                            }
-
-                            const shuuPassItem = rawCart.find(item => item.name === 'Shuu Pass');
-                            if (shuuPassItem && user && user.email) {
-                                axios.put(`${getApiUrl()}/auth/profile`, {
-                                    email: user.email,
-                                    hasShuuPass: true,
-                                    shuuPassDate: new Date().toISOString()
-                                }).then(r => {
-                                    if (r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
-                                }).catch(err => console.error(err));
-                            }
-
-                            if (user && user.email) {
-                                axios.post(`${getApiUrl()}/orders/receipt`, {
-                                    email: user.email,
-                                    name: user.name,
-                                    status: "success",
-                                    items: rawCart,
-                                    total: totalPrice,
-                                    paymentMethod: paymentMethod
-                                });
-                            }
-                        } catch(err) {
-                            console.error("Failed to sync with server", err);
-                        }
-
-                        localStorage.removeItem('airline_cart');
-                        localStorage.removeItem('airline_cart_summary');
-                        try {
-                            axios.delete(`${getApiUrl()}/orders/pending/${orderId}`);
-                        } catch(e) {}
-                    } else if (status === 'declined') {
-                        clearInterval(interval);
-                        setIsProcessing(false);
-                        setPaymentFailed(true);
-
-                        const rawCart = JSON.parse(localStorage.getItem('airline_cart') || '[]');
-                        if (user && user.email) {
-                            axios.post(`${getApiUrl()}/orders/receipt`, {
-                                email: user.email,
-                                name: user.name,
-                                status: "failed",
-                                items: rawCart,
-                                total: totalPrice,
-                                paymentMethod: paymentMethod,
-                                reason: "Declined by administrator."
-                            }).catch(err => console.error(err));
-                        }
-
-                        try {
-                            axios.delete(`${getApiUrl()}/orders/pending/${orderId}`);
-                        } catch(e) {}
-                    }
-                } catch (err) {
-                    console.error("Failed to poll payment status", err);
-                }
-            }, 1500);
-        }
+        // Polling removed: no admin approval needed anymore
         return () => clearInterval(interval);
     }, [isProcessing, orderId, totalPrice, navigate, paymentMethod, user]);
 
@@ -162,11 +68,63 @@ const Payment = () => {
         const newOrderId = 'TXN-' + Math.floor(Math.random() * 1000000);
         setOrderId(newOrderId);
 
-        try {
-            await axios.post(`${getApiUrl()}/orders/pending`, { orderId: newOrderId, amount: totalPrice });
-        } catch (err) {
-            console.error("Failed to send pending payment to server", err);
-        }
+        // Instantly process payment without admin approval
+        setTimeout(() => {
+            setIsProcessing(false);
+            setIsSuccess(true);
+        
+            const rawCart = JSON.parse(localStorage.getItem('airline_cart') || '[]');
+            const history = JSON.parse(localStorage.getItem('airline_history') || '[]');
+            const newOrder = {
+                orderId: 'ORD-' + newOrderId.split('-')[1],
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                items: rawCart,
+                total: totalPrice
+            };
+            localStorage.setItem('airline_history', JSON.stringify([newOrder, ...history]));
+
+            try {
+                axios.post(`${getApiUrl()}/orders`, {
+                    id: newOrder.orderId,
+                    customerName: user ? user.name : "Guest",
+                    items: rawCart,
+                    amount: totalPrice,
+                    status: "Approved"
+                });
+
+                const upgradeItem = rawCart.find(item => item.type === 'upgrade');
+                if (upgradeItem && upgradeItem.upgradeId) {
+                    axios.put(`${getApiUrl()}/upgrades/${upgradeItem.upgradeId}/approve`);
+                }
+
+                const shuuPassItem = rawCart.find(item => item.name === 'Shuu Pass');
+                if (shuuPassItem && user && user.email) {
+                    axios.put(`${getApiUrl()}/auth/profile`, {
+                        email: user.email,
+                        hasShuuPass: true,
+                        shuuPassDate: new Date().toISOString()
+                    }).then(r => {
+                        if (r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
+                    }).catch(err => console.error(err));
+                }
+
+                if (user && user.email) {
+                    axios.post(`${getApiUrl()}/orders/receipt`, {
+                        email: user.email,
+                        name: user.name,
+                        status: "success",
+                        items: rawCart,
+                        total: totalPrice,
+                        paymentMethod: paymentMethod
+                    });
+                }
+            } catch(err) {
+                console.error("Failed to sync with server", err);
+            }
+
+            localStorage.removeItem('airline_cart');
+            localStorage.removeItem('airline_cart_summary');
+        }, 1500);
     };
 
     // Calculate details for Order Summary UI
@@ -284,8 +242,8 @@ const Payment = () => {
 
                                 {isProcessing && (
                                     <div style={{ background: 'rgba(20, 184, 166, 0.1)', border: '1px solid rgba(20, 184, 166, 0.3)', color: 'var(--accent-teal)', padding: '15px', borderRadius: '8px', marginBottom: '20px', textAlign: 'center', fontSize: '0.9rem' }}>
-                                        <strong>Admin Authorization Required.</strong><br/>
-                                        Waiting for administrator to approve this transaction...
+                                        <strong>Processing Payment...</strong><br/>
+                                        Please wait while we secure your transaction.
                                     </div>
                                 )}
 
@@ -309,8 +267,10 @@ const Payment = () => {
                         </>
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                            <div style={{ fontSize: '4rem', marginBottom: '20px' }}>📱</div>
-                            <h3 style={{ margin: '0 0 10px 0' }}>Redirecting to {paymentMethod.toUpperCase()}</h3>
+                            <div style={{ background: '#fff', padding: '15px', borderRadius: '12px', marginBottom: '20px' }}>
+                                <QRCode value={`upi://pay?pa=smartairlines@upi&pn=SmartAirlines&am=${totalPrice}&cu=INR`} size={150} />
+                            </div>
+                            <h3 style={{ margin: '0 0 10px 0' }}>Scan QR or Redirecting to {paymentMethod.toUpperCase()}</h3>
                             <p style={{ color: 'var(--text-muted)', textAlign: 'center', marginBottom: '30px' }}>
                                 Please complete the payment of <strong>₹{totalPrice.toFixed(2)}</strong> on your device.
                             </p>
@@ -319,12 +279,12 @@ const Payment = () => {
                                 disabled={isProcessing}
                                 style={{ background: 'var(--accent-teal)', border: 'none', color: '#000', padding: '12px 30px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
                             >
-                                {isProcessing ? 'Waiting for admin approval...' : 'Simulate Payment Success'}
+                                {isProcessing ? 'Processing...' : 'Simulate Payment Success'}
                             </button>
                             
                             {isProcessing && (
                                 <p style={{ color: 'var(--accent-cyan)', fontSize: '0.85rem', marginTop: '20px', textAlign: 'center' }}>
-                                    A request has been sent to the Admin Dashboard. Please accept it there.
+                                    Processing your payment securely...
                                 </p>
                             )}
                         </div>

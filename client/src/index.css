@@ -225,7 +225,7 @@ select {
     color: var(--text-main);
     font-size: 1rem;
     transition: all 0.2s ease;
-    font-family: inherit;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 input:focus,
@@ -274,7 +274,7 @@ input::placeholder {
 
 .aurora-bg {
     background: url('https://images.unsplash.com/photo-1531366936337-778550c18d94?q=80&w=2000&auto=format&fit=crop') no-repeat center center/cover;
-    position: absolute;
+    position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: -1;
     opacity: 0.8;
@@ -282,7 +282,7 @@ input::placeholder {
 
 .aurora-overlay {
     background: linear-gradient(to bottom, rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.95));
-    position: absolute;
+    position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: -1;
 }

@@ -17,6 +17,7 @@ import AdminCatalogue from './pages/AdminCatalogue';
 import AdminBundles from './pages/AdminBundles';
 import AdminUsers from './pages/AdminUsers';
 import UserDashboard from './pages/UserDashboard';
+import Tickets from './pages/Tickets';
 import Travelled from './pages/Travelled';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
@@ -38,6 +39,7 @@ function App() {
         <Route path="/mock-email" element={<MockEmail />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/tickets" element={<Tickets />} />
         <Route path="/travelled" element={<Travelled />} />
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path="/bundles" element={<Bundles />} />

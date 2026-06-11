@@ -249,7 +249,7 @@ const UserDashboard = () => {
                                             <Plane size={18} color="var(--accent-cyan)" />
                                             <span>Upcoming {flight.type} Trip</span>
                                         </div>
-                                        <button className="ud-btn-outline">View Ticket</button>
+                                        <button className="ud-btn-outline" onClick={() => navigate('/tickets')}>View Ticket</button>
                                     </div>
 
                                     <div className="ud-trip-cities">
