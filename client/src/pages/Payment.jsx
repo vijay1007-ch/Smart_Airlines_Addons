@@ -56,9 +56,6 @@ const Payment = () => {
         setTotalPrice(price);
     }, []);
 
-        // Polling removed: no admin approval needed anymore
-        return () => clearInterval(interval);
-    }, [isProcessing, orderId, totalPrice, navigate, paymentMethod, user]);
 
     const handlePayment = async (e) => {
         if (e) e.preventDefault();
