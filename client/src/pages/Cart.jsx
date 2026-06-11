@@ -125,6 +125,9 @@ const Cart = () => {
         } else if (normalizedInput === 'FLY20') {
             setCouponDiscount(20);
             setCouponError('');
+        } else if (normalizedInput === 'ANSHUANNAYYA') {
+            setCouponDiscount(100);
+            setCouponError('');
         } else {
             setCouponDiscount(0);
             setCouponError('Invalid coupon code');

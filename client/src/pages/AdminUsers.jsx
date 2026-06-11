@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getApiUrl } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
-import { Search, Download, File, FileSpreadsheet, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Download, File, FileSpreadsheet, FileText, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 
 const AdminUsers = () => {
@@ -22,15 +22,20 @@ const AdminUsers = () => {
             } else {
                 setUser(parsedUser);
                 fetchUsersData();
+                const intervalId = setInterval(() => {
+                    fetchUsersData(true);
+                }, 10000);
+                return () => clearInterval(intervalId);
             }
         } else {
             navigate("/login");
         }
     }, [navigate]);
 
-    const fetchUsersData = async () => {
+    const fetchUsersData = async (isBackground = false) => {
+        if (!isBackground) setIsLoading(true);
         try {
-            const res = await axios.get(`${getApiUrl()}/auth/users`);
+            const res = await axios.get(`${getApiUrl()}/auth/users?t=${new Date().getTime()}`);
             if (res.status === 200 || res.status === 201) {
                 const data = res.data;
                 setUsersList(data);
@@ -38,7 +43,7 @@ const AdminUsers = () => {
         } catch (error) {
             console.error("Failed to fetch users data:", error);
         } finally {
-            setIsLoading(false);
+            if (!isBackground) setIsLoading(false);
         }
     };
 
@@ -134,15 +139,30 @@ const AdminUsers = () => {
                             />
                         </div>
 
+                        {/* Refresh Button */}
+                        <button 
+                            onClick={() => fetchUsersData()}
+                            style={{
+                                display: 'flex', alignItems: 'center', gap: '6px',
+                                background: 'transparent', color: 'var(--text-muted)',
+                                padding: '0.6rem 1rem', borderRadius: '6px',
+                                border: '1px solid var(--border-light)', cursor: 'pointer', fontSize: '0.85rem'
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
+                            onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--border-light)'; }}
+                        >
+                            <RefreshCw size={16} /> Refresh
+                        </button>
+
                         {/* Export Button */}
                         <div style={{ position: 'relative' }}>
                             <button 
                                 onClick={() => setShowDownloadMenu(!showDownloadMenu)}
                                 style={{
                                     display: 'flex', alignItems: 'center', gap: '6px',
-                                    background: 'var(--accent-teal)', color: '#fff',
+                                    background: 'var(--accent-teal)', color: '#000',
                                     padding: '0.6rem 1rem', borderRadius: '6px',
-                                    border: 'none', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600'
+                                    border: 'none', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold'
                                 }}
                             >
                                 <Download size={16} /> Export

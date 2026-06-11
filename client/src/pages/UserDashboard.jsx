@@ -20,17 +20,34 @@ const UserDashboard = () => {
     const [totalOrders, setTotalOrders] = useState(0);
     const [recentOrders, setRecentOrders] = useState([]);
     const [upgradeStatus, setUpgradeStatus] = useState(null);
-    const [flightDetails, setFlightDetails] = useState({
-        flightNumber: "SA-1024",
-        from: "HYD",
-        to: "DEL",
-        fromCity: "Hyderabad",
-        toCity: "Delhi",
-        departureDate: "24 May 2025",
-        departureTime: "08:45 AM",
-        seat: "12A (Economy)",
-        status: "On Time"
-    });
+    const [upcomingFlights, setUpcomingFlights] = useState([
+        {
+            flightNumber: "SA-1024",
+            from: "HYD",
+            to: "DEL",
+            fromCity: "Hyderabad",
+            toCity: "Delhi",
+            departureDate: "24 May 2025",
+            departureTime: "08:45 AM",
+            seat: "12A (Economy)",
+            status: "On Time",
+            type: "National"
+        },
+        {
+            flightNumber: "SA-8042",
+            from: "DEL",
+            to: "DXB",
+            fromCity: "Delhi",
+            toCity: "Dubai",
+            departureDate: "15 Jun 2025",
+            departureTime: "11:30 PM",
+            seat: "14C (Economy)",
+            status: "On Time",
+            type: "International"
+        }
+    ]);
+    const [skyPoints, setSkyPoints] = useState(0);
+    const [shuuPassActive, setShuuPassActive] = useState(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -45,6 +62,7 @@ const UserDashboard = () => {
                 setTotalOrders(userOrders.length);
                 const spent = userOrders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
                 setTotalSpent(spent);
+                setSkyPoints(Math.floor(spent * 0.1)); // 1 point per ₹10 spent
 
                 // Flatten all items from recent orders
                 let items = [];
@@ -69,7 +87,13 @@ const UserDashboard = () => {
                         const latest = upgRes.data[upgRes.data.length - 1];
                         setUpgradeStatus(latest);
                         if (latest.status === 'Approved' && latest.newSeat) {
-                            setFlightDetails(prev => ({ ...prev, seat: latest.newSeat }));
+                            setUpcomingFlights(prev => {
+                                const newFlights = [...prev];
+                                if (newFlights.length > 0) {
+                                    newFlights[0] = { ...newFlights[0], seat: latest.newSeat };
+                                }
+                                return newFlights;
+                            });
                         }
                     }
                 }
@@ -135,13 +159,21 @@ const UserDashboard = () => {
                         <div className="ud-stat-content">
                             <p className="ud-stat-title">Total Spent</p>
                             <h3 className="ud-stat-value">₹{totalSpent.toLocaleString()}</h3>
-                            <div className="ud-stat-trend ud-stat-trend-up">
-                                <span>^ 18%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
-                            </div>
+                            {totalSpent > 0 ? (
+                                <div className="ud-stat-trend ud-stat-trend-up">
+                                    <span>^ 12%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
+                                </div>
+                            ) : (
+                                <div className="ud-stat-trend">
+                                    <span style={{color: 'var(--text-muted)'}}>No spending yet</span>
+                                </div>
+                            )}
                         </div>
-                        <svg width="60" height="30" viewBox="0 0 60 30" style={{ position: 'absolute', right: '1rem', bottom: '1.5rem' }}>
-                            <path d="M0,25 Q10,25 15,15 T30,20 T45,5 T60,10" fill="none" stroke="#10b981" strokeWidth="2" />
-                        </svg>
+                        {totalSpent > 0 && (
+                            <svg width="60" height="30" viewBox="0 0 60 30" style={{ position: 'absolute', right: '1rem', bottom: '1.5rem' }}>
+                                <path d="M0,25 Q10,25 15,15 T30,20 T45,5 T60,10" fill="none" stroke="#10b981" strokeWidth="2" />
+                            </svg>
+                        )}
                     </div>
 
                     <div className="ud-glass-card ud-stat-card">
@@ -151,13 +183,21 @@ const UserDashboard = () => {
                         <div className="ud-stat-content">
                             <p className="ud-stat-title">Total Orders</p>
                             <h3 className="ud-stat-value">{totalOrders}</h3>
-                            <div className="ud-stat-trend ud-stat-trend-up">
-                                <span>^ 20%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
-                            </div>
+                            {totalOrders > 0 ? (
+                                <div className="ud-stat-trend ud-stat-trend-up">
+                                    <span>^ 5%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
+                                </div>
+                            ) : (
+                                <div className="ud-stat-trend">
+                                    <span style={{color: 'var(--text-muted)'}}>No orders yet</span>
+                                </div>
+                            )}
                         </div>
-                        <svg width="60" height="30" viewBox="0 0 60 30" style={{ position: 'absolute', right: '1rem', bottom: '1.5rem' }}>
-                            <path d="M0,20 Q10,10 20,25 T40,15 T60,5" fill="none" stroke="#10b981" strokeWidth="2" />
-                        </svg>
+                        {totalOrders > 0 && (
+                            <svg width="60" height="30" viewBox="0 0 60 30" style={{ position: 'absolute', right: '1rem', bottom: '1.5rem' }}>
+                                <path d="M0,20 Q10,10 20,25 T40,15 T60,5" fill="none" stroke="#10b981" strokeWidth="2" />
+                            </svg>
+                        )}
                     </div>
 
                     <div className="ud-glass-card ud-stat-card">
@@ -166,14 +206,22 @@ const UserDashboard = () => {
                         </div>
                         <div className="ud-stat-content">
                             <p className="ud-stat-title">SkyPoints</p>
-                            <h3 className="ud-stat-value">2,540</h3>
-                            <div className="ud-stat-trend ud-stat-trend-up">
-                                <span>^ 16%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
-                            </div>
+                            <h3 className="ud-stat-value">{skyPoints.toLocaleString()}</h3>
+                            {skyPoints > 0 ? (
+                                <div className="ud-stat-trend ud-stat-trend-up">
+                                    <span>^ 2%</span> <span style={{color: 'var(--text-muted)', fontWeight: 'normal'}}>vs last month</span>
+                                </div>
+                            ) : (
+                                <div className="ud-stat-trend">
+                                    <span style={{color: 'var(--text-muted)'}}>Start earning now</span>
+                                </div>
+                            )}
                         </div>
-                        <svg width="60" height="30" viewBox="0 0 60 30" style={{ position: 'absolute', right: '1rem', bottom: '1.5rem' }}>
-                            <path d="M0,25 Q15,5 30,20 T60,5" fill="none" stroke="#10b981" strokeWidth="2" />
-                        </svg>
+                        {skyPoints > 0 && (
+                            <svg width="60" height="30" viewBox="0 0 60 30" style={{ position: 'absolute', right: '1rem', bottom: '1.5rem' }}>
+                                <path d="M0,25 Q15,5 30,20 T60,5" fill="none" stroke="#10b981" strokeWidth="2" />
+                            </svg>
+                        )}
                     </div>
 
                     <div className="ud-glass-card ud-stat-card">
@@ -182,8 +230,8 @@ const UserDashboard = () => {
                         </div>
                         <div className="ud-stat-content">
                             <p className="ud-stat-title">Shuu Pass</p>
-                            <h3 className="ud-stat-value">Active</h3>
-                            <p style={{ margin: '0.5rem 0 0 0', color: '#eab308', fontSize: '0.8rem', fontWeight: '500' }}>1 year left</p>
+                            <h3 className="ud-stat-value">{shuuPassActive ? 'Active' : 'Inactive'}</h3>
+                            {shuuPassActive && <p style={{ margin: '0.5rem 0 0 0', color: '#eab308', fontSize: '0.8rem', fontWeight: '500' }}>1 year left</p>}
                         </div>
                     </div>
                 </div>
@@ -191,54 +239,73 @@ const UserDashboard = () => {
                 {/* Middle Section */}
                 <div className="ud-middle-section">
                     
-                    {/* Upcoming Trip */}
-                    <div className="ud-glass-card ud-trip-card">
-                        <div className="ud-trip-content">
-                            <div className="ud-trip-header">
-                                <div className="ud-trip-title">
-                                    <Plane size={18} color="var(--accent-cyan)" />
-                                    <span>Upcoming Trip</span>
-                                </div>
-                                <button className="ud-btn-outline">View Ticket</button>
-                            </div>
+                    {/* Upcoming Trips */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        {upcomingFlights.length > 0 ? upcomingFlights.map((flight, index) => (
+                            <div className="ud-glass-card ud-trip-card" key={index}>
+                                <div className="ud-trip-content">
+                                    <div className="ud-trip-header">
+                                        <div className="ud-trip-title">
+                                            <Plane size={18} color="var(--accent-cyan)" />
+                                            <span>Upcoming {flight.type} Trip</span>
+                                        </div>
+                                        <button className="ud-btn-outline">View Ticket</button>
+                                    </div>
 
-                            <div className="ud-trip-cities">
-                                <div className="ud-city">
-                                    <h2>{flightDetails.from}</h2>
-                                    <p>{flightDetails.fromCity}</p>
-                                </div>
-                                <ArrowRight size={24} color="rgba(255,255,255,0.3)" />
-                                <div className="ud-city">
-                                    <h2>{flightDetails.to}</h2>
-                                    <p>{flightDetails.toCity}</p>
-                                </div>
-                                <div className="ud-trip-flight-info" style={{ marginLeft: 'auto' }}>
-                                    <p>{flightDetails.departureDate}</p>
-                                    <p>{flightDetails.flightNumber}</p>
-                                </div>
-                            </div>
+                                    <div className="ud-trip-cities">
+                                        <div className="ud-city">
+                                            <h2>{flight.from}</h2>
+                                            <p>{flight.fromCity}</p>
+                                        </div>
+                                        <ArrowRight size={24} color="rgba(255,255,255,0.3)" />
+                                        <div className="ud-city">
+                                            <h2>{flight.to}</h2>
+                                            <p>{flight.toCity}</p>
+                                        </div>
+                                        <div className="ud-trip-flight-info" style={{ marginLeft: 'auto' }}>
+                                            <p>{flight.departureDate}</p>
+                                            <p>{flight.flightNumber}</p>
+                                        </div>
+                                    </div>
 
-                            <div className="ud-trip-footer">
-                                <div className="ud-trip-footer-item">
-                                    <p>Boarding Time</p>
-                                    <p>{flightDetails.departureTime}</p>
-                                </div>
-                                <div className="ud-trip-footer-item">
-                                    <p>Gate</p>
-                                    <p>B12</p>
-                                </div>
-                                <div className="ud-trip-footer-item">
-                                    <p>Seat</p>
-                                    <p style={{ color: upgradeStatus?.status === 'Approved' ? 'var(--accent-cyan)' : '#fff' }}>
-                                        {flightDetails.seat}
-                                    </p>
-                                </div>
-                                <div className="ud-trip-footer-item">
-                                    <p>Terminal</p>
-                                    <p>T2</p>
+                                    <div className="ud-trip-footer">
+                                        <div className="ud-trip-footer-item">
+                                            <p>Boarding Time</p>
+                                            <p>{flight.departureTime}</p>
+                                        </div>
+                                        <div className="ud-trip-footer-item">
+                                            <p>Gate</p>
+                                            <p>B12</p>
+                                        </div>
+                                        <div className="ud-trip-footer-item">
+                                            <p>Seat</p>
+                                            <p style={{ color: index === 0 && upgradeStatus?.status === 'Approved' ? 'var(--accent-cyan)' : '#fff' }}>
+                                                {flight.seat}
+                                            </p>
+                                        </div>
+                                        <div className="ud-trip-footer-item">
+                                            <p>Terminal</p>
+                                            <p>T2</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )) : (
+                            <div className="ud-glass-card ud-trip-card">
+                                <div className="ud-trip-content">
+                                    <div className="ud-trip-header">
+                                        <div className="ud-trip-title">
+                                            <Plane size={18} color="var(--accent-cyan)" />
+                                            <span>Upcoming Trip</span>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem 0', color: 'var(--text-muted)' }}>
+                                        <Plane size={48} color="rgba(255,255,255,0.05)" style={{ marginBottom: '1rem' }} />
+                                        <p>No upcoming trips booked yet.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Recent Orders */}
@@ -276,31 +343,45 @@ const UserDashboard = () => {
                         <h3 className="ud-section-title" style={{ marginBottom: '1.5rem' }}>SkyPoints Overview</h3>
                         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <div style={{ alignSelf: 'flex-start', marginBottom: '1rem' }}>
-                                <h2 style={{ fontSize: '2rem', margin: '0 0 0.5rem 0' }}>2,540</h2>
-                                <span style={{ color: '#10b981', fontSize: '0.8rem' }}>^ 150</span> <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>this month</span>
+                                <h2 style={{ fontSize: '2rem', margin: '0 0 0.5rem 0' }}>{skyPoints.toLocaleString()}</h2>
+                                {skyPoints > 0 ? (
+                                    <><span style={{ color: '#10b981', fontSize: '0.8rem' }}>^ 0</span> <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>this month</span></>
+                                ) : (
+                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>No points yet</span>
+                                )}
                             </div>
                             
                             {/* Circular Ring */}
                             <div style={{ position: 'relative', width: '120px', height: '120px', margin: 'auto' }}>
                                 <svg width="120" height="120" viewBox="0 0 120 120">
                                     <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="10" />
-                                    <circle cx="60" cy="60" r="50" fill="none" stroke="var(--accent-cyan)" strokeWidth="10" strokeDasharray="314" strokeDashoffset="114" strokeLinecap="round" transform="rotate(-90 60 60)" />
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="var(--accent-cyan)" strokeWidth="10" strokeDasharray="314" strokeDashoffset={skyPoints > 0 ? "114" : "314"} strokeLinecap="round" transform="rotate(-90 60 60)" />
                                 </svg>
                                 <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                    <span style={{ color: '#eab308', fontWeight: 'bold', fontSize: '1.1rem' }}>Gold</span>
+                                    <span style={{ color: skyPoints > 1000 ? '#eab308' : '#94a3b8', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                                        {skyPoints > 4000 ? 'Platinum' : skyPoints > 1000 ? 'Gold' : 'Silver'}
+                                    </span>
                                     <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Tier</span>
                                 </div>
                             </div>
 
                             <div style={{ width: '100%', marginTop: 'auto' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '0.5rem' }}>
-                                    <span style={{ color: 'var(--text-muted)' }}>Next Tier: Platinum</span>
-                                    <span>1,480 / 4,000</span>
-                                </div>
-                                <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden', marginBottom: '0.5rem' }}>
-                                    <div style={{ width: '37%', height: '100%', background: 'var(--accent-cyan)' }}></div>
-                                </div>
-                                <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', margin: 0 }}>Earn 2,520 more points</p>
+                                {skyPoints > 4000 ? (
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '0.5rem' }}>
+                                        <span style={{ color: 'var(--text-muted)' }}>Max Tier Reached</span>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '0.5rem' }}>
+                                            <span style={{ color: 'var(--text-muted)' }}>Next Tier: {skyPoints > 1000 ? 'Platinum' : 'Gold'}</span>
+                                            <span>{skyPoints.toLocaleString()} / {skyPoints > 1000 ? '4,000' : '1,000'}</span>
+                                        </div>
+                                        <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden', marginBottom: '0.5rem' }}>
+                                            <div style={{ width: `${(skyPoints / (skyPoints > 1000 ? 4000 : 1000)) * 100}%`, height: '100%', background: 'var(--accent-cyan)' }}></div>
+                                        </div>
+                                        <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', margin: 0 }}>Earn {(skyPoints > 1000 ? 4000 - skyPoints : 1000 - skyPoints).toLocaleString()} more points</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -348,12 +429,12 @@ const UserDashboard = () => {
                                 <text x="400" y="150" fill="var(--text-muted)" fontSize="10" textAnchor="middle">May</text>
 
                                 {/* Area Path */}
-                                <path d="M40,140 C80,120 100,100 140,110 C180,120 200,60 240,70 C280,80 300,110 340,90 C380,70 400,40 400,30 L400,140 L40,140 Z" fill="url(#gradientArea)" />
+                                <path d={totalSpent > 0 ? "M40,140 C80,120 100,100 140,110 C180,120 200,60 240,70 C280,80 300,110 340,90 C380,70 400,40 400,30 L400,140 L40,140 Z" : "M40,140 L400,140"} fill={totalSpent > 0 ? "url(#gradientArea)" : "none"} />
                                 {/* Line Path */}
-                                <path d="M40,140 C80,120 100,100 140,110 C180,120 200,60 240,70 C280,80 300,110 340,90 C380,70 400,40 400,30" fill="none" stroke="var(--accent-cyan)" strokeWidth="3" />
+                                <path d={totalSpent > 0 ? "M40,140 C80,120 100,100 140,110 C180,120 200,60 240,70 C280,80 300,110 340,90 C380,70 400,40 400,30" : "M40,140 L400,140"} fill="none" stroke="var(--accent-cyan)" strokeWidth="3" />
                                 
                                 {/* Active Data Point */}
-                                <circle cx="400" cy="30" r="4" fill="var(--accent-cyan)" />
+                                <circle cx="400" cy={totalSpent > 0 ? "30" : "140"} r="4" fill="var(--accent-cyan)" />
                             </svg>
                             <div className="ud-chart-tooltip">
                                 <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '0.9rem' }}>₹{totalSpent.toLocaleString()}</h4>
@@ -406,7 +487,7 @@ const UserDashboard = () => {
                     <div className="ud-glass-card">
                         <div className="ud-section-header">
                             <h3 className="ud-section-title">Shuu Pass Benefits</h3>
-                            <span className="ud-badge-success" style={{ background: 'rgba(6, 182, 212, 0.1)', color: 'var(--accent-cyan)', borderColor: 'rgba(6, 182, 212, 0.2)' }}>Active</span>
+                            <span className="ud-badge-success" style={{ background: shuuPassActive ? 'rgba(6, 182, 212, 0.1)' : 'rgba(255,255,255,0.05)', color: shuuPassActive ? 'var(--accent-cyan)' : 'var(--text-muted)', borderColor: shuuPassActive ? 'rgba(6, 182, 212, 0.2)' : 'transparent' }}>{shuuPassActive ? 'Active' : 'Inactive'}</span>
                         </div>
                         <div className="ud-benefits-list">
                             <div className="ud-benefit-item">
