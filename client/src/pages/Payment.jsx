@@ -28,6 +28,7 @@ const Payment = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [paymentFailed, setPaymentFailed] = useState(false);
+    const [isPendingApproval, setIsPendingApproval] = useState(false);
     const [orderId, setOrderId] = useState(null);
 
     const [cart, setCart] = useState([]);
@@ -63,65 +64,97 @@ const Payment = () => {
         setPaymentFailed(false);
 
         const newOrderId = 'TXN-' + Math.floor(Math.random() * 1000000);
+        const actualOrderId = 'ORD-' + newOrderId.split('-')[1];
         setOrderId(newOrderId);
 
-        // Instantly process payment without admin approval
-        setTimeout(() => {
+        try {
+            // Send pending payment request
+            await axios.post(`${getApiUrl()}/orders/pending`, {
+                orderId: actualOrderId,
+                amount: totalPrice
+            });
+
             setIsProcessing(false);
-            setIsSuccess(true);
-        
-            const rawCart = JSON.parse(localStorage.getItem('airline_cart') || '[]');
-            const history = JSON.parse(localStorage.getItem('airline_history') || '[]');
-            const newOrder = {
-                orderId: 'ORD-' + newOrderId.split('-')[1],
-                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+            setIsPendingApproval(true);
+
+            // Poll for approval status
+            const pollInterval = setInterval(async () => {
+                try {
+                    const res = await axios.get(`${getApiUrl()}/orders/pending/${actualOrderId}/status`);
+                    if (res.data.status === 'approved') {
+                        clearInterval(pollInterval);
+                        setIsPendingApproval(false);
+                        finalizePayment(actualOrderId);
+                    } else if (res.data.status === 'declined') {
+                        clearInterval(pollInterval);
+                        setIsPendingApproval(false);
+                        setPaymentFailed(true);
+                    }
+                } catch (err) {
+                    console.error("Polling error", err);
+                }
+            }, 1500);
+        } catch (err) {
+            console.error("Failed to submit pending payment", err);
+            setIsProcessing(false);
+            setPaymentFailed(true);
+        }
+    };
+
+    const finalizePayment = (actualOrderId) => {
+        setIsSuccess(true);
+    
+        const rawCart = JSON.parse(localStorage.getItem('airline_cart') || '[]');
+        const history = JSON.parse(localStorage.getItem('airline_history') || '[]');
+        const newOrder = {
+            orderId: actualOrderId,
+            date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+            items: rawCart,
+            total: totalPrice
+        };
+        localStorage.setItem('airline_history', JSON.stringify([newOrder, ...history]));
+
+        try {
+            axios.post(`${getApiUrl()}/orders`, {
+                id: newOrder.orderId,
+                customerName: user ? user.name : "Guest",
                 items: rawCart,
-                total: totalPrice
-            };
-            localStorage.setItem('airline_history', JSON.stringify([newOrder, ...history]));
+                amount: totalPrice,
+                status: "Approved"
+            });
 
-            try {
-                axios.post(`${getApiUrl()}/orders`, {
-                    id: newOrder.orderId,
-                    customerName: user ? user.name : "Guest",
-                    items: rawCart,
-                    amount: totalPrice,
-                    status: "Approved"
-                });
-
-                const upgradeItem = rawCart.find(item => item.type === 'upgrade');
-                if (upgradeItem && upgradeItem.upgradeId) {
-                    axios.put(`${getApiUrl()}/upgrades/${upgradeItem.upgradeId}/approve`);
-                }
-
-                const shuuPassItem = rawCart.find(item => item.name === 'Shuu Pass');
-                if (shuuPassItem && user && user.email) {
-                    axios.put(`${getApiUrl()}/auth/profile`, {
-                        email: user.email,
-                        hasShuuPass: true,
-                        shuuPassDate: new Date().toISOString()
-                    }).then(r => {
-                        if (r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
-                    }).catch(err => console.error(err));
-                }
-
-                if (user && user.email) {
-                    axios.post(`${getApiUrl()}/orders/receipt`, {
-                        email: user.email,
-                        name: user.name,
-                        status: "success",
-                        items: rawCart,
-                        total: totalPrice,
-                        paymentMethod: paymentMethod
-                    });
-                }
-            } catch(err) {
-                console.error("Failed to sync with server", err);
+            const upgradeItem = rawCart.find(item => item.type === 'upgrade');
+            if (upgradeItem && upgradeItem.upgradeId) {
+                axios.put(`${getApiUrl()}/upgrades/${upgradeItem.upgradeId}/approve`);
             }
 
-            localStorage.removeItem('airline_cart');
-            localStorage.removeItem('airline_cart_summary');
-        }, 1500);
+            const shuuPassItem = rawCart.find(item => item.name === 'Shuu Pass');
+            if (shuuPassItem && user && user.email) {
+                axios.put(`${getApiUrl()}/auth/profile`, {
+                    email: user.email,
+                    hasShuuPass: true,
+                    shuuPassDate: new Date().toISOString()
+                }).then(r => {
+                    if (r.data.user) localStorage.setItem('user', JSON.stringify(r.data.user));
+                }).catch(err => console.error(err));
+            }
+
+            if (user && user.email) {
+                axios.post(`${getApiUrl()}/orders/receipt`, {
+                    email: user.email,
+                    name: user.name,
+                    status: "success",
+                    items: rawCart,
+                    total: totalPrice,
+                    paymentMethod: paymentMethod
+                });
+            }
+        } catch(err) {
+            console.error("Failed to sync with server", err);
+        }
+
+        localStorage.removeItem('airline_cart');
+        localStorage.removeItem('airline_cart_summary');
     };
 
     // Calculate details for Order Summary UI
@@ -484,11 +517,22 @@ const Payment = () => {
                             </div>
                         </div>
 
-                        <button style={{ width: '100%', background: 'var(--accent-teal)', color: '#000', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: 'bold', marginBottom: '10px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                        <button onClick={() => navigate('/tickets')} style={{ width: '100%', background: 'var(--accent-teal)', color: '#000', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: 'bold', marginBottom: '10px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
                             <Download size={16} /> Download Boarding Pass
                         </button>
                         
-                        <button style={{ width: '100%', background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', padding: '12px', borderRadius: '8px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+                        <button onClick={() => {
+                            if (navigator.share) {
+                                navigator.share({
+                                    title: 'My Flight Booking',
+                                    text: 'Check out my upcoming flight booking!',
+                                    url: window.location.origin + '/tickets'
+                                }).catch(console.error);
+                            } else {
+                                navigator.clipboard.writeText(window.location.origin + '/tickets');
+                                alert('Link copied to clipboard!');
+                            }
+                        }} style={{ width: '100%', background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', padding: '12px', borderRadius: '8px', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
                             <Share2 size={16} /> Share Booking
                         </button>
                     </div>
@@ -548,7 +592,27 @@ const Payment = () => {
                 </div>
 
                 {/* Central Content */}
-                {isSuccess ? (
+                {isPendingApproval ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+                        <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '20px', padding: '40px', textAlign: 'center', maxWidth: '500px', width: '100%' }}>
+                            <div style={{ display: 'inline-block', marginBottom: '20px' }}>
+                                <div style={{ width: '50px', height: '50px', border: '3px solid rgba(20, 184, 166, 0.3)', borderTopColor: 'var(--accent-teal)', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                            </div>
+                            <h2 style={{ fontSize: '1.8rem', marginBottom: '15px' }}>Waiting for Admin Approval</h2>
+                            <p style={{ color: 'var(--text-muted)', marginBottom: '20px', lineHeight: '1.5' }}>
+                                Your payment of <strong>₹{totalPrice.toFixed(2)}</strong> has been submitted and is currently pending authorization from the admin. Please don't close this page.
+                            </p>
+                            <style>
+                                {`
+                                @keyframes spin {
+                                    0% { transform: rotate(0deg); }
+                                    100% { transform: rotate(360deg); }
+                                }
+                                `}
+                            </style>
+                        </div>
+                    </div>
+                ) : isSuccess ? (
                     renderConfirmation()
                 ) : (
                     <>
