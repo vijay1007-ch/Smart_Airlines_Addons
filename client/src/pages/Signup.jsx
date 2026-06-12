@@ -10,6 +10,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const [verificationRequired, setVerificationRequired] = useState(false);
@@ -33,7 +34,8 @@ const Signup = () => {
             const response = await axios.post(`${getApiUrl()}/auth/register`, {
                 email,
                 password,
-                name
+                name,
+                phone
             });
 
             const data = response.data;
@@ -133,6 +135,16 @@ const Signup = () => {
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="input-group">
+                                <input
+                                    type="tel"
+                                    placeholder="Mobile Number"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                     required
                                 />
                             </div>
