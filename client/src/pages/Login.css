@@ -8,7 +8,7 @@
     padding: 2rem;
     position: relative;
     z-index: 1;
-    background: url('../assets/aurora.png') no-repeat center center/cover;
+    background: url('../assets/aurora.png') no-repeat center center/cover fixed;
 }
 
 .login-page::before {

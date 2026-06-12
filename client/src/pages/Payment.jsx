@@ -265,7 +265,7 @@ const Payment = () => {
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                             <div style={{ background: '#fff', padding: '15px', borderRadius: '12px', marginBottom: '20px' }}>
-                                <QRCode value={`upi://pay?pa=smartairlines@upi&pn=SmartAirlines&am=${totalPrice}&cu=INR`} size={150} />
+                                <QRCode value={`upi://pay?pa=9866606967@superyes&pn=SmartAirlines&am=${totalPrice}&cu=INR`} size={150} />
                             </div>
                             <h3 style={{ margin: '0 0 10px 0' }}>Scan QR or Redirecting to {paymentMethod.toUpperCase()}</h3>
                             <p style={{ color: 'var(--text-muted)', textAlign: 'center', marginBottom: '30px' }}>

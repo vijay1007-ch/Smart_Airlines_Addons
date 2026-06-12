@@ -4,7 +4,7 @@
     padding: 2rem 3rem;
     color: #ffffff;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: url('../assets/aurora.png') no-repeat center center/cover;
+    background: url('../assets/aurora.png') no-repeat center center/cover fixed;
     position: relative;
     z-index: 1;
     min-height: 100vh;
@@ -171,7 +171,7 @@
 /* Middle Section Grid */
 .ud-middle-section {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1.6fr 1.2fr 1.2fr;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -336,8 +336,9 @@
 
 .ud-order-right {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
 }
 
 .ud-order-price {
