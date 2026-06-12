@@ -25,6 +25,9 @@ const ForgotPassword = () => {
 
             if (response.status === 200 || response.status === 201) {
                 setIsSubmitted(true);
+                setTimeout(() => {
+                    navigate(`/mock-email?email=${encodeURIComponent(email)}`);
+                }, 1500);
             }
         } catch (error) {
             console.error(error);

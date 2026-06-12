@@ -33,7 +33,6 @@ const UserSidebar = () => {
         { name: 'Cart', path: '/cart', icon: ShoppingCart },
         { name: 'Shuu Pass', path: '/shuu-pass', icon: Award },
         { name: 'SkyPoints', path: '/skypoints', icon: Star },
-        { name: 'Coupons', path: '/coupons', icon: Ticket },
         { name: 'Profile', path: '/edit-profile', icon: User },
         { name: 'Support', path: '/support', icon: Headset }
     ];

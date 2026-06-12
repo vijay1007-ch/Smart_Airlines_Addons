@@ -44,7 +44,7 @@ const MockEmail = () => {
 
                     <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
                         <button 
-                            onClick={() => navigate('/reset-password')}
+                            onClick={() => navigate(`/reset-password?email=${encodeURIComponent(new URLSearchParams(window.location.search).get('email') || '')}`)}
                             style={{
                                 background: '#0052cc',
                                 
