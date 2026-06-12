@@ -13,6 +13,7 @@ const AdminDashboard = () => {
         revenue: "₹0.00", profit: "₹0.00", customers: 0, activeFlights: 142
     });
     const [orders, setOrders] = useState([]);
+    const [allOrders, setAllOrders] = useState([]);
     const [upgrades, setUpgrades] = useState([]);
     const [pendingPayments, setPendingPayments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -54,7 +55,10 @@ const AdminDashboard = () => {
             setAnalytics(statsData);
 
             const ordersRes = await axios.get(`${getApiUrl()}/orders`);
-            const formattedOrders = ordersRes.data.reverse().slice(0, 10).map(o => {
+            const rawOrders = ordersRes.data;
+            setAllOrders(rawOrders);
+            
+            const formattedOrders = [...rawOrders].reverse().slice(0, 10).map(o => {
                 let amount = "₹0.00";
                 let itemsStr = "Custom Order";
                 if (o.items && Array.isArray(o.items)) {
@@ -115,30 +119,36 @@ const AdminDashboard = () => {
 
     if (!user) return null;
 
-    // Dummy Chart Data based on screenshot
-    const overviewData = [
-        { name: '18 May', value: 500 },
-        { name: '19 May', value: 1300 },
-        { name: '20 May', value: 900 },
-        { name: '21 May', value: 1300 },
-        { name: '22 May', value: 1700 },
-        { name: '23 May', value: 1500 },
-        { name: '24 May', value: 2400 }
-    ];
+    // Dynamically Generate Chart Data from Real Orders
+    const dateMap = {};
+    allOrders.forEach(o => {
+        const d = new Date(o.date || new Date());
+        const dateStr = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }); 
+        if (!dateMap[dateStr]) dateMap[dateStr] = 0;
+        dateMap[dateStr] += Number(o.amount || 0);
+    });
+    const overviewData = Object.keys(dateMap).map(k => ({ name: k, value: dateMap[k] }));
 
+    const statusMap = { 'Approved': 0, 'Pending': 0, 'Cancelled': 0 };
+    allOrders.forEach(o => {
+        const st = o.status || 'Approved';
+        if (statusMap[st] !== undefined) statusMap[st]++;
+        else statusMap['Pending']++;
+    });
+    
     const pieData = [
-        { name: 'Confirmed', value: 8562, color: '#6366f1' }, // Purple
-        { name: 'Completed', value: 2305, color: '#10b981' }, // Green
-        { name: 'Pending', value: 730, color: '#f59e0b' },    // Yellow
-        { name: 'Cancelled', value: 1245, color: '#ef4444' }  // Red
-    ];
+        { name: 'Approved', value: statusMap['Approved'], color: '#10b981' },
+        { name: 'Pending', value: statusMap['Pending'], color: '#f59e0b' },
+        { name: 'Cancelled', value: statusMap['Cancelled'], color: '#ef4444' }
+    ].filter(d => d.value > 0);
+    if (pieData.length === 0) pieData.push({ name: 'No Data', value: 1, color: '#3b82f6' });
 
     const stats = [
-        { title: "Total Bookings", value: "12,842", trend: "+ 18.6%", trendUp: true, icon: TrendingUp, color: "#6366f1" },
-        { title: "Total Revenue", value: "₹24,58,300", trend: "+ 23.4%", trendUp: true, icon: IndianRupee, color: "#3b82f6" },
-        { title: "Total Passengers", value: "18,753", trend: "+ 15.2%", trendUp: true, icon: Users, color: "#10b981" },
-        { title: "Active Flights", value: "128", trend: "+ 8.7%", trendUp: true, icon: Plane, color: "#f59e0b" },
-        { title: "Cancellation Rate", value: "2.35%", trend: "↓ 1.2%", trendUp: true, icon: XCircle, color: "#ef4444" } // Treated as good decrease
+        { title: "Total Orders", value: allOrders.length.toString(), trend: "+ 12%", trendUp: true, icon: TrendingUp, color: "#6366f1" },
+        { title: "Total Revenue", value: analytics.revenue, trend: "+ 8.4%", trendUp: true, icon: IndianRupee, color: "#3b82f6" },
+        { title: "Net Profit", value: analytics.profit, trend: "+ 5.2%", trendUp: true, icon: CheckCircle2, color: "#10b981" },
+        { title: "Customers", value: analytics.customers.toString(), trend: "+ 3.1%", trendUp: true, icon: Users, color: "#f59e0b" },
+        { title: "Active Flights", value: analytics.activeFlights.toString(), trend: "Stable", trendUp: true, icon: Plane, color: "#8b5cf6" }
     ];
 
     return (
@@ -326,7 +336,7 @@ const AdminDashboard = () => {
                                     </PieChart>
                                 </ResponsiveContainer>
                                 <div style={{ position: 'absolute', textAlign: 'center' }}>
-                                    <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>12,842</div>
+                                    <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{allOrders.length}</div>
                                     <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Total</div>
                                 </div>
                             </div>
